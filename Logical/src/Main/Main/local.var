@@ -1,0 +1,15 @@
+VAR
+	task : REFERENCE TO MainType;
+	local : MainLocalType;
+	fb : MainFbType;
+	hmi : MainHmiType;
+	actions_state : MainActionsStateType;
+	actions_substate : MainActionsSubstateType;
+	em_command : EMCommandType;
+	i : DINT;
+	x : DINT;
+END_VAR
+(* ----- PackML ----- *)
+VAR
+	em : EquipmentModule;
+END_VAR

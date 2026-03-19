@@ -1,0 +1,20 @@
+VAR CONSTANT
+	gMAX_SHUTTLE_COUNT : UINT := 35; (*Maximum numer of shuttles on the system*)
+	gMAX_INDEX_SHUTTLE : UINT := gMAX_SHUTTLE_COUNT-1; (*Maximum index for a shuttles on the system*)
+END_VAR
+(**)
+(*6D Communication inteface*)
+VAR
+	gCommInput : Mc6DControllerFBIOType; (*Communication variable INPUT*)
+	gCommOutput : Mc6DControllerFBIOType; (*Communication variable OUTPUT*)
+END_VAR
+(**)
+(*Shuttles*)
+VAR
+	gShuttles : ShuttleListType;
+END_VAR
+(**)
+(*PackML diagnostics*)
+VAR
+	gTasks : TaskDiagType;
+END_VAR

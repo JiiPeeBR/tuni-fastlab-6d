@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio WorkingVersion="6.5" FileVersion="4.9"?>
+<Hardware xmlns="http://br-automation.co.at/AS/Hardware">
+  <Module Name="5APC4100.BX02-001" Type="5APC4100.BX02-001" Version="1.0.0.0">
+    <Connection Connector="SY" TargetModule="5APC4100_TGL2_000" TargetConnector="SY3" />
+  </Module>
+  <Module Name="5APC4100_TGL2_000" Type="5APC4100.TGL2-000" Version="1.3.1.0">
+    <Connector Name="IF3">
+      <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
+      <Parameter ID="ActivateDevice" Value="1" />
+      <Parameter ID="Mode" Value="Manual" />
+      <Parameter ID="InternetAddress" Value="192.168.1.101" />
+      <Parameter ID="SubnetMask" Value="255.255.255.0" />
+      <Parameter ID="ActivateSnmp" Value="2" />
+    </Connector>
+    <Connector Name="IF4">
+      <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
+      <Parameter ID="ActivateDevice" Value="1" />
+    </Connector>
+    <Connector Name="IF5">
+      <Parameter ID="AssignedOperatingSystem" Value="GPOS" />
+    </Connector>
+    <Connector Name="IF6">
+      <Parameter ID="AssignedOperatingSystem" Value="GPOS" />
+    </Connector>
+    <Connector Name="IF13">
+      <Parameter ID="OperatingSystem" Value="ARemb" />
+      <Parameter ID="ActivateDevice" Value="1" />
+    </Connector>
+    <Connector Name="IF7">
+      <Parameter ID="AssignedOperatingSystem" Value="GPOS" />
+    </Connector>
+    <Connector Name="IF8">
+      <Parameter ID="AssignedOperatingSystem" Value="GPOS" />
+    </Connector>
+    <Connector Name="IF9">
+      <Parameter ID="AssignedOperatingSystem" Value="GPOS" />
+    </Connector>
+    <Connector Name="IF10">
+      <Parameter ID="AssignedOperatingSystem" Value="GPOS" />
+    </Connector>
+    <Connector Name="IF11">
+      <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
+    </Connector>
+    <Connector Name="IF12">
+      <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
+    </Connector>
+    <Parameter ID="ConfigurationID" Value="MainSystem_Config1" />
+    <Parameter ID="ActivateHypervisor" Value="1" />
+    <Parameter ID="ARembDramSizeInMb" Value="2048" />
+    <Parameter ID="TimerDeviceType" Value="EPLX2X" />
+    <Parameter ID="TimerDevice" Value="5LS182.8.IF1" />
+    <Parameter ID="TaskClassIdleTime" Value="2000" />
+    <Parameter ID="Cyclic1Duration" Value="2000" />
+    <Parameter ID="Cyclic1Tolerance" Value="0" />
+    <Parameter ID="Cyclic2Duration" Value="10000" />
+    <Parameter ID="Cyclic2Tolerance" Value="10000" />
+    <Group ID="FileDevice1" />
+    <Parameter ID="FileDeviceName1" Value="6DData" />
+    <Parameter ID="FileDevicePath1" Value="USER_PATH" />
+    <Parameter ID="ActivateFtpServer" Value="1" />
+    <Parameter ID="FTPProtocol" Value="1" />
+    <Group ID="FtpUser1" />
+    <Parameter ID="FtpUsername1" Value="admin" />
+    <Parameter ID="FtpUserPassword1" Value="xLRKj1BlFM98w2szVE2MiBEx5VuiwEUy/nukFErU7QU=" />
+    <Parameter ID="FtpUserSalt1" Value="/uIGmoS1" />
+    <Parameter ID="FTPAccessRight1" Value="0" />
+    <Parameter ID="FTPdevice1" Value="ALL" />
+    <Parameter ID="ActivateWebServer" Value="1" />
+    <Parameter ID="WebServerProtocol" Value="1" />
+    <Parameter ID="ActivateSdm" Value="1" />
+  </Module>
+  <Module Name="5LS182.8" Type="5LS182.8" Version="1.4.3.0">
+    <Connection Connector="SL" TargetModule="5APC4100.BX02-001" TargetConnector="SL1" />
+    <Connector Name="IF1">
+      <Parameter ID="EplNatSubnet" Value="192.168.102.0" />
+    </Connector>
+    <Parameter ID="Supervision" Value="off" />
+  </Module>
+  <Module Name="8B0C0320HW00.B00-1_A" Type="8B0C0320HW00.B00-1" Version="1.0.1.3" NodeNumber="3">
+    <Connection Connector="PLK1" TargetModule="8B0P0440HW00.000-1" TargetConnector="PLK2">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Connection Connector="PLK2" TargetModule="8B0C0320HW00.B00-1_B" TargetConnector="PLK1">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Parameter ID="FunctionModel" Value="DirectControl" />
+    <Parameter ID="OutputVoltage" Value="48000" />
+    <Parameter ID="CurrentLimitation" Value="Used" />
+    <Parameter ID="OutputCurrentLimit" Value="20000" />
+    <Parameter ID="OutputCurrentLimitTime" Value="20" />
+    <Parameter ID="ConfigOutputState" Value="off" />
+  </Module>
+  <Module Name="8B0C0320HW00.B00-1_B" Type="8B0C0320HW00.B00-1" Version="1.0.1.3" NodeNumber="4">
+    <Connection Connector="PLK1" TargetModule="8B0C0320HW00.B00-1_A" TargetConnector="PLK2">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Connection Connector="PLK2" TargetModule="8B0C0320HW00.B00-1_C" TargetConnector="PLK1">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Parameter ID="FunctionModel" Value="DirectControl" />
+    <Parameter ID="OutputVoltage" Value="48000" />
+    <Parameter ID="CurrentLimitation" Value="Used" />
+    <Parameter ID="OutputCurrentLimit" Value="20000" />
+    <Parameter ID="OutputCurrentLimitTime" Value="20" />
+    <Parameter ID="ConfigOutputState" Value="off" />
+  </Module>
+  <Module Name="8B0C0320HW00.B00-1_C" Type="8B0C0320HW00.B00-1" Version="1.0.1.3" NodeNumber="5">
+    <Connection Connector="PLK1" TargetModule="8B0C0320HW00.B00-1_B" TargetConnector="PLK2">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Connection Connector="PLK2" TargetModule="8B0C0320HW00.B00-1_D" TargetConnector="PLK1">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Parameter ID="FunctionModel" Value="DirectControl" />
+    <Parameter ID="OutputVoltage" Value="48000" />
+    <Parameter ID="CurrentLimitation" Value="Used" />
+    <Parameter ID="OutputCurrentLimit" Value="20000" />
+    <Parameter ID="OutputCurrentLimitTime" Value="20" />
+    <Parameter ID="ConfigOutputState" Value="off" />
+  </Module>
+  <Module Name="8B0C0320HW00.B00-1_D" Type="8B0C0320HW00.B00-1" Version="1.0.1.3" NodeNumber="6">
+    <Connection Connector="PLK1" TargetModule="8B0C0320HW00.B00-1_C" TargetConnector="PLK2">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Connection Connector="PLK2" TargetModule="8B0C0320HW00.B00-1_E" TargetConnector="PLK1">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Parameter ID="FunctionModel" Value="DirectControl" />
+    <Parameter ID="OutputVoltage" Value="48000" />
+    <Parameter ID="CurrentLimitation" Value="Used" />
+    <Parameter ID="OutputCurrentLimit" Value="20000" />
+    <Parameter ID="OutputCurrentLimitTime" Value="20" />
+    <Parameter ID="ConfigOutputState" Value="off" />
+  </Module>
+  <Module Name="8B0C0320HW00.B00-1_E" Type="8B0C0320HW00.B00-1" Version="1.0.1.3" NodeNumber="7">
+    <Connection Connector="PLK1" TargetModule="8B0C0320HW00.B00-1_D" TargetConnector="PLK2">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Connection Connector="PLK2" TargetModule="8B0C0320HW00.B00-1_F" TargetConnector="PLK1">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Parameter ID="FunctionModel" Value="DirectControl" />
+    <Parameter ID="OutputVoltage" Value="48000" />
+    <Parameter ID="CurrentLimitation" Value="Used" />
+    <Parameter ID="OutputCurrentLimit" Value="20000" />
+    <Parameter ID="OutputCurrentLimitTime" Value="20" />
+    <Parameter ID="ConfigOutputState" Value="off" />
+  </Module>
+  <Module Name="8B0C0320HW00.B00-1_F" Type="8B0C0320HW00.B00-1" Version="1.0.1.3" NodeNumber="8">
+    <Connection Connector="PLK1" TargetModule="8B0C0320HW00.B00-1_E" TargetConnector="PLK2">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Connection Connector="PLK2" TargetModule="8B0C0320HW00.B00-1_G" TargetConnector="PLK1">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Parameter ID="FunctionModel" Value="DirectControl" />
+    <Parameter ID="Supervision" Value="off" />
+    <Parameter ID="OutputVoltage" Value="48000" />
+    <Parameter ID="CurrentLimitation" Value="Used" />
+    <Parameter ID="OutputCurrentLimit" Value="20000" />
+    <Parameter ID="OutputCurrentLimitTime" Value="20" />
+    <Parameter ID="ConfigOutputState" Value="off" />
+  </Module>
+  <Module Name="8B0C0320HW00.B00-1_G" Type="8B0C0320HW00.B00-1" Version="1.0.1.3" NodeNumber="9">
+    <Connection Connector="PLK1" TargetModule="8B0C0320HW00.B00-1_F" TargetConnector="PLK2">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Connection Connector="PLK2" TargetModule="8FLM01.0000.00I-1" TargetConnector="PLK1">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Parameter ID="FunctionModel" Value="DirectControl" />
+    <Parameter ID="Supervision" Value="off" />
+    <Parameter ID="OutputVoltage" Value="48000" />
+    <Parameter ID="CurrentLimitation" Value="Used" />
+    <Parameter ID="OutputCurrentLimit" Value="20000" />
+    <Parameter ID="OutputCurrentLimitTime" Value="20" />
+    <Parameter ID="ConfigOutputState" Value="off" />
+  </Module>
+  <Module Name="8B0P0440HW00.000-1" Type="8B0P0440HW00.000-1" Version="2.3.0.3" NodeNumber="2">
+    <Connection Connector="PLK1" TargetModule="X20BC1083" TargetConnector="PLK2">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Connection Connector="PLK2" TargetModule="8B0C0320HW00.B00-1_A" TargetConnector="PLK1">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Parameter ID="MotionTP" Value="Acp10Arnc0" />
+  </Module>
+  <Module Name="8FLM01.0000.00I-1" Type="8FLM01.0000.00I-1" Version="1.0.0.2" NodeNumber="239">
+    <Connection Connector="PLK1" TargetModule="8B0C0320HW00.B00-1_G" TargetConnector="PLK2">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Parameter ID="Supervision" Value="off" />
+  </Module>
+  <Module Name="X20BB82" Type="X20BB82" Version="1.2.0.0" />
+  <Module Name="X20BC1083" Type="X20BC1083" Version="2.16.1.0" NodeNumber="1">
+    <Connection Connector="PLK1" TargetModule="5LS182.8" TargetConnector="IF1">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Connection Connector="PLK2" TargetModule="8B0P0440HW00.000-1" TargetConnector="PLK1">
+      <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
+    </Connection>
+    <Connection Connector="SL" TargetModule="X20BB82" TargetConnector="SL1" />
+    <Parameter ID="Supervision" Value="off" />
+  </Module>
+  <Module Name="X20BM11" Type="X20BM11" Version="1.1.0.0">
+    <Connection Connector="X2X1" TargetModule="X20BM33" TargetConnector="X2X2" />
+  </Module>
+  <Module Name="X20BM11_a" Type="X20BM11" Version="1.1.0.0">
+    <Connection Connector="X2X1" TargetModule="X20BM11" TargetConnector="X2X2" />
+  </Module>
+  <Module Name="X20BM11_b" Type="X20BM11" Version="1.1.0.0">
+    <Connection Connector="X2X1" TargetModule="X20BM11_a" TargetConnector="X2X2" />
+  </Module>
+  <Module Name="X20BM11_c" Type="X20BM11" Version="1.1.0.0">
+    <Connection Connector="X2X1" TargetModule="X20BM11_b" TargetConnector="X2X2" />
+  </Module>
+  <Module Name="X20BM33" Type="X20BM33" Version="1.1.0.0">
+    <Connection Connector="X2X1" TargetModule="X20BB82" TargetConnector="IF1" />
+  </Module>
+  <Module Name="X20BT9400" Type="X20BT9400" Version="1.3.1.0">
+    <Connection Connector="SS1" TargetModule="X20TB12_d" TargetConnector="SS" />
+    <Connection Connector="SL" TargetModule="X20BM11_c" TargetConnector="SL1" />
+    <Parameter ID="Supervision" Value="off" />
+  </Module>
+  <Module Name="X20CMR111" Type="X20CMR111" Version="1.7.0.0">
+    <Connection Connector="SS1" TargetModule="X20TB12_c" TargetConnector="SS" />
+    <Connection Connector="SL" TargetModule="X20BM11_b" TargetConnector="SL1" />
+    <Parameter ID="Supervision" Value="off" />
+  </Module>
+  <Module Name="X20DI9371" Type="X20DI9371" Version="1.6.1.0">
+    <Connection Connector="SS1" TargetModule="X20TB12_b" TargetConnector="SS" />
+    <Connection Connector="SL" TargetModule="X20BM11_a" TargetConnector="SL1" />
+    <Parameter ID="Supervision" Value="off" />
+  </Module>
+  <Module Name="X20DO9322" Type="X20DO9322" Version="1.6.2.0">
+    <Connection Connector="SS1" TargetModule="X20TB12_a" TargetConnector="SS" />
+    <Connection Connector="SL" TargetModule="X20BM11" TargetConnector="SL1" />
+    <Parameter ID="Supervision" Value="off" />
+  </Module>
+  <Module Name="X20PS9400" Type="X20PS9400" Version="1.8.1.0">
+    <Connection Connector="SS1" TargetModule="X20TB12" TargetConnector="SS" />
+    <Connection Connector="PS" TargetModule="X20BB82" TargetConnector="PS1" />
+    <Parameter ID="Supervision" Value="off" />
+  </Module>
+  <Module Name="X20SLX842" Type="X20SLX842" Version="2.6.0.2">
+    <Connection Connector="SS1" TargetModule="X20TB52" TargetConnector="SS" />
+    <Connection Connector="SS2" TargetModule="X20TB52_a" TargetConnector="SS" />
+    <Connection Connector="SL" TargetModule="X20BM33" TargetConnector="SL1" />
+    <Parameter ID="Supervision" Value="off" />
+  </Module>
+  <Module Name="X20TB12" Type="X20TB12" Version="1.0.0.0" />
+  <Module Name="X20TB12_a" Type="X20TB12" Version="1.0.0.0" />
+  <Module Name="X20TB12_b" Type="X20TB12" Version="1.0.0.0" />
+  <Module Name="X20TB12_c" Type="X20TB12" Version="1.0.0.0" />
+  <Module Name="X20TB12_d" Type="X20TB12" Version="1.0.0.0" />
+  <Module Name="X20TB52" Type="X20TB52" Version="1.0.0.2" />
+  <Module Name="X20TB52_a" Type="X20TB52" Version="1.0.0.2" />
+</Hardware>

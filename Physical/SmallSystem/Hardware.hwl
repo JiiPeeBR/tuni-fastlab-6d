@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?AutomationStudio FileVersion="4.9"?>
+<BR.AS.HardwareTopology>
+  <TimeStamps>
+    <TimeStamp LogicalPath="SmallSystem.Hardware.hw" LastWriteTime="06/11/2025 10:59:58" />
+  </TimeStamps>
+  <Modules>
+    <Module Name="5APC4100_TGL2_000" Type="5APC4100.TGL2-000" X="111" Y="100" />
+    <Module Name="5APC4100.BX02-001" Type="5APC4100.BX02-001" X="171.4" Y="149" />
+    <Module Name="5LS182.8" Type="5LS182.8" X="176.4" Y="162" />
+    <Module Name="8B0P0220HW00.000-1" Type="8B0P0220HW00.000-1" X="226.4" Y="347" />
+    <Module Name="8B0C0320HW00.B00-1" Type="8B0C0320HW00.B00-1" X="351.3" Y="347" />
+    <Module Name="8B0C0320HW00.B00-1_a" Type="8B0C0320HW00.B00-1" X="439.099976" Y="347" />
+  </Modules>
+  <Links>
+    <Link From="5LS182.8" To="8B0P0220HW00.000-1" FromPort="IF1" ToPort="PLK1" IsRoutedByUser="False">
+      <Point X="217.4" Y="170" />
+      <Point X="217.4" Y="170" />
+      <Point X="227.4" Y="170" />
+      <Point X="238.299988" Y="170" />
+      <Point X="238.299988" Y="346" />
+      <Point X="238.299988" Y="354" />
+      <Point X="238.299988" Y="354" />
+    </Link>
+    <Link From="8B0P0220HW00.000-1" To="8B0C0320HW00.B00-1" FromPort="PLK2" ToPort="PLK1" IsRoutedByUser="False">
+      <Point X="250.2" Y="354" />
+      <Point X="250.2" Y="354" />
+      <Point X="250.2" Y="346" />
+      <Point X="250.2" Y="335" />
+      <Point X="315" Y="335" />
+      <Point X="315" Y="354" />
+      <Point X="351.199982" Y="354" />
+      <Point X="363.199982" Y="354" />
+      <Point X="363.199982" Y="354" />
+    </Link>
+    <Link From="8B0C0320HW00.B00-1" To="8B0C0320HW00.B00-1_a" FromPort="PLK2" ToPort="PLK1" IsRoutedByUser="False">
+      <Point X="375.099976" Y="354" />
+      <Point X="375.099976" Y="354" />
+      <Point X="390.099976" Y="354" />
+      <Point X="438.999969" Y="354" />
+      <Point X="450.999969" Y="354" />
+      <Point X="450.999969" Y="354" />
+    </Link>
+  </Links>
+  <InfoElements />
+</BR.AS.HardwareTopology>

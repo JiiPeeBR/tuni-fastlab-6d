@@ -1,0 +1,12 @@
+VAR
+	task : REFERENCE TO PowerType;
+	local : PowerLocalType;
+	fb : PowerFbType;
+	hmi : PowerHmiType;
+	actions : PowerActionsType;
+	i : UDINT;
+END_VAR
+(* ----- PackML ----- *)
+VAR
+	cm : ControlModule;
+END_VAR
