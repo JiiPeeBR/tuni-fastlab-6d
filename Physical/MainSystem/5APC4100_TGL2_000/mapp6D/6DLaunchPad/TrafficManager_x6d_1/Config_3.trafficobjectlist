@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+  <Element ID="Stations_1" Type="trafficobjectlist">
+    <Selector ID="TrafficObject[1]" Value="Station">
+      <Property ID="Name" Value="S1" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.3" />
+        <Property ID="Y" Value="0.42" />
+      </Selector>
+      <Group ID="RecoveryPoints">
+        <Property ID="Mode" Value="Direct" />
+        <Property ID="StationIsRecoveryPoint" Value="Enable" />
+        <Group ID="RecoveryPoint[1]">
+          <Selector ID="Position" Value="Absolute">
+            <Property ID="X" Value="0.3" />
+            <Property ID="Y" Value="0.54" />
+          </Selector>
+        </Group>
+        <Group ID="RecoveryPoint[2]">
+          <Selector ID="Position" Value="Absolute">
+            <Property ID="X" Value="0.3" />
+            <Property ID="Y" Value="0.66" />
+          </Selector>
+        </Group>
+        <Group ID="RecoveryPoint[3]">
+          <Selector ID="Position" Value="Absolute">
+            <Property ID="X" Value="0.3" />
+            <Property ID="Y" Value="0.78" />
+          </Selector>
+        </Group>
+        <Group ID="RecoveryPoint[4]">
+          <Selector ID="Position" Value="Absolute">
+            <Property ID="X" Value="0.3" />
+            <Property ID="Y" Value="0.9" />
+          </Selector>
+        </Group>
+        <Group ID="RecoveryPoint[5]">
+          <Selector ID="Position" Value="Absolute">
+            <Property ID="X" Value="0.3" />
+            <Property ID="Y" Value="1.02" />
+          </Selector>
+        </Group>
+        <Group ID="RecoveryPoint[6]">
+          <Selector ID="Position" Value="Absolute">
+            <Property ID="X" Value="0.3" />
+            <Property ID="Y" Value="1.14" />
+          </Selector>
+        </Group>
+      </Group>
+    </Selector>
+    <Selector ID="TrafficObject[2]" Value="Station">
+      <Property ID="Name" Value="S2" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.66" />
+        <Property ID="Y" Value="0.06" />
+      </Selector>
+      <Group ID="RecoveryPoints">
+        <Property ID="Mode" Value="Direct" />
+        <Property ID="StationIsRecoveryPoint" Value="Enable" />
+      </Group>
+    </Selector>
+    <Selector ID="TrafficObject[3]" Value="Station">
+      <Property ID="Name" Value="S3" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.78" />
+        <Property ID="Y" Value="1.5" />
+      </Selector>
+      <Group ID="RecoveryPoints">
+        <Property ID="Mode" Value="Direct" />
+        <Property ID="StationIsRecoveryPoint" Value="Enable" />
+      </Group>
+    </Selector>
+    <Selector ID="TrafficObject[4]" Value="Station">
+      <Property ID="Name" Value="S4" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.18" />
+        <Property ID="Y" Value="1.5" />
+      </Selector>
+      <Group ID="RecoveryPoints">
+        <Property ID="Mode" Value="Direct" />
+        <Property ID="StationIsRecoveryPoint" Value="Enable" />
+      </Group>
+    </Selector>
+    <Selector ID="TrafficObject[5]" Value="Station">
+      <Property ID="Name" Value="S6" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.66" />
+        <Property ID="Y" Value="4.26" />
+      </Selector>
+      <Group ID="RecoveryPoints">
+        <Property ID="Mode" Value="Direct" />
+        <Property ID="StationIsRecoveryPoint" Value="Enable" />
+      </Group>
+    </Selector>
+    <Selector ID="TrafficObject[6]" Value="Station">
+      <Property ID="Name" Value="S5" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.66" />
+        <Property ID="Y" Value="2.94" />
+      </Selector>
+      <Group ID="RecoveryPoints">
+        <Property ID="Mode" Value="Direct" />
+        <Property ID="StationIsRecoveryPoint" Value="Enable" />
+      </Group>
+    </Selector>
+    <Selector ID="TrafficObject[7]" Value="Station">
+      <Property ID="Name" Value="S7" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.3" />
+        <Property ID="Y" Value="3.3" />
+      </Selector>
+      <Group ID="RecoveryPoints">
+        <Property ID="Mode" Value="Direct" />
+        <Property ID="StationIsRecoveryPoint" Value="Enable" />
+      </Group>
+    </Selector>
+  </Element>
+  <Element ID="Waypoints_1" Type="trafficobjectlist">
+    <Selector ID="TrafficObject[1]" Value="Waypoint">
+      <Property ID="Name" Value="W1" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.3" />
+        <Property ID="Y" Value="1.5" />
+      </Selector>
+    </Selector>
+    <Selector ID="TrafficObject[2]" Value="Waypoint">
+      <Property ID="Name" Value="W3" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.3" />
+        <Property ID="Y" Value="1.86" />
+      </Selector>
+    </Selector>
+  </Element>
+  <Element ID="Gates_1" Type="trafficobjectlist">
+    <Selector ID="TrafficObject[1]" Value="Waypoint">
+      <Property ID="Name" Value="G3" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.66" />
+        <Property ID="Y" Value="0.42" />
+      </Selector>
+    </Selector>
+    <Selector ID="TrafficObject[2]" Value="Waypoint">
+      <Property ID="Name" Value="G9" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.3" />
+        <Property ID="Y" Value="4.26" />
+      </Selector>
+    </Selector>
+    <Selector ID="TrafficObject[3]" Value="Waypoint">
+      <Property ID="Name" Value="G6" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.18" />
+        <Property ID="Y" Value="1.86" />
+      </Selector>
+    </Selector>
+    <Selector ID="TrafficObject[4]" Value="Waypoint">
+      <Property ID="Name" Value="G5" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.66" />
+        <Property ID="Y" Value="1.86" />
+      </Selector>
+    </Selector>
+    <Selector ID="TrafficObject[5]" Value="Waypoint">
+      <Property ID="Name" Value="G4" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.78" />
+        <Property ID="Y" Value="1.86" />
+      </Selector>
+    </Selector>
+    <Selector ID="TrafficObject[6]" Value="Waypoint">
+      <Property ID="Name" Value="G12" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.3" />
+        <Property ID="Y" Value="2.94" />
+      </Selector>
+    </Selector>
+    <Selector ID="TrafficObject[7]" Value="Waypoint">
+      <Property ID="Name" Value="G1" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.3" />
+        <Property ID="Y" Value="0.06" />
+      </Selector>
+    </Selector>
+    <Selector ID="TrafficObject[8]" Value="Waypoint">
+      <Property ID="Name" Value="G8" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.66" />
+        <Property ID="Y" Value="3.3" />
+      </Selector>
+    </Selector>
+  </Element>
+  <Element ID="Branches_1" Type="trafficobjectlist">
+    <Selector ID="TrafficObject[1]" Value="Station">
+      <Property ID="Name" Value="B1" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.66" />
+        <Property ID="Y" Value="1.5" />
+      </Selector>
+      <Group ID="RecoveryPoints">
+        <Property ID="Mode" Value="Direct" />
+        <Property ID="StationIsRecoveryPoint" Value="Enable" />
+      </Group>
+    </Selector>
+  </Element>
+</Configuration>

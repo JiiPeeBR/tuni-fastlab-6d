@@ -1,0 +1,16 @@
+VAR
+	task : REFERENCE TO FastDemoType;
+	local : FastDemoLocalType;
+	fb : FastDemoFbType;
+	hmi : FastDemoHmiType;
+	actions_state : FastDemoActionsStateType;
+	actions_substate : FastDemoActionsSubstateType;
+END_VAR
+(* ----- PackML ----- *)
+VAR
+	em : EquipmentModule;
+END_VAR
+(*----- Stations ----*)
+VAR
+	station_S1 : FastDemoStationS1Type;
+END_VAR

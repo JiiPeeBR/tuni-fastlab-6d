@@ -1,35 +1,58 @@
 
-ACTION state_resetting: 
+ACTION sequence_initialize: 
 	CASE em.SubState OF
-		0:
+		0:		
 			em.StateInfo := 'Wait assembly to boot up';
-			// ---------------------------------------------------------------------------------					
-			//Wait for the startup phase to be finished
-			IF fb.AssemblyReadInfo.Valid THEN
-				IF (fb.AssemblyReadInfo.AssemblyInfo.AssemblyState = mcACP6D_ERRORSTOP) THEN
-					em.SubState := 10;
-				ELSIF (fb.AssemblyReadInfo.AssemblyInfo.AssemblyState <> mcACP6D_STARTUP) THEN
-					em.SubState := 20;
-				END_IF
-			END_IF
-		
-		10:
-			em.StateInfo := 'Reset assembly errors';
 			// ---------------------------------------------------------------------------------
 			IF em.Info.OnStateEntry THEN
 				// Clear old shuttle data
 				brsmemset(ADR(gShuttles), 0, SIZEOF(gShuttles));
+				brsmemset(ADR(task.Error), 0, SIZEOF(task.Error));
 			END_IF;
-										
+			
+			fb.AssemblyReadInfo.Enable := TRUE;
+				
+			//Wait for the startup phase to be finished
+			IF fb.AssemblyReadInfo.Valid THEN
+				IF (fb.AssemblyReadInfo.AssemblyInfo.AssemblyState = mcACP6D_ERRORSTOP) THEN
+					task.Error.Code := fb.AssemblyReadInfo.ErrorID;
+					em.SubState := 10;
+				ELSIF (fb.AssemblyReadInfo.AssemblyInfo.AssemblyState <> mcACP6D_STARTUP AND fb.AssemblyReadInfo.AssemblyInfo.CommunicationReady) THEN
+					IF fb.AssemblyReadInfo.AssemblyInfo.AssemblyState = mcACP6D_DISABLED THEN
+						// Assembly powered off -> power on
+						em.SubState := 100;	
+					ELSE
+						// Assembly powered on -> power off first
+						em.SubState := 20;
+					END_IF;
+				END_IF
+			END_IF
+			
+		10:
+			em.StateInfo := 'Clear initial errors';
+			// ---------------------------------------------------------------------------------
 			actions_substate.assemblyReset := TRUE;
 			
 			IF fb.AssemblyReset.Done THEN
-				em.SubState := 10;
+				em.SubState := 0;
 			ELSIF fb.AssemblyReset.Error THEN
 				task.Error.Code := fb.AssemblyReset.ErrorID;
+				em.Command.Abort := TRUE;
 			END_IF
 			
 		20:
+			em.StateInfo := 'Power off assembly';
+			// ---------------------------------------------------------------------------------		
+			actions_substate.assemblyPowerOff := TRUE;
+					
+			IF fb.AssemblyPowerOn.Done THEN
+				em.SubState := 100;
+			ELSIF fb.AssemblyPowerOn.Error THEN
+				task.Error.Code := fb.AssemblyPowerOn.ErrorID;
+				em.Command.Abort := TRUE;
+			END_IF
+		
+		100:
 			em.StateInfo := 'Power on assembly';
 			// ---------------------------------------------------------------------------------
 			IF em.Info.OnStateEntry THEN
@@ -40,13 +63,13 @@ ACTION state_resetting:
 			actions_substate.assemblyPowerOn := TRUE;
 					
 			IF fb.AssemblyPowerOn.Done THEN
-				em.SubState := 100;
+				em.SubState := 200;
 			ELSIF fb.AssemblyPowerOn.Error THEN
 				task.Error.Code := fb.AssemblyPowerOn.ErrorID;
-				em_command.Abort := TRUE;
+				em.Command.Abort := TRUE;
 			END_IF
 				
-		100:
+		200:
 			em.StateInfo := 'Read shuttle info - Start reading';
 			// ---------------------------------------------------------------------------------	
 			actions_state.getShuttles := TRUE;
@@ -58,11 +81,11 @@ ACTION state_resetting:
 					// No shuttles detected - halt execution
 					em.SubState := 999;
 				ELSE
-					em.SubState := 110;	
+					em.SubState := 201;	
 				END_IF;
 			END_IF
 					
-		110:
+		201:
 			em.StateInfo := 'Read shuttle info - Get next';
 			// ---------------------------------------------------------------------------------
 			// Read shuttle information
@@ -76,10 +99,10 @@ ACTION state_resetting:
 				// Toggle get next shuttle input on/off until we have read all
 				actions_substate.getNextShuttle := NOT actions_substate.getNextShuttle;	
 			ELSE
-				em.SubState := 200;
+				em.SubState := 300;
 			END_IF
 					
-		200:
+		300:
 			em.StateInfo := 'Read shuttle IDs';
 			// ---------------------------------------------------------------------------------
 			actions_substate.readShuttleIDs := TRUE;
@@ -95,39 +118,13 @@ ACTION state_resetting:
 					END_FOR;
 				END_FOR;
 				
-				em.SubState := 300;
+				em.SubState := 1000;
+				
 			ELSIF fb.AssemblyReadShIDTable.Error THEN
 				task.Error.Code := fb.AssemblyReadShIDTable.ErrorID;
-				em_command.Abort := TRUE;
+				em.Command.Abort := TRUE;
 			END_IF;
-			
-		300:
-			em.StateInfo := 'Home all shuttles';
-			// ---------------------------------------------------------------------------------
-			IF em.Info.OnSubStateEntry THEN	
-				brsmemset(ADR(fb.MoveInPlaneAsync.Parameters), 0, SIZEOF(fb.MoveInPlaneAsync.Parameters));
 				
-				fb.MoveInPlaneAsync.Parameters.Velocity := 2;
-				fb.MoveInPlaneAsync.Parameters.Acceleration := 15;
-				fb.MoveInPlaneAsync.Parameters.Mode := mcACP6D_SHUTTLE_SORTED;
-				fb.MoveInPlaneAsync.Parameters.Overhang := FALSE;
-						
-				FOR i := 0 TO gShuttles.Count - 1 DO	
-					fb.MoveInPlaneAsync.Parameters.AsyncPar[i].Shuttle := ADR(gShuttles.Shuttle[i].Ref);
-					fb.MoveInPlaneAsync.Parameters.AsyncPar[i].X := local.homePosition[i].x;
-					fb.MoveInPlaneAsync.Parameters.AsyncPar[i].Y := local.homePosition[i].y;
-				END_FOR;
-			END_IF;
-						
-			actions_substate.homeShuttles := TRUE;
-						
-			IF fb.MoveInPlaneAsync.Done THEN
-				em.SubState := 1000;
-			ELSIF fb.MoveInPlaneAsync.Error THEN
-				task.Error.Code := fb.MoveInPlaneAsync.ErrorID;	
-				em_command.Abort := TRUE;
-			END_IF;
-			
 		999:
 			em.StateInfo := 'No shuttles detected';
 			// ---------------------------------------------------------------------------------
@@ -135,6 +132,6 @@ ACTION state_resetting:
 		1000:
 			em.StateInfo := 'Done';
 			// ---------------------------------------------------------------------------------
-			em_command.StateComplete := TRUE;
+			em.Command.StateComplete := TRUE;
 	END_CASE;	
 END_ACTION

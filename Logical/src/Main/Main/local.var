@@ -5,7 +5,7 @@ VAR
 	hmi : MainHmiType;
 	actions_state : MainActionsStateType;
 	actions_substate : MainActionsSubstateType;
-	em_command : EMCommandType;
+	commands : MainCommandsType;
 	i : DINT;
 	x : DINT;
 END_VAR

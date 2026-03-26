@@ -3,6 +3,7 @@
 <SwConfiguration CpuAddress="" xmlns="http://br-automation.co.at/AS/SwConfiguration">
   <TaskClass Name="Cyclic#1">
     <Task Name="Main" Source="src.Main.Main.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="FastDemo" Source="src.FastDemo.FastDemo.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#2">
     <Task Name="Power" Source="src.Power.Power.prg" Memory="UserROM" Language="IEC" Debugging="true" />
@@ -75,5 +76,6 @@
     <LibraryObject Name="powerlnk" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="AsEPL" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="ArSsl" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="MpTraffic" Source="Libraries.MpTraffic.lby" Memory="UserROM" Language="Binary" Debugging="true" />
   </Libraries>
 </SwConfiguration>

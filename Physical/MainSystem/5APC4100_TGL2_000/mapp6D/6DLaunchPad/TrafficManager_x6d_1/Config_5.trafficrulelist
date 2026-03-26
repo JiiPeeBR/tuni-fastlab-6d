@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+  <Element ID="Rules_1" Type="trafficrulelist">
+    <Selector ID="TrafficRule[1]" Value="ExclusivityGroup">
+      <Property ID="Name" Value="ExclusiveGroup_1" />
+      <Group ID="TrafficObjects">
+        <Selector ID="TrafficObject[1]" Value="Waypoint">
+          <Property ID="ExclusivityGroupObjectRef" Value="G5" />
+        </Selector>
+      </Group>
+      <Group ID="EntryObjects" />
+      <Group ID="ExitObjects" />
+    </Selector>
+  </Element>
+</Configuration>

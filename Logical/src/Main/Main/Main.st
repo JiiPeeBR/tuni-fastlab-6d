@@ -61,56 +61,71 @@ PROGRAM _CYCLIC
 	IF em.Info.OnSubStateEntry THEN
 		// Reset actions always when state changes
 		brsmemset(ADR(actions_substate), 0, SIZEOF(actions_substate));
-		brsmemset(ADR(em_command), 0, SIZEOF(em_command));
 	END_IF;
 	
 	local.lastState := em.StateCurrent;
 	local.lastSubState := em.SubState;
 	local.lastStateInfo := em.StateInfo;
-		
+	
+	// Command rising edge detection
+	// =================================================================================================================
+	commands.Abort(CLK := task.Input.Command.Abort);
+	commands.Clear(CLK := task.Input.Command.Clear);
+	commands.Complete(CLK := task.Input.Command.Complete);
+	commands.Hold(CLK := task.Input.Command.Hold);
+	commands.Reset(CLK := task.Input.Command.Reset);
+	commands.Start(CLK := task.Input.Command.Start);
+	commands.Stop(CLK := task.Input.Command.Stop);
+	commands.Suspend(CLK := task.Input.Command.Suspend);
+	commands.Unhold(CLK := task.Input.Command.Unhold);
+	commands.Unsuspend(CLK := task.Input.Command.Unsuspend);
+	
+	IF commands.Abort.Q THEN em.Command.Abort := TRUE; END_IF;
+	IF commands.Clear.Q THEN em.Command.Clear := TRUE; END_IF;
+	IF commands.Complete.Q THEN em.Command.Complete := TRUE; END_IF;
+	IF commands.Hold.Q THEN em.Command.Hold := TRUE; END_IF;
+	IF commands.Reset.Q THEN em.Command.Reset := TRUE; END_IF;
+	IF commands.Start.Q THEN em.Command.Start := TRUE; END_IF;
+	IF commands.Stop.Q THEN em.Command.Stop := TRUE; END_IF;
+	IF commands.Suspend.Q THEN em.Command.Suspend := TRUE; END_IF;
+	IF commands.Unhold.Q THEN em.Command.Unhold := TRUE; END_IF;
+	IF commands.Unsuspend.Q THEN em.Command.Unsuspend := TRUE; END_IF;
+	
 	// PackML equipment module
 	// =================================================================================================================
-//	em.Command.Abort := em_command.Abort OR task.Input.Command.Abort;
-//	em.Command.Clear := em_command.Clear OR task.Input.Command.Clear;
-//	em.Command.Complete := em_command.Complete OR task.Input.Command.Complete;
-//	em.Command.Hold := em_command.Hold OR task.Input.Command.Hold;
-//	em.Command.Reset := em_command.Reset OR task.Input.Command.Reset;
-//	em.Command.Start := em_command.Start OR task.Input.Command.Start;
-//	em.Command.StateComplete := em_command.StateComplete;
-//	em.Command.Stop := em_command.Stop OR task.Input.Command.Stop;
-//	em.Command.Suspend := em_command.Suspend OR task.Input.Command.Suspend;
-//	em.Command.Unhold := em_command.Unhold OR task.Input.Command.Unhold;
-//	em.Command.Unsuspend := em_command.Unsuspend OR task.Input.Command.Unsuspend;
 	em();
 	
 	// Function calls
 	// =================================================================================================================
-	fb.AssemblyReadInfo.Enable := TRUE;
-	fb.AssemblyReadInfo.Assembly := ADR(gAssembly6D_1);
+	fb.AssemblyReadInfo.Assembly := ADR(gAssembly6D_Big);
 	fb.AssemblyReadInfo();
 	
-	fb.AssemblyPowerOn.Assembly := ADR(gAssembly6D_1);
+	fb.AssemblyPowerOn.Assembly := ADR(gAssembly6D_Big);
 	fb.AssemblyPowerOn.Execute := actions_substate.assemblyPowerOn;
 	fb.AssemblyPowerOn();
 	
-	fb.AssemblyPowerOff.Assembly := ADR(gAssembly6D_1);
+	fb.AssemblyPowerOff.Assembly := ADR(gAssembly6D_Big);
 	fb.AssemblyPowerOff.Execute := actions_substate.assemblyPowerOff;
 	fb.AssemblyPowerOff();
 
-	fb.AssemblyReset.Assembly := ADR(gAssembly6D_1);
+	fb.AssemblyReset.Assembly := ADR(gAssembly6D_Big);
 	fb.AssemblyReset.Execute := actions_substate.assemblyReset;
 	fb.AssemblyReset();
 	
-	fb.AssemblyGetShuttle.Assembly := ADR(gAssembly6D_1);
+	fb.AssemblyStop.Assembly := ADR(gAssembly6D_Big);
+	fb.AssemblyStop.Execute := actions_substate.assemblyStop;
+	fb.AssemblyStop();
+	
+	fb.AssemblyGetShuttle.Assembly := ADR(gAssembly6D_Big);
 	fb.AssemblyGetShuttle.Enable := actions_state.getShuttles;
 	fb.AssemblyGetShuttle.Next := actions_substate.getNextShuttle;
 	fb.AssemblyGetShuttle();
 	
-	fb.AssemblyReadShIDTable.Assembly := ADR(gAssembly6D_1);
+	fb.AssemblyReadShIDTable.Assembly := ADR(gAssembly6D_Big);
 	fb.AssemblyReadShIDTable.Execute := actions_substate.readShuttleIDs;
 	fb.AssemblyReadShIDTable();
 	
-	fb.MoveInPlaneAsync.Assembly := ADR(gAssembly6D_1);
+	fb.MoveInPlaneAsync.Assembly := ADR(gAssembly6D_Big);
 	fb.MoveInPlaneAsync.Execute := actions_substate.homeShuttles;
 	fb.MoveInPlaneAsync();
 	
@@ -126,7 +141,7 @@ PROGRAM _CYCLIC
 	gTasks.Main.State := em.StateCurrent;
 	gTasks.Main.SubState := em.SubState;
 	gTasks.Main.Mode := em.ModeID;
-	gTasks.Main.StateComplete := em.Info.WaitingFor.StateComplete;
+	gTasks.Main.StateComplete := em.Command.StateComplete;
 	gTasks.Main.StateInfo := em.StateInfo;
 	gTasks.Main.WaitingForTask := em.Info.WaitingFor.Name;
 	

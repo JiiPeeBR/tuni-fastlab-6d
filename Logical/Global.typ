@@ -3,20 +3,21 @@ TYPE
 	TaskDiagType : 	STRUCT 
 		Main : TaskEmStateInfoType;
 		Power : TaskCmStateInfoType;
+		FastDemo : TaskEmStateInfoType;
 	END_STRUCT;
 	TaskEmStateInfoType : 	STRUCT 
+		StateInfo : STRING[255];
 		State : EMPackMLStateEnum;
 		SubState : DINT;
 		Mode : EMPackMLModeEnum;
 		StateComplete : BOOL;
-		StateInfo : STRING[255];
 		WaitingForTask : STRING[255];
 		Error : GeneralErrorInfoType;
 	END_STRUCT;
 	TaskCmStateInfoType : 	STRUCT 
+		StateInfo : STRING[255];
 		State : DINT;
 		SubState : DINT;
-		StateInfo : STRING[255];
 		Error : GeneralErrorInfoType;
 	END_STRUCT;
 	GeneralErrorInfoType : 	STRUCT 

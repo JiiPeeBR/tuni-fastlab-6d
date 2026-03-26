@@ -38,7 +38,7 @@ PROGRAM _CYCLIC
 			
 			FOR i := 0 TO AUX_POWER_LAST_INDEX DO
 				// Check if unit is ready
-				IF task.AuxPowerUnit[i].StatusRunMode <> 1 THEN
+				IF task.AuxPowerUnit[i].StatusRunMode = 0 OR task.AuxPowerUnit[i].StatusRunMode = 3 THEN
 	  				local.allReadyToStart := FALSE;
 				END_IF;
 			END_FOR;

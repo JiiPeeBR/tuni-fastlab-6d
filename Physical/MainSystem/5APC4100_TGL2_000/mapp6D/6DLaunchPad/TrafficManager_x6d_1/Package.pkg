@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="File" Description="TODO: Link Assembly 6D here and Layout_x6d_1 in Assembly 6D configuration">Config_2.trafficmanager</Object>
+    <Object Type="File">Config_3.trafficobjectlist</Object>
+    <Object Type="File">Config_4.trafficmappinglist</Object>
+    <Object Type="File">Config_5.trafficrulelist</Object>
+    <Object Type="File">Config_6.trafficrecipe</Object>
+  </Objects>
+</Package>

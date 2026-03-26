@@ -85,6 +85,7 @@
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
     <Parameter ID="FunctionModel" Value="DirectControl" />
+    <Parameter ID="Supervision" Value="off" />
     <Parameter ID="OutputVoltage" Value="48000" />
     <Parameter ID="CurrentLimitation" Value="Used" />
     <Parameter ID="OutputCurrentLimit" Value="20000" />
@@ -99,6 +100,7 @@
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
     <Parameter ID="FunctionModel" Value="DirectControl" />
+    <Parameter ID="Supervision" Value="off" />
     <Parameter ID="OutputVoltage" Value="48000" />
     <Parameter ID="CurrentLimitation" Value="Used" />
     <Parameter ID="OutputCurrentLimit" Value="20000" />
@@ -113,6 +115,7 @@
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
     <Parameter ID="FunctionModel" Value="DirectControl" />
+    <Parameter ID="Supervision" Value="off" />
     <Parameter ID="OutputVoltage" Value="48000" />
     <Parameter ID="CurrentLimitation" Value="Used" />
     <Parameter ID="OutputCurrentLimit" Value="20000" />
@@ -127,6 +130,7 @@
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
     <Parameter ID="FunctionModel" Value="DirectControl" />
+    <Parameter ID="Supervision" Value="off" />
     <Parameter ID="OutputVoltage" Value="48000" />
     <Parameter ID="CurrentLimitation" Value="Used" />
     <Parameter ID="OutputCurrentLimit" Value="20000" />
@@ -141,6 +145,7 @@
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
     <Parameter ID="FunctionModel" Value="DirectControl" />
+    <Parameter ID="Supervision" Value="off" />
     <Parameter ID="OutputVoltage" Value="48000" />
     <Parameter ID="CurrentLimitation" Value="Used" />
     <Parameter ID="OutputCurrentLimit" Value="20000" />

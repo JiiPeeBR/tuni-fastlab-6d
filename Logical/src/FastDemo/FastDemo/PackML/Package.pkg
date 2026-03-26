@@ -3,7 +3,6 @@
 <Package Version="1.0.0" xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
     <Object Type="File">PackML.st</Object>
-    <Object Type="File">initialize.st</Object>
-    <Object Type="File">execute.st</Object>
+    <Object Type="File">station_S1.st</Object>
   </Objects>
 </Package>

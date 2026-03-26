@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Configuration>
+  <Element ID="TrafficManager_x6d_1" Type="trafficmanager">
+    <Selector ID="Base" Value="AssemblyAcp6D">
+      <Property ID="BaseRef" Value="gAssembly6D_Big" />
+    </Selector>
+    <Group ID="TrafficObjects">
+      <Property ID="TrafficObjectListRef[1]" Value="Stations_1" />
+      <Property ID="TrafficObjectListRef[2]" Value="Waypoints_1" />
+      <Property ID="TrafficObjectListRef[3]" Value="Gates_1" />
+      <Property ID="TrafficObjectListRef[4]" Value="Branches_1" />
+    </Group>
+    <Group ID="TrafficMapping">
+      <Property ID="TrafficMappingListRef[1]" Value="StationsMapping_1" />
+      <Property ID="TrafficMappingListRef[2]" Value="WaypointsMapping_1" />
+      <Property ID="TrafficMappingListRef[3]" Value="GatesMapping_1" />
+      <Property ID="TrafficMappingListRef[4]" Value="BranchesMapping_1" />
+    </Group>
+    <Group ID="TrafficRules">
+      <Property ID="TrafficRuleListRef[1]" Value="Rules_1" />
+    </Group>
+    <Group ID="TrafficRecipes">
+      <Property ID="TrafficRecipeRef[1]" Value="Recipe_1" />
+    </Group>
+  </Element>
+</Configuration>

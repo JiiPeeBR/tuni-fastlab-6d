@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?AutomationStudio FileVersion="4.9"?>
 <Configuration>
-  <Element ID="gAssembly6D_1" Type="assembly6d">
+  <Element ID="gAssembly6D_Big" Type="assembly6d">
     <Property ID="Simulation6D" Value="SimOff" />
     <Group ID="Ethernet6D">
       <Property ID="IpAddress" Value="192.168.1.100" />
@@ -9,7 +9,7 @@
       <Property ID="Gateway" Value="192.168.1.1" />
     </Group>
     <Group ID="Shuttles">
-      <Property ID="MaxShuttleCount" Value="35" Description="Maximum count of shuttles in the assembly" />
+      <Property ID="MaxShuttleCount" Value="14" Description="Maximum count of shuttles in the assembly" />
       <Property ID="ShuttleIDMode" Value="RealTimeID" />
       <Property ID="RealModeDetectionType" Value="Any" />
       <Group ID="DefaultPosition">
@@ -66,7 +66,7 @@
       <Property ID="Output" Value="gCommOutput" />
     </Group>
     <Group ID="Layout">
-      <Property ID="Layout6D[1]" Value="Layout6D_BIG" />
+      <Property ID="Layout6D[1]" Value="Layout6D_Big" />
     </Group>
   </Element>
 </Configuration>
