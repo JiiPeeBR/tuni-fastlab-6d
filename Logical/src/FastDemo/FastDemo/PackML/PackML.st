@@ -28,15 +28,33 @@ ACTION PackML_state_machine:
             em.Command.StateComplete := TRUE;
 
         STATE_RESETTING:
-            em.StateInfo := 'Reset traffic control errors';
-			// -----------------------------------------------------------------
-			actions_substate.error_reset := TRUE;
+			CASE em.SubState OF
+				0:
+					em.StateInfo := 'Reset traffic control errors';
+					// -----------------------------------------------------------------
+					actions_state.error_reset := TRUE;
+					IF NOT fb.TrafficControl.Error THEN
+	  					em.SubState := 10;
+					END_IF;
+					
+				10:
+					em.StateInfo := 'Delete all macros';
+					// -----------------------------------------------------------------
+					actions_substate.macro_delete := TRUE;
+					IF fb.MacroDelete.Done THEN
+						FOR station_num := 0 TO STATION_COUNT DO
+	  						stations[station_num].Macro.Shuttle.controlif := 0;
+						END_FOR;
+						em.SubState := 20;
+					END_IF;
+				
+				20:
+					em.StateInfo := 'Reset complete';
+					// -----------------------------------------------------------------	
+					em.Command.StateComplete := TRUE;
+			END_CASE;
 			
-			IF NOT fb.TrafficControl.Error THEN
-				em.Command.StateComplete := TRUE;
-			END_IF;
-			
-        STATE_IDLE:
+		STATE_IDLE:
             em.StateInfo := '';
             // -----------------------------------------------------------------
             em.Command.StateComplete := TRUE;
@@ -75,6 +93,7 @@ ACTION PackML_state_machine:
 			em.Command.StateComplete := TRUE;
 			
 			execute_station_S1;
+			execute_station_S2;
           
         STATE_COMPLETING:
             em.StateInfo := '';

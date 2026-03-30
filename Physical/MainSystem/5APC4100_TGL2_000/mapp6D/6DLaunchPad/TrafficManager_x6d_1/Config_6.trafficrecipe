@@ -14,9 +14,7 @@
     </Group>
     <Group ID="ProcessStep[2]">
       <Property ID="StationName" Value="S2" />
-      <Selector ID="Process" Value="DwellTime">
-        <Property ID="DwellTime" Value="1" />
-      </Selector>
+      <Selector ID="Process" Value="UserDefined" />
       <Selector ID="Transition" Value="Next">
         <Property ID="ToStation" Value="B1" />
         <Property ID="Velocity" Value="2" />

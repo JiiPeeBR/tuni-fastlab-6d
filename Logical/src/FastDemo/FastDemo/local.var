@@ -12,5 +12,13 @@ VAR
 END_VAR
 (*----- Stations ----*)
 VAR
-	station_S1 : FastDemoStationS1Type;
+	station_num : {REDUND_UNREPLICABLE} DINT := 0;
+	str : STRING[80];
+END_VAR
+VAR CONSTANT
+	STATION_COUNT : DINT := 7;
+END_VAR
+VAR
+	stations : ARRAY[0..STATION_COUNT] OF FastDemoStationType;
+	station : REFERENCE TO FastDemoStationType;
 END_VAR
