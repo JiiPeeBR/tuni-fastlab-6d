@@ -94,6 +94,13 @@ PROGRAM _CYCLIC
 	fb.MacroDelete.Command := mcACP6D_MACRO_DELETE_ALL;
 	fb.MacroDelete();
 	
+	fb.GroupGet.Assembly := ADR(gAssembly6D_Big);
+	fb.GroupGet.Enable := actions_state.group_get_enable;
+	fb.GroupGet();
+	
+	fb.GroupDelete.Execute := actions_substate.group_delete;
+	fb.GroupDelete();
+	
 	// Perform all common station operations
 	FOR station_num := 0 TO STATION_COUNT DO
 		station ACCESS ADR(stations[station_num]);
@@ -141,10 +148,6 @@ PROGRAM _CYCLIC
 		station.Group.GroupClear.Execute := station.Commands.Group.Clear;
 		station.Group.GroupClear.ShuttleGroup := ADR(station.Group.ShuttleGroup);
 		station.Group.GroupClear();
-		
-		station.Group.GroupDelete.Execute := station.Commands.Group.Delete;
-		station.Group.GroupDelete.ShuttleGroup := ADR(station.Group.ShuttleGroup);
-		station.Group.GroupDelete();
 		
 		station.Group.GroupAddShuttle.Execute := station.Commands.Group.AddShuttle;
 		station.Group.GroupAddShuttle.ShuttleGroup := ADR(station.Group.ShuttleGroup);

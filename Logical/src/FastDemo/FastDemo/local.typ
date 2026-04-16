@@ -6,6 +6,8 @@ TYPE
 		TrafficMonitor : MpTrafficMonitor;
 		rtStateComplete : R_TRIG;
 		MacroDelete : MC_BR_MacroDelete_Acp6D;
+		GroupGet : MC_BR_AsmGetShGroup_Acp6D;
+		GroupDelete : MC_BR_ShGroupDelete_Acp6D;
 	END_STRUCT;
 	FastDemoLocalType : 	STRUCT 
 		lastState : DINT;
@@ -15,6 +17,7 @@ TYPE
 	END_STRUCT;
 	FastDemoActionsStateType : 	STRUCT 
 		error_reset : BOOL;
+		group_get_enable : BOOL;
 	END_STRUCT;
 	FastDemoActionsSubstateType : 	STRUCT 
 		traffic_activate_recipe : BOOL; (*Task actions are not automatically reset*)
@@ -24,6 +27,7 @@ TYPE
 		traffic_resume : BOOL;
 		traffic_stop : BOOL;
 		macro_delete : BOOL;
+		group_delete : BOOL;
 	END_STRUCT;
 	FastDemoHmiType : 	STRUCT 
 		isRunning : BOOL;
@@ -92,6 +96,5 @@ TYPE
 		GroupClear : MC_BR_ShGroupClear_Acp6D;
 		GroupCoupleCtrl : MC_BR_ShGroupCoupleCtrl_Acp6D;
 		GroupAddShuttle : MC_BR_ShGroupAddShuttle_Acp6D;
-		GroupDelete : MC_BR_ShGroupDelete_Acp6D;
 	END_STRUCT;
 END_TYPE
