@@ -46,7 +46,7 @@
         <Property ID="SourceRef" Value="S6" />
         <Group ID="Destinations">
           <Selector ID="To[1]" Value="Waypoint">
-            <Property ID="DestinationRef" Value="G9" />
+            <Property ID="DestinationRef" Value="G16" />
           </Selector>
         </Group>
       </Selector>
@@ -65,41 +65,40 @@
       <Selector ID="Source" Value="Station">
         <Property ID="SourceRef" Value="S7" />
         <Group ID="Destinations">
-          <Selector ID="To[1]" Value="Waypoint">
-            <Property ID="DestinationRef" Value="G12" />
-          </Selector>
-        </Group>
-      </Selector>
-    </Group>
-  </Element>
-  <Element ID="WaypointsMapping_1" Type="trafficmappinglist">
-    <Group ID="TrafficMapping[1]">
-      <Selector ID="Source" Value="Waypoint">
-        <Property ID="SourceRef" Value="W1" />
-        <Group ID="Destinations">
           <Selector ID="To[1]" Value="Station">
-            <Property ID="DestinationRef" Value="S4" />
-          </Selector>
-          <Selector ID="To[2]" Value="Station">
             <Property ID="DestinationRef" Value="S1" />
           </Selector>
         </Group>
       </Selector>
     </Group>
-    <Group ID="TrafficMapping[2]">
-      <Selector ID="Source" Value="Waypoint">
-        <Property ID="SourceRef" Value="W3" />
+    <Group ID="TrafficMapping[8]">
+      <Selector ID="Source" Value="Station">
+        <Property ID="SourceRef" Value="B1" />
         <Group ID="Destinations">
-          <Selector ID="To[1]" Value="Waypoint">
-            <Property ID="DestinationRef" Value="W1" />
+          <Selector ID="To[1]" Value="Station">
+            <Property ID="DestinationRef" Value="S3" />
           </Selector>
           <Selector ID="To[2]" Value="Waypoint">
-            <Property ID="DestinationRef" Value="G5" />
+            <Property ID="DestinationRef" Value="G13" />
+          </Selector>
+        </Group>
+      </Selector>
+    </Group>
+    <Group ID="TrafficMapping[9]">
+      <Selector ID="Source" Value="Station">
+        <Property ID="SourceRef" Value="B2" />
+        <Group ID="Destinations">
+          <Selector ID="To[1]" Value="Station">
+            <Property ID="DestinationRef" Value="S7" />
+          </Selector>
+          <Selector ID="To[2]" Value="Waypoint">
+            <Property ID="DestinationRef" Value="G9" />
           </Selector>
         </Group>
       </Selector>
     </Group>
   </Element>
+  <Element ID="WaypointsMapping_1" Type="trafficmappinglist" />
   <Element ID="GatesMapping_1" Type="trafficmappinglist">
     <Group ID="TrafficMapping[1]">
       <Selector ID="Source" Value="Waypoint">
@@ -115,8 +114,8 @@
       <Selector ID="Source" Value="Waypoint">
         <Property ID="SourceRef" Value="G9" />
         <Group ID="Destinations">
-          <Selector ID="To[1]" Value="Station">
-            <Property ID="DestinationRef" Value="S7" />
+          <Selector ID="To[1]" Value="Waypoint">
+            <Property ID="DestinationRef" Value="G15" />
           </Selector>
         </Group>
       </Selector>
@@ -126,7 +125,7 @@
         <Property ID="SourceRef" Value="G6" />
         <Group ID="Destinations">
           <Selector ID="To[1]" Value="Waypoint">
-            <Property ID="DestinationRef" Value="W3" />
+            <Property ID="DestinationRef" Value="G5" />
           </Selector>
         </Group>
       </Selector>
@@ -153,16 +152,6 @@
     </Group>
     <Group ID="TrafficMapping[6]">
       <Selector ID="Source" Value="Waypoint">
-        <Property ID="SourceRef" Value="G12" />
-        <Group ID="Destinations">
-          <Selector ID="To[1]" Value="Waypoint">
-            <Property ID="DestinationRef" Value="W3" />
-          </Selector>
-        </Group>
-      </Selector>
-    </Group>
-    <Group ID="TrafficMapping[7]">
-      <Selector ID="Source" Value="Waypoint">
         <Property ID="SourceRef" Value="G1" />
         <Group ID="Destinations">
           <Selector ID="To[1]" Value="Station">
@@ -171,7 +160,7 @@
         </Group>
       </Selector>
     </Group>
-    <Group ID="TrafficMapping[8]">
+    <Group ID="TrafficMapping[7]">
       <Selector ID="Source" Value="Waypoint">
         <Property ID="SourceRef" Value="G8" />
         <Group ID="Destinations">
@@ -181,17 +170,32 @@
         </Group>
       </Selector>
     </Group>
-  </Element>
-  <Element ID="BranchesMapping_1" Type="trafficmappinglist">
-    <Group ID="TrafficMapping[1]">
-      <Selector ID="Source" Value="Station">
-        <Property ID="SourceRef" Value="B1" />
+    <Group ID="TrafficMapping[8]">
+      <Selector ID="Source" Value="Waypoint">
+        <Property ID="SourceRef" Value="G13" />
         <Group ID="Destinations">
           <Selector ID="To[1]" Value="Station">
-            <Property ID="DestinationRef" Value="S3" />
+            <Property ID="DestinationRef" Value="S4" />
           </Selector>
-          <Selector ID="To[2]" Value="Waypoint">
-            <Property ID="DestinationRef" Value="W1" />
+        </Group>
+      </Selector>
+    </Group>
+    <Group ID="TrafficMapping[9]">
+      <Selector ID="Source" Value="Waypoint">
+        <Property ID="SourceRef" Value="G15" />
+        <Group ID="Destinations">
+          <Selector ID="To[1]" Value="Station">
+            <Property ID="DestinationRef" Value="S1" />
+          </Selector>
+        </Group>
+      </Selector>
+    </Group>
+    <Group ID="TrafficMapping[10]">
+      <Selector ID="Source" Value="Waypoint">
+        <Property ID="SourceRef" Value="G16" />
+        <Group ID="Destinations">
+          <Selector ID="To[1]" Value="Station">
+            <Property ID="DestinationRef" Value="B2" />
           </Selector>
         </Group>
       </Selector>

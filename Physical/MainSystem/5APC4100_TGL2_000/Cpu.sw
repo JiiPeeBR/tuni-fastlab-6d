@@ -77,5 +77,6 @@
     <LibraryObject Name="AsEPL" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="ArSsl" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="MpTraffic" Source="Libraries.MpTraffic.lby" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="FastLib" Source="src.FastDemo.FastLib.lby" Memory="UserROM" Language="IEC" Debugging="true" />
   </Libraries>
 </SwConfiguration>

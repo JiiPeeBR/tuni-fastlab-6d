@@ -54,6 +54,7 @@ PROGRAM _CYCLIC
 			stations[station_num].State := 0;
 			brsmemset(ADR(stations[station_num].Var), 0, SIZEOF(stations[station_num].Var));
 			brsmemset(ADR(stations[station_num].Commands), 0, SIZEOF(stations[station_num].Commands));
+			stations[station_num].Macro.Execute := FALSE;
 		END_FOR;
 	END_IF;
 		
@@ -95,14 +96,18 @@ PROGRAM _CYCLIC
 	
 	// Perform all common station operations
 	FOR station_num := 0 TO STATION_COUNT DO
-		str := DINT_TO_STRING(station_num);
 		station ACCESS ADR(stations[station_num]);
 		
 		// Station control
 		station.Control.MpLink := ADR(TrafficManager_x6d_1);
 		station.Control.ErrorReset := actions_state.error_reset;
-		station.Control.Release := station.Commands.Release;
+		station.Control.Release := station.Operation.StationQueueControl.ReleaseShuttle;
 		station.Control();
+		
+		station.Operation.StationQueueControl.Enable := TRUE;
+		station.Operation.StationQueueControl.ReleaseShuttles := station.Commands.Release;
+		station.Operation.StationQueueControl.pStationControl := ADR(station.Control);
+		station.Operation.StationQueueControl();
 		
 		// Movement 
 		station.Operation.MoveInPlane.Execute := station.Commands.MoveInPlane;
@@ -114,21 +119,40 @@ PROGRAM _CYCLIC
 		station.Operation.Spin.Execute := station.Commands.Spin;
 		station.Operation.Spin();
 		
-		// Macro
-		station.Macro.Name := CONCAT('S', str);
-		
+		// Macro		
 		station.Macro.MacroCreate.Assembly := ADR(gAssembly6D_Big);
 		station.Macro.MacroCreate.Parameters.Name := station.Macro.Name;
-		station.Macro.MacroCreate.Execute := station.Commands.MacroCreate;
+		station.Macro.MacroCreate.Execute := station.Commands.Macro.Create;
 		station.Macro.MacroCreate();
 		
 		station.Macro.MacroSave.Shuttle := ADR(station.Macro.Shuttle);
-		station.Macro.MacroSave.Execute := station.Commands.MacroSave;
+		station.Macro.MacroSave.Execute := station.Commands.Macro.Save;
 		station.Macro.MacroSave();
 		
 		station.Macro.MacroRun.Name := station.Macro.Name;
-		station.Macro.MacroRun.Execute := station.Commands.MacroRun;
+		station.Macro.MacroRun.Execute := station.Macro.Execute;
 		station.Macro.MacroRun();
+		
+		// Group
+		station.Group.GroupCreate.Execute := station.Commands.Group.Create;
+		station.Group.GroupCreate.Assembly := ADR(gAssembly6D_Big);
+		station.Group.GroupCreate();
+		
+		station.Group.GroupClear.Execute := station.Commands.Group.Clear;
+		station.Group.GroupClear.ShuttleGroup := ADR(station.Group.ShuttleGroup);
+		station.Group.GroupClear();
+		
+		station.Group.GroupDelete.Execute := station.Commands.Group.Delete;
+		station.Group.GroupDelete.ShuttleGroup := ADR(station.Group.ShuttleGroup);
+		station.Group.GroupDelete();
+		
+		station.Group.GroupAddShuttle.Execute := station.Commands.Group.AddShuttle;
+		station.Group.GroupAddShuttle.ShuttleGroup := ADR(station.Group.ShuttleGroup);
+		station.Group.GroupAddShuttle();
+		
+		station.Group.GroupCoupleCtrl.Execute := station.Commands.Group.ChangeCoupling;
+		station.Group.GroupCoupleCtrl.ShuttleGroup := ADR(station.Group.ShuttleGroup);
+		station.Group.GroupCoupleCtrl();
 	END_FOR;
 	
 	// Task outputs

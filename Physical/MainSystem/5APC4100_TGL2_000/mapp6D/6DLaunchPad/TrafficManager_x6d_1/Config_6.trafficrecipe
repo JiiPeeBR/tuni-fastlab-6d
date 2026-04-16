@@ -9,7 +9,7 @@
       <Selector ID="Transition" Value="Next">
         <Property ID="ToStation" Value="S2" />
         <Property ID="Velocity" Value="2" />
-        <Property ID="Acceleration" Value="10" />
+        <Property ID="Acceleration" Value="18" />
       </Selector>
     </Group>
     <Group ID="ProcessStep[2]">
@@ -18,7 +18,7 @@
       <Selector ID="Transition" Value="Next">
         <Property ID="ToStation" Value="B1" />
         <Property ID="Velocity" Value="2" />
-        <Property ID="Acceleration" Value="10" />
+        <Property ID="Acceleration" Value="18" />
       </Selector>
     </Group>
     <Group ID="ProcessStep[3]">
@@ -31,61 +31,26 @@
           <Property ID="ShuttleCount" Value="1" />
           <Property ID="ToStation" Value="S3" />
           <Property ID="Velocity" Value="2" />
-          <Property ID="Acceleration" Value="10" />
+          <Property ID="Acceleration" Value="18" />
         </Group>
         <Group ID="Branch[2]">
           <Property ID="ShuttleCount" Value="1" />
           <Property ID="ToStation" Value="S4" />
           <Property ID="Velocity" Value="2" />
-          <Property ID="Acceleration" Value="10" />
+          <Property ID="Acceleration" Value="18" />
         </Group>
       </Selector>
     </Group>
     <Group ID="ProcessStep[4]">
       <Property ID="StationName" Value="S3" />
-      <Selector ID="Process" Value="DwellTime">
-        <Property ID="DwellTime" Value="1" />
-      </Selector>
+      <Selector ID="Process" Value="UserDefined" />
       <Selector ID="Transition" Value="Next">
         <Property ID="ToStation" Value="S5" />
         <Property ID="Velocity" Value="2" />
-        <Property ID="Acceleration" Value="10" />
+        <Property ID="Acceleration" Value="18" />
       </Selector>
     </Group>
     <Group ID="ProcessStep[5]">
-      <Property ID="StationName" Value="S5" />
-      <Selector ID="Process" Value="DwellTime">
-        <Property ID="DwellTime" Value="1" />
-      </Selector>
-      <Selector ID="Transition" Value="Next">
-        <Property ID="ToStation" Value="S6" />
-        <Property ID="Velocity" Value="2" />
-        <Property ID="Acceleration" Value="10" />
-      </Selector>
-    </Group>
-    <Group ID="ProcessStep[6]">
-      <Property ID="StationName" Value="S6" />
-      <Selector ID="Process" Value="DwellTime">
-        <Property ID="DwellTime" Value="1" />
-      </Selector>
-      <Selector ID="Transition" Value="Next">
-        <Property ID="ToStation" Value="S7" />
-        <Property ID="Velocity" Value="2" />
-        <Property ID="Acceleration" Value="10" />
-      </Selector>
-    </Group>
-    <Group ID="ProcessStep[7]">
-      <Property ID="StationName" Value="S7" />
-      <Selector ID="Process" Value="DwellTime">
-        <Property ID="DwellTime" Value="1" />
-      </Selector>
-      <Selector ID="Transition" Value="Next">
-        <Property ID="ToStation" Value="S1" />
-        <Property ID="Velocity" Value="2" />
-        <Property ID="Acceleration" Value="10" />
-      </Selector>
-    </Group>
-    <Group ID="ProcessStep[8]">
       <Property ID="StationName" Value="S4" />
       <Selector ID="Process" Value="DwellTime">
         <Property ID="DwellTime" Value="1" />
@@ -93,7 +58,58 @@
       <Selector ID="Transition" Value="Next">
         <Property ID="ToStation" Value="S5" />
         <Property ID="Velocity" Value="2" />
-        <Property ID="Acceleration" Value="10" />
+        <Property ID="Acceleration" Value="18" />
+      </Selector>
+    </Group>
+    <Group ID="ProcessStep[6]">
+      <Property ID="StationName" Value="S5" />
+      <Selector ID="Process" Value="UserDefined" />
+      <Selector ID="Transition" Value="Next">
+        <Property ID="ToStation" Value="S6" />
+        <Property ID="Velocity" Value="2" />
+        <Property ID="Acceleration" Value="18" />
+      </Selector>
+    </Group>
+    <Group ID="ProcessStep[7]">
+      <Property ID="StationName" Value="S6" />
+      <Selector ID="Process" Value="DwellTime">
+        <Property ID="DwellTime" Value="1" />
+      </Selector>
+      <Selector ID="Transition" Value="Next">
+        <Property ID="ToStation" Value="B2" />
+        <Property ID="Velocity" Value="2" />
+        <Property ID="Acceleration" Value="18" />
+      </Selector>
+    </Group>
+    <Group ID="ProcessStep[8]">
+      <Property ID="StationName" Value="B2" />
+      <Selector ID="Process" Value="DwellTime">
+        <Property ID="DwellTime" Value="0" />
+      </Selector>
+      <Selector ID="Transition" Value="Distribution">
+        <Group ID="Branch[1]">
+          <Property ID="ShuttleCount" Value="1" />
+          <Property ID="ToStation" Value="S7" />
+          <Property ID="Velocity" Value="2" />
+          <Property ID="Acceleration" Value="18" />
+        </Group>
+        <Group ID="Branch[2]">
+          <Property ID="ShuttleCount" Value="1" />
+          <Property ID="ToStation" Value="S1" />
+          <Property ID="Velocity" Value="2" />
+          <Property ID="Acceleration" Value="18" />
+        </Group>
+      </Selector>
+    </Group>
+    <Group ID="ProcessStep[9]">
+      <Property ID="StationName" Value="S7" />
+      <Selector ID="Process" Value="DwellTime">
+        <Property ID="DwellTime" Value="1" />
+      </Selector>
+      <Selector ID="Transition" Value="Next">
+        <Property ID="ToStation" Value="S1" />
+        <Property ID="Velocity" Value="2" />
+        <Property ID="Acceleration" Value="18" />
       </Selector>
     </Group>
   </Element>

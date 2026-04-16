@@ -1,15 +1,15 @@
 
-ACTION execute_station_S2:
+ACTION execute_station_S3:
 	// Point station reference to this station
-	station ACCESS ADR(stations[2]);
+	station ACCESS ADR(stations[3]);
 			
 	// Station control logic and mapping
 	station.Control.Enable := TRUE;
-	station.Control.Station := ADR(S2);
-	station.Control.To := ADR(B1);
-	station.Macro.Name := 'S2';
+	station.Control.Station := ADR(S3);
+	station.Control.To := ADR(S5);
+	station.Macro.Name := 'S3';
 	station.Operation.StationQueueControl.ShuttleCapacity := 1;
-	
+				
 	CASE station.State OF
 		0:	
 			station.Var.StateInfo := 'Activating station';
@@ -30,7 +30,7 @@ ACTION execute_station_S2:
 			station.Var.StateInfo := 'Create new macro';
 			// -----------------------------------------------------------------
 			station.Commands.Macro.Create := TRUE;
-		
+			
 			IF station.Macro.MacroCreate.Done THEN
 				station.Macro.Shuttle := station.Macro.MacroCreate.MacroShuttle;
 				station.State := 10;
@@ -47,17 +47,20 @@ ACTION execute_station_S2:
 			station.Operation.MoveInPlane.Parameters.Path :=  mcACP6D_PATH_DIRECT;
 			station.Operation.MoveInPlane.Shuttle := ADR(station.Macro.Shuttle);
 			
-			station.Operation.Spin.Parameters.Acceleration := 35.0;
-			station.Operation.Spin.Parameters.Angle := 0;
-			station.Operation.Spin.Parameters.Duration := 2.0;
-			station.Operation.Spin.Shuttle := ADR(station.Macro.Shuttle);
+			station.Operation.MoveArc.Parameters.Acceleration := 18;
+			station.Operation.MoveArc.Parameters.Velocity := 1.5;
+			station.Operation.MoveArc.Parameters.EndVelocity := 1.5;
+			station.Operation.MoveArc.Parameters.Mode :=  mcACP6D_MOVE_RELATIVE;
+			station.Operation.MoveArc.Parameters.Option := mcACP6D_ARC_ANGULAR;
+			station.Operation.MoveArc.Parameters.Angular.Angle := brmPI;
+			station.Operation.MoveArc.Shuttle := ADR(station.Macro.Shuttle);
 			
 			station.State := station.State + 1;
 		11:
 			station.Var.StateInfo := 'Move to position 1';
 			// -----------------------------------------------------------------
 			station.Operation.MoveInPlane.Parameters.Position.X := 0.840;
-			station.Operation.MoveInPlane.Parameters.Position.Y := 0.120;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 1.680;
 			
 			station.Commands.MoveInPlane := TRUE;
 			
@@ -65,57 +68,75 @@ ACTION execute_station_S2:
 				station.State := station.State + 1;
 			END_IF;
 		12:
-			station.Var.StateInfo := 'Spin 1';
+			station.Var.StateInfo := '';
 			// -----------------------------------------------------------------
-			station.Operation.Spin.Parameters.Velocity := 22.0;
-			station.Commands.Spin := TRUE;
+			station.Operation.MoveArc.Parameters.Direction := mcACP6D_ARC_COUNTER_CLOCKWISE;
+			station.Operation.MoveArc.Parameters.Angular.Center.X := 0;
+			station.Operation.MoveArc.Parameters.Angular.Center.Y := 0.060;
+			station.Commands.MoveArc := TRUE;
 			
-			IF station.Operation.Spin.Acknowledge THEN
+			IF station.Operation.MoveArc.Acknowledge THEN
 				station.State := station.State + 1;	
 			END_IF;
 		13:
-			station.Var.StateInfo := 'Move position 2';
-			// -----------------------------------------------------------------			
-			station.Operation.MoveInPlane.Parameters.Position.X := 0.840;
-			station.Operation.MoveInPlane.Parameters.Position.Y := 0.360;
-			
-			station.Commands.MoveInPlane := TRUE;
-			
-			IF station.Operation.MoveInPlane.Acknowledge THEN
-				station.State := station.State + 1;
-			END_IF;	
-		14:
-			station.Var.StateInfo := 'Spin 2';
+			station.Var.StateInfo := '';
 			// -----------------------------------------------------------------
-			station.Operation.Spin.Parameters.Velocity := -22.0;
-			station.Commands.Spin := TRUE;
+			station.Operation.MoveArc.Parameters.Direction := mcACP6D_ARC_COUNTER_CLOCKWISE;
+			station.Operation.MoveArc.Parameters.Angular.Center.X := 0;
+			station.Operation.MoveArc.Parameters.Angular.Center.Y := -0.060;
+			station.Commands.MoveArc := TRUE;
 			
-			IF station.Operation.Spin.Acknowledge THEN
+			IF station.Operation.MoveArc.Acknowledge THEN
 				station.State := station.State + 1;	
-			END_IF;	
+			END_IF;
+		14:
+			station.Var.StateInfo := '';
+			// -----------------------------------------------------------------
+			station.Operation.MoveArc.Parameters.Direction := mcACP6D_ARC_CLOCKWISE;
+			station.Operation.MoveArc.Parameters.Angular.Center.X := 0;
+			station.Operation.MoveArc.Parameters.Angular.Center.Y := -0.060;
+			station.Commands.MoveArc := TRUE;
+			
+			IF station.Operation.MoveArc.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;
+			
 		15:
+			station.Var.StateInfo := '';
+			// -----------------------------------------------------------------
+			station.Operation.MoveArc.Parameters.Direction := mcACP6D_ARC_CLOCKWISE;
+			station.Operation.MoveArc.Parameters.Angular.Center.X := 0;
+			station.Operation.MoveArc.Parameters.Angular.Center.Y := 0.060;
+			station.Commands.MoveArc := TRUE;
+			
+			IF station.Operation.MoveArc.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;
+			
+		16:
 			station.Var.StateInfo := 'Check if sequence complete';
 			// -----------------------------------------------------------------
 			station.Var.LoopNum := station.Var.LoopNum + 1;
 			
-			IF station.Var.LoopNum > 0 THEN
+			IF station.Var.LoopNum > 5 THEN
 				// Station sequence complete
 				station.State := station.State + 1;
 			ELSE
 				// New loop of moves
-				station.State :=  11;
+				station.State :=  12;
 			END_IF;	
-		16:
+		17:
 			station.Var.StateInfo := 'Move to last position';
 			// -----------------------------------------------------------------
-			station.Operation.MoveInPlane.Parameters.Position.X := 0.840;
-			station.Operation.MoveInPlane.Parameters.Position.Y := 0.360;
+			station.Operation.MoveArc.Parameters.Direction := mcACP6D_ARC_COUNTER_CLOCKWISE;
+			station.Operation.MoveArc.Parameters.Angular.Center.X := 0;
+			station.Operation.MoveArc.Parameters.Angular.Center.Y := 0.060;
+			station.Operation.MoveArc.Parameters.EndVelocity := 0;
+			station.Commands.MoveArc := TRUE;
 			
-			station.Commands.MoveInPlane := TRUE;
-			
-			IF station.Operation.MoveInPlane.Acknowledge THEN
+			IF station.Operation.MoveArc.Acknowledge THEN
 				station.State := 100;	
-			END_IF;		
+			END_IF;	
 		100:	
 			station.Var.StateInfo := 'Save macro';
 			// -----------------------------------------------------------------
@@ -140,10 +161,10 @@ ACTION execute_station_S2:
 			IF station.Macro.MacroRun.Done THEN
 				station.Macro.Execute := FALSE;
 				station.State := 1000;
-			END_IF;				
+			END_IF;		
 		1000:
 			station.Var.StateInfo := 'Release shuttle to traffic network';
-			// -----------------------------------------------------------------'
+			// -----------------------------------------------------------------
 			station.Operation.StationQueueControl.ShuttleList[0] := station.Shuttles[0];
 			station.Commands.Release := TRUE;
 			

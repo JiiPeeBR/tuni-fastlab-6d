@@ -7,6 +7,8 @@ ACTION execute_station_S1:
 	station.Control.Enable := TRUE;
 	station.Control.Station := ADR(S1);
 	station.Control.To := ADR(S2);
+	station.Macro.Name := 'S1';
+	station.Operation.StationQueueControl.ShuttleCapacity := 1;
 		
 	CASE station.State OF
 		0:	
@@ -29,13 +31,12 @@ ACTION execute_station_S1:
 		2:
 			station.Var.StateInfo := 'Create new macro';
 			// -----------------------------------------------------------------
-			station.Commands.MacroCreate := TRUE;
+			station.Commands.Macro.Create := TRUE;
 			
 			IF station.Macro.MacroCreate.Done THEN
 				station.Macro.Shuttle := station.Macro.MacroCreate.MacroShuttle;
 	  			station.State := 10;
 			END_IF;
-			
 		10:
 			station.Var.StateInfo := 'Movement settings';
 			// -----------------------------------------------------------------
@@ -44,12 +45,11 @@ ACTION execute_station_S1:
 			station.Operation.MoveInPlane.Parameters.Velocity := 2;
 			station.Operation.MoveInPlane.Parameters.Acceleration := 18;
 			station.Operation.MoveInPlane.Parameters.EndVelocity := 2;
-			station.Operation.MoveInPlane.Parameters.Radius := 0.035;
+			station.Operation.MoveInPlane.Parameters.Radius := 0.00;
 			
 			station.Operation.MoveInPlane.Shuttle := ADR(station.Macro.Shuttle);
 			
 			station.State := station.State + 1;
-
 		11:
 			station.Var.StateInfo := 'Move to initial position';
 			// -----------------------------------------------------------------			
@@ -62,7 +62,6 @@ ACTION execute_station_S1:
 			IF station.Operation.MoveInPlane.Acknowledge THEN
 				station.State := station.State + 1;
 			END_IF;
-	
 		12:
 			station.Var.StateInfo := 'Move position 2';
 			// -----------------------------------------------------------------
@@ -75,7 +74,6 @@ ACTION execute_station_S1:
 			IF station.Operation.MoveInPlane.Acknowledge THEN
 				station.State := station.State + 1;	
 			END_IF;
-		
 		13:
 			station.Var.StateInfo := 'Move positon 3';
 			// -----------------------------------------------------------------			
@@ -88,7 +86,6 @@ ACTION execute_station_S1:
 			IF station.Operation.MoveInPlane.Acknowledge THEN
 				station.State := station.State + 1;	
 			END_IF;
-		
 		14:
 			station.Var.StateInfo := 'Move position 4';
 			// -----------------------------------------------------------------
@@ -100,8 +97,7 @@ ACTION execute_station_S1:
 			
 			IF station.Operation.MoveInPlane.Acknowledge THEN
 				station.State := station.State + 1;	
-			END_IF;
-				
+			END_IF;		
 		15:
 			station.Var.StateInfo := 'Check if sequence complete';
 			// -----------------------------------------------------------------
@@ -114,7 +110,6 @@ ACTION execute_station_S1:
 				// New loop of moves
 				station.State :=  11;
 			END_IF;
-		
 		16:
 			station.Var.StateInfo := 'Last position of sequence';
 			// -----------------------------------------------------------------
@@ -126,8 +121,7 @@ ACTION execute_station_S1:
 			
 			IF station.Operation.MoveInPlane.Acknowledge THEN
 				station.State := station.State + 1;		
-			END_IF;
-			
+			END_IF;	
 		17:
 			station.Var.StateInfo := 'Last position of sequence';
 			// -----------------------------------------------------------------
@@ -141,39 +135,38 @@ ACTION execute_station_S1:
 			IF station.Operation.MoveInPlane.Acknowledge THEN
 				station.State := 100;	
 			END_IF;
-		
 		100:	
 			station.Var.StateInfo := 'Save macro';
 			// -----------------------------------------------------------------
-			station.Commands.MacroSave := TRUE;
+			station.Commands.Macro.Save := TRUE;
 			
 			IF station.Macro.MacroSave.Done THEN
 				station.State := 200;
-			END_IF;
-			
+			END_IF;	
 		200:	
 			station.Var.StateInfo := 'Waiting for shuttle to arrive at station';
 			// -----------------------------------------------------------------
 			IF station.Control.Info.Occupied THEN
-				station.Macro.MacroRun.Shuttle := ADR(station.Control.SelectedShuttle.Shuttle6D);
+				station.Shuttles[0] := station.Control.Info.LastArrivedShuttle;
+				station.Macro.MacroRun.Shuttle := ADR(station.Shuttles[0].Shuttle6D);
 				station.State := station.State + 1;	
 			END_IF;
-			
 		201:	
 			station.Var.StateInfo := 'Wait shuttle to complete its moves';
 			// -----------------------------------------------------------------
-			station.Commands.MacroRun := TRUE;
+			station.Macro.Execute := TRUE;
 			
 			IF station.Macro.MacroRun.Done THEN
-				station.State := 1000;	
-			END_IF;
-					
+				station.Macro.Execute := FALSE;
+				station.State := 1000;
+			END_IF;			
 		1000:
 			station.Var.StateInfo := 'Release shuttle to traffic network';
 			// -----------------------------------------------------------------
+			station.Operation.StationQueueControl.ShuttleList[0] := station.Shuttles[0];
 			station.Commands.Release := TRUE;
 			
-			IF station.Control.ReleaseDone THEN
+			IF station.Operation.StationQueueControl.ShuttleReleaseDone THEN
 				station.State := 0;
 			END_IF;
 	END_CASE;

@@ -5,5 +5,7 @@
     <Object Type="File">PackML.st</Object>
     <Object Type="File">station_S1.st</Object>
     <Object Type="File">station_S2.st</Object>
+    <Object Type="File">station_S3.st</Object>
+    <Object Type="File">station_S5.st</Object>
   </Objects>
 </Package>

@@ -9,13 +9,11 @@
       <Property ID="TrafficObjectListRef[1]" Value="Stations_1" />
       <Property ID="TrafficObjectListRef[2]" Value="Waypoints_1" />
       <Property ID="TrafficObjectListRef[3]" Value="Gates_1" />
-      <Property ID="TrafficObjectListRef[4]" Value="Branches_1" />
     </Group>
     <Group ID="TrafficMapping">
       <Property ID="TrafficMappingListRef[1]" Value="StationsMapping_1" />
       <Property ID="TrafficMappingListRef[2]" Value="WaypointsMapping_1" />
       <Property ID="TrafficMappingListRef[3]" Value="GatesMapping_1" />
-      <Property ID="TrafficMappingListRef[4]" Value="BranchesMapping_1" />
     </Group>
     <Group ID="TrafficRules">
       <Property ID="TrafficRuleListRef[1]" Value="Rules_1" />

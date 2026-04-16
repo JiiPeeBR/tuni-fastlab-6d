@@ -34,21 +34,38 @@ ACTION PackML_state_machine:
 					// -----------------------------------------------------------------
 					actions_state.error_reset := TRUE;
 					IF NOT fb.TrafficControl.Error THEN
-	  					em.SubState := 10;
+	  					em.SubState := em.SubState + 1;
 					END_IF;
-					
-				10:
+				1:
 					em.StateInfo := 'Delete all macros';
 					// -----------------------------------------------------------------
 					actions_substate.macro_delete := TRUE;
 					IF fb.MacroDelete.Done THEN
 						FOR station_num := 0 TO STATION_COUNT DO
-	  						stations[station_num].Macro.Shuttle.controlif := 0;
+							brsmemset(ADR(stations[station_num].Macro.Shuttle), 0, SIZEOF(stations[station_num].Macro.Shuttle));
 						END_FOR;
-						em.SubState := 20;
+						em.SubState := em.SubState + 1;
 					END_IF;
-				
-				20:
+				2:
+					em.StateInfo := 'Delete all groups';
+					// -----------------------------------------------------------------
+					local.allGroupsDeleted := TRUE;
+					
+					FOR station_num := 0 TO STATION_COUNT DO
+						station ACCESS ADR(stations[station_num]);
+						
+						IF station.Group.ShuttleGroup.controlif > 0 THEN
+							station.Commands.Group.Delete := TRUE;
+							IF (NOT station.Group.GroupDelete.Done) AND (NOT station.Group.GroupDelete.Error) THEN
+								local.allGroupsDeleted := FALSE;
+							END_IF;
+						END_IF;
+					END_FOR;
+					
+					IF local.allGroupsDeleted THEN
+	  					em.SubState := em.SubState + 1;
+					END_IF;	
+			3:
 					em.StateInfo := 'Reset complete';
 					// -----------------------------------------------------------------	
 					em.Command.StateComplete := TRUE;
@@ -94,6 +111,9 @@ ACTION PackML_state_machine:
 			
 			execute_station_S1;
 			execute_station_S2;
+			execute_station_S3;
+			
+			execute_station_S5;
           
         STATE_COMPLETING:
             em.StateInfo := '';
