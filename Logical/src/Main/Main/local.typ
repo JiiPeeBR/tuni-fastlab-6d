@@ -10,13 +10,12 @@ TYPE
 		AssemblyStop : MC_BR_AsmStop_Acp6D;
 		AssemblyReadShIDTable : MC_BR_AsmReadShIDTable_Acp6D;
 		MoveInPlaneAsync : MC_BR_MoveInPlaneAsync_Acp6D;
-		ShuttleGetInfo : MC_BR_ShGetInfo_Acp6D;
+		WaitUntilAllDone : fdWaitUntilAllDone;
 		R_TRIG_Abort : R_TRIG;
 		TON_ShuttleScan : TON;
 		MoveShortAxis : MC_BR_MoveShortAxis_Acp6D;
 		rtStateComplete : R_TRIG;
 		Pulse_slow : fdPulse;
-		LampSequence : fdLampSequence;
 	END_STRUCT;
 	MainLocalType : 	STRUCT 
 		lastSubState : DINT;
@@ -33,10 +32,10 @@ TYPE
 		assemblyPowerOff : BOOL; (*Task actions are not automatically reset*)
 		assemblyReset : BOOL; (*Task actions are not automatically reset*)
 		assemblyStop : BOOL; (*Task actions are not automatically reset*)
+		getNextShuttle : BOOL;
 		readShuttleIDs : BOOL; (*Task actions are not automatically reset*)
 		homeShuttles : BOOL; (*Task actions are not automatically reset*)
-		readShuttleInfo : BOOL;
-		getNextShuttle : BOOL;
+		waitUntilAllDone : BOOL;
 		moveShortAxis : BOOL;
 	END_STRUCT;
 	MainHmiType : 	STRUCT 

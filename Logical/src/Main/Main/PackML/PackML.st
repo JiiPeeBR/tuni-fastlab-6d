@@ -91,25 +91,17 @@ ACTION PackML_state_machine:
 						END_IF;	
 					END_IF;	
 				21:
-					em.StateInfo := 'Reset short axis orientation of all shuttles';
+					em.StateInfo := 'Wait until all shuttles have completed their moves';
 					// -----------------------------------------------------------------
 					IF em.Info.OnSubStateEntry THEN
-						local.shuttleIndex := 0;
+						FOR i := 0 TO MIN(fdMAX_WAIT_SHUTTLE_COUNT, gShuttles.Count) DO
+	  						fb.WaitUntilAllDone.Shuttles[i] := gShuttles.Shuttle[i].Ref;
+						END_FOR;
 					END_IF;
 					
-					fb.ShuttleGetInfo.Shuttle := ADR(gShuttles.Shuttle[local.shuttleIndex].Ref);
-					actions_substate.readShuttleInfo := TRUE;
+					actions_substate.waitUntilAllDone := TRUE;
 					
-					IF fb.ShuttleGetInfo.Done THEN
-						// Wait until all shuttles have completed their moves before proceeding
-						IF fb.ShuttleGetInfo.ShuttleInfo.State = mcACP6D_SH_STATE_IDLING THEN
-							local.shuttleIndex := local.shuttleIndex + 1;
-						END_IF;
-						actions_substate.readShuttleInfo := FALSE;
-					END_IF;
-					
-					IF local.shuttleIndex >= gShuttles.Count THEN
-						// All shuttles read and all are idle
+					IF fb.WaitUntilAllDone.Done THEN
 						em.SubState := 100;
 					END_IF;
 				100:

@@ -119,10 +119,8 @@ PROGRAM _CYCLIC
 	fb.AssemblyStop.Execute := actions_substate.assemblyStop;
 	fb.AssemblyStop();
 	
-	fb.AssemblyGetShuttle.Assembly := ADR(gAssembly6D_Big);
-	fb.AssemblyGetShuttle.Enable := actions_state.getShuttles;
-	fb.AssemblyGetShuttle.Next := actions_substate.getNextShuttle;
-	fb.AssemblyGetShuttle();
+	fb.WaitUntilAllDone.Execute := actions_substate.waitUntilAllDone;
+	fb.WaitUntilAllDone();
 	
 	fb.AssemblyReadShIDTable.Assembly := ADR(gAssembly6D_Big);
 	fb.AssemblyReadShIDTable.Execute := actions_substate.readShuttleIDs;
@@ -135,9 +133,11 @@ PROGRAM _CYCLIC
 	fb.MoveShortAxis.Execute := actions_substate.moveShortAxis;
 	fb.MoveShortAxis();
 	
-	fb.ShuttleGetInfo.Execute := actions_substate.readShuttleInfo;
-	fb.ShuttleGetInfo();
-
+	fb.AssemblyGetShuttle.Assembly := ADR(gAssembly6D_Big);
+	fb.AssemblyGetShuttle.Enable := actions_state.getShuttles;
+	fb.AssemblyGetShuttle.Next := actions_substate.getNextShuttle;
+	fb.AssemblyGetShuttle();
+	
 	// Task output
 	// =================================================================================================================
 	task.Output.Assembly := fb.AssemblyReadInfo.AssemblyInfo;
@@ -182,8 +182,6 @@ PROGRAM _CYCLIC
 	fb.Pulse_slow.T_off := T#500ms;
 	fb.Pulse_slow(Execute := TRUE);
 	
-	fb.LampSequence(Execute := TRUE);
-
 	// Task diagnostics
 	// =================================================================================================================
 	gTasks.Main.State := em.StateCurrent;

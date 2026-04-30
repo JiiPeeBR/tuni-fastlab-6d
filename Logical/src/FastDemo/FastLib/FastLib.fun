@@ -1,25 +1,25 @@
 
 FUNCTION_BLOCK fdStationQueueControl
 	VAR_INPUT
-		Enable : {REDUND_UNREPLICABLE} BOOL;
-		ReleaseShuttles : {REDUND_UNREPLICABLE} BOOL;
-		SelectNextShuttle : {REDUND_UNREPLICABLE} BOOL;
-		ShuttleList : {REDUND_UNREPLICABLE} ARRAY[0..fdMAX_STATION_SHUTTLE_COUNT] OF MpTrafficShuttleInfoType;
-		ShuttleCapacity : {REDUND_UNREPLICABLE} DINT; (*Count how many shuttles process station can handle*)
-		pStationControl : REFERENCE TO MpTrafficStationControl;
+		Enable : BOOL;
+		ReleaseShuttles : BOOL;
+		ShuttleList : ARRAY[0..fdMAX_STATION_SHUTTLE_COUNT] OF MpTrafficShuttleInfoType;
+		ShuttleCapacity : DINT; (*Count how many shuttles process station can handle*)
+		Station_SelectedShuttle : MpTrafficStationShInfoType;
+		Station_Info : MpTrafficStationCtrlInfoType;
+		Station_ReleaseDone : BOOL;
+		Station_ReleaseAborted : BOOL;
 	END_VAR
 	VAR_OUTPUT
 		ShuttleReleaseDone : BOOL;
-		ShuttleReleaseError : BOOL;
+		Error : BOOL;
 		ReleaseShuttle : BOOL;
-		LastReleasedShuttleID : UINT;
+		SelectNextShuttle : BOOL;
 	END_VAR
 	VAR
 		state : DINT;
-		i : DINT;
 		index : DINT;
-		shuttleID : UINT;
-		lastSelectedIndex : UINT;
+		shuttleIDToReleaseNext : UINT;
 	END_VAR
 END_FUNCTION_BLOCK
 
@@ -45,7 +45,7 @@ END_FUNCTION_BLOCK
 FUNCTION_BLOCK fdWaitUntilAllDone
 	VAR_INPUT
 		Execute : {REDUND_UNREPLICABLE} BOOL;
-		Shuttles : {REDUND_UNREPLICABLE} ARRAY[0..fdMAX_STATION_SHUTTLE_COUNT] OF Mc6DShuttleType;
+		Shuttles : {REDUND_UNREPLICABLE} ARRAY[0..fdMAX_WAIT_SHUTTLE_COUNT] OF Mc6DShuttleType;
 	END_VAR
 	VAR_OUTPUT
 		Done : BOOL;
@@ -72,21 +72,6 @@ FUNCTION_BLOCK fdPulse
 		state : DINT;
 		TON_on : TON;
 		TON_off : TON;
-	END_VAR
-END_FUNCTION_BLOCK
-
-FUNCTION_BLOCK fdLampSequence
-	VAR_INPUT
-		Execute : {REDUND_UNREPLICABLE} BOOL;
-	END_VAR
-	VAR_OUTPUT
-		Lamp1 : BOOL;
-		Lamp2 : BOOL;
-		Lamp3 : BOOL;
-	END_VAR
-	VAR
-		state : DINT;
-		TON_delay : TON;
 	END_VAR
 END_FUNCTION_BLOCK
 

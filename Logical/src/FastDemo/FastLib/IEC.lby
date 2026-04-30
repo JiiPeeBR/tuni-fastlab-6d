@@ -9,7 +9,6 @@
     <File>fdTiltAround.st</File>
     <File>fdWaitUntilIdle.st</File>
     <File>fdPulse.st</File>
-    <File>fdLampSequence.st</File>
     <File>fdFindZone.st</File>
     <File>fdMove6D.st</File>
   </Files>

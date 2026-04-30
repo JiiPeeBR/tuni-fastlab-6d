@@ -126,7 +126,10 @@ PROGRAM _CYCLIC
 		
 		station.Operation.StationQueueControl.Enable := actions_state.activate_queue_control;
 		station.Operation.StationQueueControl.ReleaseShuttles := station.Commands.Release;
-		station.Operation.StationQueueControl.pStationControl := ADR(station.Control);
+		station.Operation.StationQueueControl.Station_SelectedShuttle := station.Control.SelectedShuttle;
+		station.Operation.StationQueueControl.Station_Info := station.Control.Info;
+		station.Operation.StationQueueControl.Station_ReleaseDone := station.Control.ReleaseDone;
+		station.Operation.StationQueueControl.Station_ReleaseAborted := station.Control.ReleaseAborted;
 		station.Operation.StationQueueControl();
 		
 		// Movement 
