@@ -399,7 +399,6 @@ VAR_CONFIG
 	Cyclic#1.::gCommOutput.Array[197] AT %QW."8FLM01.0000.00I-1".EPL_FB_OUT_197_I2008_SC6Out;
 	Cyclic#1.::gCommOutput.Array[198] AT %QW."8FLM01.0000.00I-1".EPL_FB_OUT_198_I2008_SC7Out;
 	Cyclic#1.::gCommOutput.Array[199] AT %QW."8FLM01.0000.00I-1".EPL_FB_OUT_199_I2008_SC8Out;
-	
 	::gPower.AuxPowerUnit[0].Command.EnableOutput AT %QX."8B0C0320HW00.B00-1_A".EnableOutput;
 	::gPower.AuxPowerUnit[0].Command.DisableOutput AT %QX."8B0C0320HW00.B00-1_A".DisableOutput;
 	::gPower.AuxPowerUnit[0].Command.AcknowledgeAllErrors AT %QX."8B0C0320HW00.B00-1_A".AcknowledgeAllErrors;
@@ -409,7 +408,6 @@ VAR_CONFIG
 	::gPower.AuxPowerUnit[0].StatusRunMode AT %IB."8B0C0320HW00.B00-1_A".StatusRunMode;
 	::gPower.AuxPowerUnit[0].Current_A AT %ID."8B0C0320HW00.B00-1_A".Iout;
 	::gPower.AuxPowerUnit[0].Voltage_V AT %ID."8B0C0320HW00.B00-1_A".Uout;
-	
 	::gPower.AuxPowerUnit[1].Command.EnableOutput AT %QX."8B0C0320HW00.B00-1_B".EnableOutput;
 	::gPower.AuxPowerUnit[1].Command.DisableOutput AT %QX."8B0C0320HW00.B00-1_B".DisableOutput;
 	::gPower.AuxPowerUnit[1].Command.AcknowledgeAllErrors AT %QX."8B0C0320HW00.B00-1_B".AcknowledgeAllErrors;
@@ -419,7 +417,6 @@ VAR_CONFIG
 	::gPower.AuxPowerUnit[1].StatusRunMode AT %IB."8B0C0320HW00.B00-1_B".StatusRunMode;
 	::gPower.AuxPowerUnit[1].Current_A AT %ID."8B0C0320HW00.B00-1_B".Iout;
 	::gPower.AuxPowerUnit[1].Voltage_V AT %ID."8B0C0320HW00.B00-1_B".Uout;
-	
 	::gPower.AuxPowerUnit[2].Command.EnableOutput AT %QX."8B0C0320HW00.B00-1_C".EnableOutput;
 	::gPower.AuxPowerUnit[2].Command.DisableOutput AT %QX."8B0C0320HW00.B00-1_C".DisableOutput;
 	::gPower.AuxPowerUnit[2].Command.AcknowledgeAllErrors AT %QX."8B0C0320HW00.B00-1_C".AcknowledgeAllErrors;
@@ -429,7 +426,6 @@ VAR_CONFIG
 	::gPower.AuxPowerUnit[2].StatusRunMode AT %IB."8B0C0320HW00.B00-1_C".StatusRunMode;
 	::gPower.AuxPowerUnit[2].Current_A AT %ID."8B0C0320HW00.B00-1_C".Iout;
 	::gPower.AuxPowerUnit[2].Voltage_V AT %ID."8B0C0320HW00.B00-1_C".Uout;
-	
 	::gPower.AuxPowerUnit[3].Command.EnableOutput AT %QX."8B0C0320HW00.B00-1_D".EnableOutput;
 	::gPower.AuxPowerUnit[3].Command.DisableOutput AT %QX."8B0C0320HW00.B00-1_D".DisableOutput;
 	::gPower.AuxPowerUnit[3].Command.AcknowledgeAllErrors AT %QX."8B0C0320HW00.B00-1_D".AcknowledgeAllErrors;
@@ -439,7 +435,6 @@ VAR_CONFIG
 	::gPower.AuxPowerUnit[3].StatusRunMode AT %IB."8B0C0320HW00.B00-1_D".StatusRunMode;
 	::gPower.AuxPowerUnit[3].Current_A AT %ID."8B0C0320HW00.B00-1_D".Iout;
 	::gPower.AuxPowerUnit[3].Voltage_V AT %ID."8B0C0320HW00.B00-1_D".Uout;
-	
 	::gPower.AuxPowerUnit[4].Command.EnableOutput AT %QX."8B0C0320HW00.B00-1_E".EnableOutput;
 	::gPower.AuxPowerUnit[4].Command.DisableOutput AT %QX."8B0C0320HW00.B00-1_E".DisableOutput;
 	::gPower.AuxPowerUnit[4].Command.AcknowledgeAllErrors AT %QX."8B0C0320HW00.B00-1_E".AcknowledgeAllErrors;
@@ -449,7 +444,6 @@ VAR_CONFIG
 	::gPower.AuxPowerUnit[4].StatusRunMode AT %IB."8B0C0320HW00.B00-1_E".StatusRunMode;
 	::gPower.AuxPowerUnit[4].Current_A AT %ID."8B0C0320HW00.B00-1_E".Iout;
 	::gPower.AuxPowerUnit[4].Voltage_V AT %ID."8B0C0320HW00.B00-1_E".Uout;
-	
 	::gPower.AuxPowerUnit[5].Command.EnableOutput AT %QX."8B0C0320HW00.B00-1_F".EnableOutput;
 	::gPower.AuxPowerUnit[5].Command.DisableOutput AT %QX."8B0C0320HW00.B00-1_F".DisableOutput;
 	::gPower.AuxPowerUnit[5].Command.AcknowledgeAllErrors AT %QX."8B0C0320HW00.B00-1_F".AcknowledgeAllErrors;
@@ -459,7 +453,6 @@ VAR_CONFIG
 	::gPower.AuxPowerUnit[5].StatusRunMode AT %IB."8B0C0320HW00.B00-1_F".StatusRunMode;
 	::gPower.AuxPowerUnit[5].Current_A AT %ID."8B0C0320HW00.B00-1_F".Iout;
 	::gPower.AuxPowerUnit[5].Voltage_V AT %ID."8B0C0320HW00.B00-1_F".Uout;
-	
 	::gPower.AuxPowerUnit[6].Command.EnableOutput AT %QX."8B0C0320HW00.B00-1_G".EnableOutput;
 	::gPower.AuxPowerUnit[6].Command.DisableOutput AT %QX."8B0C0320HW00.B00-1_G".DisableOutput;
 	::gPower.AuxPowerUnit[6].Command.AcknowledgeAllErrors AT %QX."8B0C0320HW00.B00-1_G".AcknowledgeAllErrors;
@@ -469,4 +462,10 @@ VAR_CONFIG
 	::gPower.AuxPowerUnit[6].StatusRunMode AT %IB."8B0C0320HW00.B00-1_G".StatusRunMode;
 	::gPower.AuxPowerUnit[6].Current_A AT %ID."8B0C0320HW00.B00-1_G".Iout;
 	::gPower.AuxPowerUnit[6].Voltage_V AT %ID."8B0C0320HW00.B00-1_G".Uout;
+	::gDI.Button1 AT %IX."X20DI9371".DigitalInput01;
+	::gDI.Button2  AT %IX."X20DI9371".DigitalInput02;
+	::gDI.Button3  AT %IX."X20DI9371".DigitalInput03;
+	gDO.Button1_Led AT %QX."X20DO9322".DigitalOutput01;
+	gDO.Button2_Led  AT %QX."X20DO9322".DigitalOutput02;
+	gDO.Button3_Led  AT %QX."X20DO9322".DigitalOutput03;
 END_VAR

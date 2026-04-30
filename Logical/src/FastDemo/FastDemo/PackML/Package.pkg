@@ -3,9 +3,12 @@
 <Package Version="1.0.0" xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
     <Object Type="File">PackML.st</Object>
+    <Object Type="File">defaults.st</Object>
     <Object Type="File">station_S1.st</Object>
     <Object Type="File">station_S2.st</Object>
     <Object Type="File">station_S3.st</Object>
+    <Object Type="File">station_S4.st</Object>
     <Object Type="File">station_S5.st</Object>
+    <Object Type="File">station_S6.st</Object>
   </Objects>
 </Package>

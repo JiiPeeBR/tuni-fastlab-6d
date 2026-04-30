@@ -44,95 +44,272 @@ ACTION execute_station_S1:
 			
 			station.Operation.MoveInPlane.Parameters.Velocity := 2;
 			station.Operation.MoveInPlane.Parameters.Acceleration := 18;
-			station.Operation.MoveInPlane.Parameters.EndVelocity := 2;
-			station.Operation.MoveInPlane.Parameters.Radius := 0.00;
-			
+			station.Operation.MoveInPlane.Parameters.EndVelocity := 0;
+			station.Operation.MoveInPlane.Parameters.Radius := 0;
+			station.Operation.MoveInPlane.Parameters.Path :=  mcACP6D_PATH_DIRECT;
 			station.Operation.MoveInPlane.Shuttle := ADR(station.Macro.Shuttle);
 			
 			station.State := station.State + 1;
 		11:
-			station.Var.StateInfo := 'Move to initial position';
-			// -----------------------------------------------------------------			
-			station.Operation.MoveInPlane.Parameters.Path :=  mcACP6D_PATH_X_THEN_Y;
+			station.Var.StateInfo := 'Move to UL';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_ABSOLUTE;
 			station.Operation.MoveInPlane.Parameters.Position.X := 0.060;
-			station.Operation.MoveInPlane.Parameters.Position.Y := 0.240;
-			
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.420;
 			station.Commands.MoveInPlane := TRUE;
 			
 			IF station.Operation.MoveInPlane.Acknowledge THEN
 				station.State := station.State + 1;
 			END_IF;
 		12:
-			station.Var.StateInfo := 'Move position 2';
+			station.Var.StateInfo := 'Move to LL';
 			// -----------------------------------------------------------------
-			station.Operation.MoveInPlane.Parameters.Path :=  mcACP6D_PATH_Y_THEN_X;
-			station.Operation.MoveInPlane.Parameters.Position.X := 0.120;
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_ABSOLUTE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.060;
 			station.Operation.MoveInPlane.Parameters.Position.Y := 0.060;
-			
 			station.Commands.MoveInPlane := TRUE;
 			
 			IF station.Operation.MoveInPlane.Acknowledge THEN
 				station.State := station.State + 1;	
 			END_IF;
 		13:
-			station.Var.StateInfo := 'Move positon 3';
-			// -----------------------------------------------------------------			
-			station.Operation.MoveInPlane.Parameters.Path :=  mcACP6D_PATH_X_THEN_Y;
+			station.Var.StateInfo := 'Move to LR';
+			// -----------------------------------------------------------------	
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_ABSOLUTE;
 			station.Operation.MoveInPlane.Parameters.Position.X := 0.180;
-			station.Operation.MoveInPlane.Parameters.Position.Y := 0.240;
-			
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.060;
 			station.Commands.MoveInPlane := TRUE;
 			
 			IF station.Operation.MoveInPlane.Acknowledge THEN
 				station.State := station.State + 1;	
 			END_IF;
 		14:
-			station.Var.StateInfo := 'Move position 4';
+			station.Var.StateInfo := 'Move to UR';
 			// -----------------------------------------------------------------
-			station.Operation.MoveInPlane.Parameters.Path :=  mcACP6D_PATH_Y_THEN_X;
-			station.Operation.MoveInPlane.Parameters.Position.X := 0.120;
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_ABSOLUTE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.180;
 			station.Operation.MoveInPlane.Parameters.Position.Y := 0.420;
-			
 			station.Commands.MoveInPlane := TRUE;
 			
 			IF station.Operation.MoveInPlane.Acknowledge THEN
 				station.State := station.State + 1;	
-			END_IF;		
+			END_IF;
 		15:
+			station.Var.StateInfo := 'Move to UL';
+			// -----------------------------------------------------------------	
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_ABSOLUTE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.060;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.420;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;
+			END_IF;	
+		16:
+			station.Var.StateInfo := 'Move to LR';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_ABSOLUTE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.180;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.060;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;
+		17:
+			station.Var.StateInfo := 'Move to LL';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_ABSOLUTE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.060;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.060;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;	
+		18:
+			station.Var.StateInfo := 'Move to UR';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_ABSOLUTE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.180;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.420;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;
+		19:
+			station.Var.StateInfo := 'Move to UL';
+			// -----------------------------------------------------------------	
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_ABSOLUTE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.060;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.420;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;
+			END_IF;	
+		20:
+			station.Var.StateInfo := 'Move to LL';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_ABSOLUTE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.060;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.060;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := 30;	
+			END_IF;	
+		30:
+			station.Var.StateInfo := 'Move right';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_RELATIVE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.120;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.000;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;	
+		31:
+			station.Var.StateInfo := 'Move up';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_RELATIVE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.000;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.120;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;
+		32:
+			station.Var.StateInfo := 'Move left';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_RELATIVE;
+			station.Operation.MoveInPlane.Parameters.Position.X := -0.120;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.000;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;
+		33:
+			station.Var.StateInfo := 'Move up';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_RELATIVE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.000;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.120;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;
+		34:
+			station.Var.StateInfo := 'Move right';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_RELATIVE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.120;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.000;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;	
+		35:
+			station.Var.StateInfo := 'Move up';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_RELATIVE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.000;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.120;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;
+		36:
+			station.Var.StateInfo := 'Move left';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_RELATIVE;
+			station.Operation.MoveInPlane.Parameters.Position.X := -0.120;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.000;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;
+		37:
+			station.Var.StateInfo := 'Move down';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_RELATIVE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.000;
+			station.Operation.MoveInPlane.Parameters.Position.Y := -0.120;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;
+		38:
+			station.Var.StateInfo := 'Move right';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_RELATIVE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.120;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.000;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;	
+		39:
+			station.Var.StateInfo := 'Move down';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_RELATIVE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.000;
+			station.Operation.MoveInPlane.Parameters.Position.Y := -0.120;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;
+		40:
+			station.Var.StateInfo := 'Move left';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_RELATIVE;
+			station.Operation.MoveInPlane.Parameters.Position.X := -0.120;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.000;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;
+		41:
+			station.Var.StateInfo := 'Move down';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_RELATIVE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.000;
+			station.Operation.MoveInPlane.Parameters.Position.Y := -0.120;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;
+		42:
+			station.Var.StateInfo := 'Move right';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_RELATIVE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.120;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.000;
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := 50;	
+			END_IF;		
+		50:
 			station.Var.StateInfo := 'Check if sequence complete';
 			// -----------------------------------------------------------------
-			station.Var.LoopNum := station.Var.LoopNum + 1;
-			
-			IF station.Var.LoopNum > 3 THEN
-				// Station sequence complete
-				station.State := station.State + 1;	
-			ELSE
-				// New loop of moves
+			IF station.Var.LoopNum < 3 THEN
+				station.Var.LoopNum := station.Var.LoopNum + 1;
 				station.State :=  11;
-			END_IF;
-		16:
-			station.Var.StateInfo := 'Last position of sequence';
-			// -----------------------------------------------------------------
-			station.Operation.MoveInPlane.Parameters.Path :=  mcACP6D_PATH_X_THEN_Y;
-			station.Operation.MoveInPlane.Parameters.Position.X := 0.060;
-			station.Operation.MoveInPlane.Parameters.Position.Y := 0.240;
-			
-			station.Commands.MoveInPlane := TRUE;
-			
-			IF station.Operation.MoveInPlane.Acknowledge THEN
-				station.State := station.State + 1;		
-			END_IF;	
-		17:
-			station.Var.StateInfo := 'Last position of sequence';
-			// -----------------------------------------------------------------
-			station.Operation.MoveInPlane.Parameters.Path :=  mcACP6D_PATH_Y_THEN_X;
-			station.Operation.MoveInPlane.Parameters.Position.X := 0.120;
-			station.Operation.MoveInPlane.Parameters.Position.Y := 0.060;
-			station.Operation.MoveInPlane.Parameters.EndVelocity := 0;
-			
-			station.Commands.MoveInPlane := TRUE;
-			
-			IF station.Operation.MoveInPlane.Acknowledge THEN
+			ELSE
 				station.State := 100;	
 			END_IF;
 		100:	

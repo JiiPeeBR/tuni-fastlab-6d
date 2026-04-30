@@ -6,5 +6,11 @@
     <File Description="Exported constants">Constants.var</File>
     <File Description="Exported functions and function blocks">FastLib.fun</File>
     <File>fdReleaseQueuingShuttle.st</File>
+    <File>fdTiltAround.st</File>
+    <File>fdWaitUntilIdle.st</File>
+    <File>fdPulse.st</File>
+    <File>fdLampSequence.st</File>
+    <File>fdFindZone.st</File>
+    <File>fdMove6D.st</File>
   </Files>
 </Library>

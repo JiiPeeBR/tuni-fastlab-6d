@@ -28,32 +28,96 @@ ACTION PackML_state_machine:
 			em.Command.StateComplete := TRUE;
 
 		STATE_RESETTING:
-			em.StateInfo := 'Home all shuttles';
-			// -----------------------------------------------------------------
-			IF em.Info.OnSubStateEntry THEN	
-				brsmemset(ADR(fb.MoveInPlaneAsync.Parameters), 0, SIZEOF(fb.MoveInPlaneAsync.Parameters));
+			CASE em.SubState OF
+				0:
+					em.StateInfo := 'Wait submodules to finish their resets';
+					// -----------------------------------------------------------------
+					IF gTasks.FastDemo.State = STATE_IDLE THEN
+						em.SubState := 10;
+					END_IF;
+				10:
+					em.StateInfo := 'Home all shuttles';
+					// -----------------------------------------------------------------
+					IF em.Info.OnSubStateEntry THEN	
+						brsmemset(ADR(fb.MoveInPlaneAsync.Parameters), 0, SIZEOF(fb.MoveInPlaneAsync.Parameters));
 					
-				fb.MoveInPlaneAsync.Parameters.Velocity := 2;
-				fb.MoveInPlaneAsync.Parameters.Acceleration := 15;
-				fb.MoveInPlaneAsync.Parameters.Mode := mcACP6D_SHUTTLE_SORTED;
-				fb.MoveInPlaneAsync.Parameters.Overhang := FALSE;
+						fb.MoveInPlaneAsync.Parameters.Velocity := 1.8;
+						fb.MoveInPlaneAsync.Parameters.Acceleration := 15;
+						fb.MoveInPlaneAsync.Parameters.Mode := mcACP6D_SHUTTLE_SORTED;
+						fb.MoveInPlaneAsync.Parameters.Overhang := FALSE;
+						fb.MoveInPlaneAsync.Parameters.MoveOnlySelectedShuttles := FALSE;
 							
-				FOR i := 0 TO gShuttles.Count - 1 DO	
-					fb.MoveInPlaneAsync.Parameters.AsyncPar[i].Shuttle := ADR(gShuttles.Shuttle[i].Ref);
-					fb.MoveInPlaneAsync.Parameters.AsyncPar[i].X := local.homePosition[i].x;
-					fb.MoveInPlaneAsync.Parameters.AsyncPar[i].Y := local.homePosition[i].y;
-				END_FOR;
-			END_IF;
+						FOR i := 0 TO gShuttles.Count - 1 DO	
+							fb.MoveInPlaneAsync.Parameters.AsyncPar[i].Shuttle := ADR(gShuttles.Shuttle[i].Ref);
+							fb.MoveInPlaneAsync.Parameters.AsyncPar[i].X := local.homePosition[i].x;
+							fb.MoveInPlaneAsync.Parameters.AsyncPar[i].Y := local.homePosition[i].y;
+						END_FOR;
+					END_IF;
 							
-			actions_substate.homeShuttles := TRUE;
+					actions_substate.homeShuttles := TRUE;
 							
-			IF fb.MoveInPlaneAsync.Done THEN
-				em.Command.StateComplete := TRUE;
-			ELSIF fb.MoveInPlaneAsync.Error THEN
-				task.Error.Code := fb.MoveInPlaneAsync.ErrorID;	
-				em.Command.Abort := TRUE;
-			END_IF;
-			
+					IF fb.MoveInPlaneAsync.Done THEN
+				 		em.SubState := 20;
+					ELSIF fb.MoveInPlaneAsync.Error THEN
+						task.Error.Code := fb.MoveInPlaneAsync.ErrorID;	
+						em.Command.Abort := TRUE;
+					END_IF;
+				20:
+					em.StateInfo := 'Reset short axis orientation of all shuttles';
+					// -----------------------------------------------------------------
+					IF em.Info.OnSubStateEntry THEN
+						fb.MoveShortAxis.Parameters.Mode :=  mcACP6D_MOVE_ABSOLUTE;
+						fb.MoveShortAxis.Parameters.Velocity.Rx := 0.1;
+						fb.MoveShortAxis.Parameters.Velocity.Ry := 0.1;
+						fb.MoveShortAxis.Parameters.Velocity.Rz := 0.1;
+						fb.MoveShortAxis.Parameters.Velocity.Z := 0.01;
+						fb.MoveShortAxis.Parameters.Position.Rx := 0;
+						fb.MoveShortAxis.Parameters.Position.Ry := 0;
+						fb.MoveShortAxis.Parameters.Position.Rz := 0;
+						fb.MoveShortAxis.Parameters.Position.Z := gDEFAULT_Z;
+						
+						local.shuttleIndex := 0;
+					END_IF;
+					
+					fb.MoveShortAxis.Shuttle := ADR(gShuttles.Shuttle[local.shuttleIndex].Ref);
+					actions_substate.moveShortAxis := TRUE;
+					
+					IF fb.MoveShortAxis.Acknowledge THEN
+						IF local.shuttleIndex < (gShuttles.Count - 1) THEN
+							local.shuttleIndex := local.shuttleIndex + 1;
+							actions_substate.moveShortAxis := FALSE;
+						ELSE
+							em.SubState := em.SubState + 1;		
+						END_IF;	
+					END_IF;	
+				21:
+					em.StateInfo := 'Reset short axis orientation of all shuttles';
+					// -----------------------------------------------------------------
+					IF em.Info.OnSubStateEntry THEN
+						local.shuttleIndex := 0;
+					END_IF;
+					
+					fb.ShuttleGetInfo.Shuttle := ADR(gShuttles.Shuttle[local.shuttleIndex].Ref);
+					actions_substate.readShuttleInfo := TRUE;
+					
+					IF fb.ShuttleGetInfo.Done THEN
+						// Wait until all shuttles have completed their moves before proceeding
+						IF fb.ShuttleGetInfo.ShuttleInfo.State = mcACP6D_SH_STATE_IDLING THEN
+							local.shuttleIndex := local.shuttleIndex + 1;
+						END_IF;
+						actions_substate.readShuttleInfo := FALSE;
+					END_IF;
+					
+					IF local.shuttleIndex >= gShuttles.Count THEN
+						// All shuttles read and all are idle
+						em.SubState := 100;
+					END_IF;
+				100:
+					em.StateInfo := 'Done';
+					// -----------------------------------------------------------------
+					em.Command.StateComplete := TRUE;
+			END_CASE;
+	
 		STATE_IDLE:
 			em.StateInfo := '';
 			// -----------------------------------------------------------------
@@ -129,7 +193,7 @@ ACTION PackML_state_machine:
 			END_IF
 			
 		STATE_ABORTED:
-			em.StateInfo := 'Error stop';
+			em.StateInfo := 'Assembly powered off';
 			// -----------------------------------------------------------------
 			em.Command.StateComplete := TRUE;
 

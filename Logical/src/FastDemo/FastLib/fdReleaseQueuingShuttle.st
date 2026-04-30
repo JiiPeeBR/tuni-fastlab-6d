@@ -5,6 +5,8 @@ FUNCTION_BLOCK fdStationQueueControl
 	IF NOT Enable THEN
 		state := 0;
 		ReleaseShuttle := FALSE;
+		SelectNextShuttle := FALSE;
+		LastReleasedShuttleID := 0;
 		ShuttleReleaseDone := FALSE;
 		ShuttleReleaseError := FALSE;
 		RETURN;
@@ -13,6 +15,8 @@ FUNCTION_BLOCK fdStationQueueControl
 	CASE state OF
 		0:
 			// -----------------------------------------------------------------
+			SelectNextShuttle := FALSE;	
+			
 			IF ReleaseShuttles THEN
 				state := 20;
 			ELSIF pStationControl.Info.NumOccupyingShuttles > ShuttleCapacity THEN
@@ -21,23 +25,39 @@ FUNCTION_BLOCK fdStationQueueControl
 				state := 10;
 			END_IF;
 		10:
-			// Select next shuttle in the queue while first one is executing
+			// Check if we have our last arrived shuttle selected
 			// -----------------------------------------------------------------
-			// Select last arrived shuttle so we can release it
-			WHILE pStationControl.SelectedShuttle.ShuttleID <> pStationControl.Info.LastArrivedShuttle.ShuttleID DO
-				pStationControl(SelectNextShuttle := TRUE);
-				pStationControl(SelectNextShuttle := FALSE);
-			END_WHILE;
-			state := 11;	
+			IF pStationControl.SelectedShuttle.ShuttleID = pStationControl.Info.LastArrivedShuttle.ShuttleID THEN
+	  			state := 12;
+			ELSE
+				lastSelectedIndex := pStationControl.SelectedShuttle.Index;
+				SelectNextShuttle := FALSE;	
+				state := 11;
+			END_IF;
 		11:
-			// Release the waiting shuttle
+			// Select next shuttle in the queue
+			// -----------------------------------------------------------------
+			SelectNextShuttle := TRUE;
+			// Wait until selection changes
+			IF lastSelectedIndex <> pStationControl.SelectedShuttle.Index THEN
+				SelectNextShuttle := FALSE;	
+				state := 10;
+			END_IF;	
+		12:
+			// Release the queuing shuttle
 			// -----------------------------------------------------------------
 			ReleaseShuttle := TRUE;
 			
 			IF pStationControl.ReleaseDone THEN
+				LastReleasedShuttleID := pStationControl.SelectedShuttle.ShuttleID;
 				ReleaseShuttle := FALSE;
 				state := 0;
+			ELSIF pStationControl.ReleaseAborted THEN
+				LastReleasedShuttleID := 0;
+				ReleaseShuttle := FALSE;
+				state := 0;	
 			END_IF;	
+			
 		20:
 			// Initialize for realease
 			// -----------------------------------------------------------------
@@ -65,28 +85,66 @@ FUNCTION_BLOCK fdStationQueueControl
 	  			state := 100;
 			END_IF;	
 		22:
-			// Find shuttle from stations shuttle table
+			// Check if we have our last arrived shuttle selected
 			// -----------------------------------------------------------------
-			state := 21; // Assume we dont find shuttle and just return straight to next one
-			
-			FOR index := 0 TO pStationControl.Info.NumOccupyingShuttles DO		
-				IF pStationControl.SelectedShuttle.ShuttleID = shuttleID THEN
-					state := 23;
-					EXIT;	
-				END_IF
-				pStationControl(SelectNextShuttle := TRUE);
-				pStationControl(SelectNextShuttle := FALSE);
-			END_FOR;
-			
+			IF pStationControl.SelectedShuttle.ShuttleID = shuttleID THEN
+				state := 24;
+			ELSE
+				lastSelectedIndex := pStationControl.SelectedShuttle.Index;
+				SelectNextShuttle := FALSE;	
+				state := 23;
+			END_IF;
 		23:
-			// Release the waiting shuttle
+			// Select next shuttle in the queue
+			// -----------------------------------------------------------------
+			SelectNextShuttle := TRUE;
+			// Wait until selection changes
+			IF lastSelectedIndex <> pStationControl.SelectedShuttle.Index THEN
+				SelectNextShuttle := FALSE;	
+				i := 0;
+				state := 21;
+			END_IF;	
+		24:
+			// Release the queuing shuttle
 			// -----------------------------------------------------------------
 			ReleaseShuttle := TRUE;
 			
 			IF pStationControl.ReleaseDone THEN
+				LastReleasedShuttleID := pStationControl.SelectedShuttle.ShuttleID;
 				ReleaseShuttle := FALSE;
 				state := 21;
+			ELSIF pStationControl.ReleaseAborted THEN
+				LastReleasedShuttleID := 0;
+				ReleaseShuttle := FALSE;
+				state := 21;	
 			END_IF;	
+			
+			
+			
+//			
+//		22:
+//			// Find shuttle from stations shuttle table
+//			// -----------------------------------------------------------------
+//			state := 21; // Assume we dont find shuttle and just return straight to next one
+//			
+//			FOR index := 0 TO pStationControl.Info.NumOccupyingShuttles DO		
+//				IF pStationControl.SelectedShuttle.ShuttleID = shuttleID THEN
+//					state := 23;
+//					EXIT;	
+//				END_IF
+//				pStationControl(SelectNextShuttle := TRUE);
+//				pStationControl(SelectNextShuttle := FALSE);
+//			END_FOR;
+//			
+//		23:
+//			// Release the waiting shuttle
+//			// -----------------------------------------------------------------
+//			ReleaseShuttle := TRUE;
+//			
+//			IF pStationControl.ReleaseDone THEN
+//				ReleaseShuttle := FALSE;
+//				state := 21;
+//			END_IF;	
 		100:
 			// Done
 			// -----------------------------------------------------------------

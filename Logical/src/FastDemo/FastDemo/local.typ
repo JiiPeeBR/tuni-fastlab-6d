@@ -8,6 +8,8 @@ TYPE
 		MacroDelete : MC_BR_MacroDelete_Acp6D;
 		GroupGet : MC_BR_AsmGetShGroup_Acp6D;
 		GroupDelete : MC_BR_ShGroupDelete_Acp6D;
+		R_TRIG_Abort : R_TRIG;
+		TON_RecoverTimeout : TON;
 	END_STRUCT;
 	FastDemoLocalType : 	STRUCT 
 		lastState : DINT;
@@ -18,6 +20,7 @@ TYPE
 	FastDemoActionsStateType : 	STRUCT 
 		error_reset : BOOL;
 		group_get_enable : BOOL;
+		activate_queue_control : BOOL;
 	END_STRUCT;
 	FastDemoActionsSubstateType : 	STRUCT 
 		traffic_activate_recipe : BOOL; (*Task actions are not automatically reset*)
@@ -49,6 +52,8 @@ TYPE
 		Operation : FastDemoStationOperationType;
 		Macro : FastDemoStationMacroType;
 		Group : FastDemoStationGroupType;
+		Zone : FastDemoStationZoneType;
+		Virtual : FastDemoStationVirtualType;
 	END_STRUCT;
 	FastDemoStationVarType : 	STRUCT 
 		PreviousState : DINT;
@@ -59,10 +64,18 @@ TYPE
 		Release : BOOL;
 		Macro : FastDemoStationMacroCommandsType;
 		Group : FastDemoStationGroupCommandsType;
+		Zone : FastDemoStationZoneCommandsType;
+		CreateVirtualShuttle : BOOL;
 		MoveInPlane : BOOL;
 		MoveArc : BOOL;
+		MoveShortAxis : BOOL;
+		Move6D : BOOL;
 		Spin : BOOL;
-		SelectNextShuttle : BOOL;
+		TiltAround : BOOL;
+		ChangePlanet : BOOL;
+		WaitCommandLabel : BOOL;
+		GetShuttleInfo : BOOL;
+		WaitUntilAllDone : BOOL;
 	END_STRUCT;
 	FastDemoStationMacroCommandsType : 	STRUCT 
 		Create : BOOL;
@@ -76,11 +89,23 @@ TYPE
 		AddShuttle : BOOL;
 		ChangeCoupling : BOOL;
 	END_STRUCT;
+	FastDemoStationZoneCommandsType : 	STRUCT 
+		Create : BOOL;
+		Find : BOOL;
+		GetBarrierInfo : BOOL;
+	END_STRUCT;
 	FastDemoStationOperationType : 	STRUCT 
 		StationQueueControl : fdStationQueueControl;
 		MoveInPlane : MC_BR_MoveInPlane_Acp6D;
 		MoveArc : MC_BR_MoveArc_Acp6D;
 		Spin : MC_BR_RotaryMotionSpin_Acp6D;
+		Move6D : MC_BR_Move6D_Acp6D;
+		MoveShortAxis : MC_BR_MoveShortAxis_Acp6D;
+		TiltAround : fdTiltAround;
+		SunPlanet : MC_BR_ShPlanet_Acp6D;
+		WaitCommandLabel : MC_BR_ShWaitCmdLb_Acp6D;
+		GetShuttleInfo : MC_BR_ShGetInfo_Acp6D;
+		WaitUntilAllDone : fdWaitUntilAllDone;
 	END_STRUCT;
 	FastDemoStationMacroType : 	STRUCT 
 		Shuttle : Mc6DShuttleType;
@@ -96,5 +121,17 @@ TYPE
 		GroupClear : MC_BR_ShGroupClear_Acp6D;
 		GroupCoupleCtrl : MC_BR_ShGroupCoupleCtrl_Acp6D;
 		GroupAddShuttle : MC_BR_ShGroupAddShuttle_Acp6D;
+	END_STRUCT;
+	FastDemoStationZoneType : 	STRUCT 
+		Zone : Mc6DZoneType;
+		Name : STRING[32];
+		ZoneCreate : MC_BR_ZoneCreate_Acp6D;
+		ZoneGetBarrierInfo : MC_BR_ZoneGetBarrierInfo_Acp6D;
+		FindZone : fdFindZone;
+	END_STRUCT;
+	FastDemoStationVirtualType : 	STRUCT 
+		Shuttle : Mc6DShuttleType;
+		ShuttleID : UINT;
+		VirtualShCreate : MC_BR_VirtualShCreate_Acp6D;
 	END_STRUCT;
 END_TYPE

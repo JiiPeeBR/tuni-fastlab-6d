@@ -24,5 +24,6 @@
     <Object Type="Library" Language="ANSIC">brdkSTR</Object>
     <Object Type="Library" Language="ANSIC">PackMLCore</Object>
     <Object Type="Library" Language="binary" Description="[mapp Traffic] Traffic management library">MpTraffic</Object>
+    <Object Type="Library" Language="Binary" Description="[mapp Safety] SafeDOMAIN management library">SfDomain</Object>
   </Objects>
 </Package>

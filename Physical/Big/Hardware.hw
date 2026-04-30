@@ -8,6 +8,7 @@
     <Connector Name="IF3">
       <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
       <Parameter ID="ActivateDevice" Value="1" />
+      <Parameter ID="HostName" Value="big-6d" />
       <Parameter ID="Mode" Value="Manual" />
       <Parameter ID="InternetAddress" Value="192.168.1.101" />
       <Parameter ID="SubnetMask" Value="255.255.255.0" />
@@ -209,7 +210,7 @@
     <Parameter ID="Supervision" Value="off" />
   </Module>
   <Module Name="X20BM11" Type="X20BM11" Version="1.1.0.0">
-    <Connection Connector="X2X1" TargetModule="X20BM33" TargetConnector="X2X2" />
+    <Connection Connector="X2X1" TargetModule="X20BB82" TargetConnector="IF1" />
   </Module>
   <Module Name="X20BM11_a" Type="X20BM11" Version="1.1.0.0">
     <Connection Connector="X2X1" TargetModule="X20BM11" TargetConnector="X2X2" />
@@ -218,10 +219,10 @@
     <Connection Connector="X2X1" TargetModule="X20BM11_a" TargetConnector="X2X2" />
   </Module>
   <Module Name="X20BM11_c" Type="X20BM11" Version="1.1.0.0">
-    <Connection Connector="X2X1" TargetModule="X20BM11_b" TargetConnector="X2X2" />
+    <Connection Connector="X2X1" TargetModule="X20BM33" TargetConnector="X2X2" />
   </Module>
   <Module Name="X20BM33" Type="X20BM33" Version="1.1.0.0">
-    <Connection Connector="X2X1" TargetModule="X20BB82" TargetConnector="IF1" />
+    <Connection Connector="X2X1" TargetModule="X20BM11_b" TargetConnector="X2X2" />
   </Module>
   <Module Name="X20BT9400" Type="X20BT9400" Version="1.3.1.0">
     <Connection Connector="SS1" TargetModule="X20TB12_d" TargetConnector="SS" />

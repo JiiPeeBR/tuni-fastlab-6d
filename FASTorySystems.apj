@@ -8,6 +8,7 @@
   <Variables DefaultInitValue="0" DefaultRetain="false" DefaultVolatile="true" />
   <TechnologyPackages>
     <mapp6D McAcp6DSys="3.6.0" Version="3.6.0" />
+    <mappSafety Version="6.0.0" />
     <mappServices Version="6.6.0" />
     <OpcUaCs Version="6.6.0" />
   </TechnologyPackages>

@@ -53,6 +53,10 @@ ACTION PackML_state_machine:
 					
 					IF fb.GroupGet.Valid THEN
 						IF fb.GroupGet.TotalCount = 0 THEN
+							// Clear all shuttle group references
+							FOR station_num := 0 TO STATION_COUNT DO
+	  							brsmemset(ADR(stations[station_num].Group.ShuttleGroup), 0, SIZEOF(stations[station_num].Group.ShuttleGroup));
+							END_FOR;
 	  						em.SubState := 100;
 						ELSE
 							fb.GroupDelete.ShuttleGroup := ADR(fb.GroupGet.ShuttleGroup);
@@ -85,10 +89,9 @@ ACTION PackML_state_machine:
 					fb.TrafficControl.Acceleration := 8.0; 
 					actions_substate.traffic_recover := TRUE;
 					
-					IF fb.TrafficControl.RecoverBuffered THEN
+					IF fb.TrafficControl.RecoverDone OR fb.TON_RecoverTimeout.Q THEN
 						em.SubState := 10;
-					END_IF;
-					
+					END_IF;		
 				10:
 					em.StateInfo := 'Activating traffic recipe';
 					// -----------------------------------------------------------------
@@ -97,11 +100,14 @@ ACTION PackML_state_machine:
 					IF fb.TrafficControl.ActivateRecipeDone THEN
 						em.SubState := 100;
 					END_IF;
-				
 				100:
 					em.StateInfo := 'Traffic manager started';
 					// -----------------------------------------------------------------
-					em.Command.StateComplete := TRUE;		
+					IF fb.TrafficControl.Error THEN
+	  					em.SubState := 200;
+					ELSE
+						em.Command.StateComplete := TRUE;			
+					END_IF;
 			END_CASE;
 			
         STATE_EXECUTE:
@@ -109,11 +115,15 @@ ACTION PackML_state_machine:
             // -----------------------------------------------------------------
 			em.Command.StateComplete := TRUE;
 			
+			actions_state.activate_queue_control := TRUE;
+			
 			execute_station_S1;
 			execute_station_S2;
 			execute_station_S3;
-			
+			execute_station_S4;
 			execute_station_S5;
+			execute_station_S6;
+			//execute_station_S7;
           
         STATE_COMPLETING:
             em.StateInfo := '';

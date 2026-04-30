@@ -23,6 +23,7 @@ TYPE
 	GeneralErrorInfoType : 	STRUCT 
 		Code : DINT;
 		Description : STRING[80];
+		AdditionalInfo : STRING[80];
 		State : DINT;
 		SubState : DINT;
 	END_STRUCT;
@@ -50,3 +51,16 @@ TYPE
 END_TYPE
 
 (**)
+
+TYPE
+	DigitalInputs : 	STRUCT 
+		Button1 : BOOL;
+		Button2 : BOOL;
+		Button3 : BOOL;
+	END_STRUCT;
+	DigitalOutputs : 	STRUCT 
+		Button1_Led : BOOL;
+		Button2_Led : BOOL;
+		Button3_Led : BOOL;
+	END_STRUCT;
+END_TYPE

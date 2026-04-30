@@ -36,7 +36,7 @@
         <Property ID="SourceRef" Value="S4" />
         <Group ID="Destinations">
           <Selector ID="To[1]" Value="Waypoint">
-            <Property ID="DestinationRef" Value="G6" />
+            <Property ID="DestinationRef" Value="G17" />
           </Selector>
         </Group>
       </Selector>
@@ -196,6 +196,16 @@
         <Group ID="Destinations">
           <Selector ID="To[1]" Value="Station">
             <Property ID="DestinationRef" Value="B2" />
+          </Selector>
+        </Group>
+      </Selector>
+    </Group>
+    <Group ID="TrafficMapping[11]">
+      <Selector ID="Source" Value="Waypoint">
+        <Property ID="SourceRef" Value="G17" />
+        <Group ID="Destinations">
+          <Selector ID="To[1]" Value="Waypoint">
+            <Property ID="DestinationRef" Value="G6" />
           </Selector>
         </Group>
       </Selector>

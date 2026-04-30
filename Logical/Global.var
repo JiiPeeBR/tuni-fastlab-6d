@@ -3,6 +3,11 @@ VAR CONSTANT
 	gMAX_INDEX_SHUTTLE : UINT := gMAX_SHUTTLE_COUNT-1; (*Maximum index for a shuttles on the system*)
 END_VAR
 (**)
+(*6D Defaults*)
+VAR CONSTANT
+	gDEFAULT_Z : REAL := 0.0012;
+END_VAR
+(**)
 (*6D Communication inteface*)
 VAR
 	gCommInput : Mc6DControllerFBIOType; (*Communication variable INPUT*)
@@ -17,4 +22,10 @@ END_VAR
 (*PackML diagnostics*)
 VAR
 	gTasks : TaskDiagType;
+END_VAR
+(**)
+(*IO*)
+VAR
+	gDI : DigitalInputs;
+	gDO : DigitalOutputs;
 END_VAR

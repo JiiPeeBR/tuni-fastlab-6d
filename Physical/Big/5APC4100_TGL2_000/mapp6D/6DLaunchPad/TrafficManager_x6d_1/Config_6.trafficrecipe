@@ -52,9 +52,7 @@
     </Group>
     <Group ID="ProcessStep[5]">
       <Property ID="StationName" Value="S4" />
-      <Selector ID="Process" Value="DwellTime">
-        <Property ID="DwellTime" Value="1" />
-      </Selector>
+      <Selector ID="Process" Value="UserDefined" />
       <Selector ID="Transition" Value="Next">
         <Property ID="ToStation" Value="S5" />
         <Property ID="Velocity" Value="2" />
@@ -72,9 +70,7 @@
     </Group>
     <Group ID="ProcessStep[7]">
       <Property ID="StationName" Value="S6" />
-      <Selector ID="Process" Value="DwellTime">
-        <Property ID="DwellTime" Value="1" />
-      </Selector>
+      <Selector ID="Process" Value="UserDefined" />
       <Selector ID="Transition" Value="Next">
         <Property ID="ToStation" Value="B2" />
         <Property ID="Velocity" Value="2" />

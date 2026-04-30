@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?AutomationStudio FileVersion="4.9"?>
 <Configuration>
   <Element ID="Stations_1" Type="trafficobjectlist">
     <Selector ID="TrafficObject[1]" Value="Station">
@@ -8,7 +7,8 @@
         <Property ID="X" Value="0.3" />
         <Property ID="Y" Value="0.42" />
       </Selector>
-      <Group ID="RecoveryPoints">
+
+       <Group ID="RecoveryPoints">
         <Property ID="Mode" Value="Direct" />
         <Property ID="StationIsRecoveryPoint" Value="Enable" />
         <Group ID="RecoveryPoint[1]">
@@ -47,7 +47,45 @@
             <Property ID="Y" Value="1.14" />
           </Selector>
         </Group>
+
+        <Group ID="RecoveryPoint[7]">
+          <Selector ID="Position" Value="Absolute">
+            <Property ID="X" Value="0.42" />
+            <Property ID="Y" Value="0.54" />
+          </Selector>
+        </Group>
+        <Group ID="RecoveryPoint[8]">
+          <Selector ID="Position" Value="Absolute">
+            <Property ID="X" Value="0.42" />
+            <Property ID="Y" Value="0.66" />
+          </Selector>
+        </Group>
+        <Group ID="RecoveryPoint[9]">
+          <Selector ID="Position" Value="Absolute">
+            <Property ID="X" Value="0.42" />
+            <Property ID="Y" Value="0.78" />
+          </Selector>
+        </Group>
+        <Group ID="RecoveryPoint[10]">
+          <Selector ID="Position" Value="Absolute">
+            <Property ID="X" Value="0.42" />
+            <Property ID="Y" Value="0.9" />
+          </Selector>
+        </Group>
+        <Group ID="RecoveryPoint[11]">
+          <Selector ID="Position" Value="Absolute">
+            <Property ID="X" Value="0.42" />
+            <Property ID="Y" Value="1.02" />
+          </Selector>
+        </Group>
+        <Group ID="RecoveryPoint[12]">
+          <Selector ID="Position" Value="Absolute">
+            <Property ID="X" Value="0.42" />
+            <Property ID="Y" Value="1.14" />
+          </Selector>
+        </Group>
       </Group>
+
     </Selector>
     <Selector ID="TrafficObject[2]" Value="Station">
       <Property ID="Name" Value="S2" />
@@ -215,6 +253,13 @@
       <Selector ID="Position" Value="Absolute">
         <Property ID="X" Value="0.3" />
         <Property ID="Y" Value="4.26" />
+      </Selector>
+    </Selector>
+    <Selector ID="TrafficObject[12]" Value="Waypoint">
+      <Property ID="Name" Value="G17" />
+      <Selector ID="Position" Value="Absolute">
+        <Property ID="X" Value="0.54" />
+        <Property ID="Y" Value="1.86" />
       </Selector>
     </Selector>
   </Element>

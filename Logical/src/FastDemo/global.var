@@ -1,3 +1,3 @@
 VAR
-    gFastDemo : FastDemoType := (0);
+	gFastDemo : FastDemoType := (0);
 END_VAR

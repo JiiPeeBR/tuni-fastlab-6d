@@ -36,10 +36,20 @@ PROGRAM _CYCLIC
 	
 	// Detect state change events
 	// =================================================================================================================
+	// Record information which state caused abort
+	fb.R_TRIG_Abort(CLK := em.Command.Abort);
+	
+	IF fb.R_TRIG_Abort.Q THEN
+		task.Error.State := em.StateCurrent;
+		task.Error.SubState := em.SubState;
+		task.Error.Description := em.StateInfo; 
+	END_IF;
+	
 	// State change event
 	fb.rtStateComplete(CLK := em.Command.StateComplete);
 	
 	IF fb.rtStateComplete.Q THEN
+		em.StateInfo := '';
 		brsmemset(ADR(actions_state), 0, SIZEOF(actions_state));
 		
 		// Record information which state caused abort
@@ -60,14 +70,12 @@ PROGRAM _CYCLIC
 		
 	// Substate changed event
 	IF em.SubState <> local.lastSubState THEN
-		// Reset actions always when state changes
+		em.StateInfo := '';
 		brsmemset(ADR(actions_substate), 0, SIZEOF(actions_substate));
+		local.lastSubState := em.SubState;
 	END_IF;
 	
-	local.lastState := em.StateCurrent;
-	local.lastSubState := em.SubState;
-	local.lastStateInfo := em.StateInfo;
-
+	
 	// PackML equipment module
 	// =================================================================================================================
 	em();
@@ -84,6 +92,10 @@ PROGRAM _CYCLIC
 	fb.TrafficControl.Resume := actions_substate.traffic_resume;
 	fb.TrafficControl.Stop := actions_substate.traffic_stop;
 	fb.TrafficControl();
+	
+	fb.TON_RecoverTimeout.IN := fb.TrafficControl.RecoverBuffered;
+	fb.TON_RecoverTimeout.PT := T#5s;
+	fb.TON_RecoverTimeout();
 	
 	fb.TrafficMonitor.Enable := TRUE;
 	fb.TrafficMonitor.MpLink := ADR(TrafficManager_x6d_1);
@@ -109,9 +121,10 @@ PROGRAM _CYCLIC
 		station.Control.MpLink := ADR(TrafficManager_x6d_1);
 		station.Control.ErrorReset := actions_state.error_reset;
 		station.Control.Release := station.Operation.StationQueueControl.ReleaseShuttle;
+		station.Control.SelectNextShuttle := station.Operation.StationQueueControl.SelectNextShuttle;
 		station.Control();
 		
-		station.Operation.StationQueueControl.Enable := TRUE;
+		station.Operation.StationQueueControl.Enable := actions_state.activate_queue_control;
 		station.Operation.StationQueueControl.ReleaseShuttles := station.Commands.Release;
 		station.Operation.StationQueueControl.pStationControl := ADR(station.Control);
 		station.Operation.StationQueueControl();
@@ -123,8 +136,23 @@ PROGRAM _CYCLIC
 		station.Operation.MoveArc.Execute := station.Commands.MoveArc;
 		station.Operation.MoveArc();
 		
+		station.Operation.Move6D.Execute := station.Commands.Move6D;
+		station.Operation.Move6D();
+		
+		station.Operation.MoveShortAxis.Execute := station.Commands.MoveShortAxis;
+		station.Operation.MoveShortAxis();
+		
 		station.Operation.Spin.Execute := station.Commands.Spin;
 		station.Operation.Spin();
+		
+		station.Operation.TiltAround.Execute := station.Commands.TiltAround;
+		station.Operation.TiltAround();
+		
+		station.Operation.SunPlanet.Execute := station.Commands.ChangePlanet;
+		station.Operation.SunPlanet();
+		
+		station.Operation.GetShuttleInfo.Execute := station.Commands.GetShuttleInfo;
+		station.Operation.GetShuttleInfo();
 		
 		// Macro		
 		station.Macro.MacroCreate.Assembly := ADR(gAssembly6D_Big);
@@ -156,8 +184,34 @@ PROGRAM _CYCLIC
 		station.Group.GroupCoupleCtrl.Execute := station.Commands.Group.ChangeCoupling;
 		station.Group.GroupCoupleCtrl.ShuttleGroup := ADR(station.Group.ShuttleGroup);
 		station.Group.GroupCoupleCtrl();
+		
+		// Zone
+		station.Zone.ZoneCreate.Execute := station.Commands.Zone.Create;
+		station.Zone.ZoneCreate.Assembly := ADR(gAssembly6D_Big);
+		station.Zone.ZoneCreate();
+		
+		station.Zone.ZoneGetBarrierInfo.Execute := station.Commands.Zone.GetBarrierInfo;
+		station.Zone.ZoneGetBarrierInfo.Zone := ADR(station.Zone.Zone);
+		station.Zone.ZoneGetBarrierInfo();
+		
+		station.Zone.FindZone.Execute := station.Commands.Zone.Find;
+		station.Zone.FindZone.Assembly := ADR(gAssembly6D_Big);
+		station.Zone.FindZone();
+		
+		// Virtual
+		station.Virtual.VirtualShCreate.Execute := station.Commands.CreateVirtualShuttle;
+		station.Virtual.VirtualShCreate.Assembly := ADR(gAssembly6D_Big);
+		station.Virtual.VirtualShCreate();	
+		
+		// Wait
+		station.Operation.WaitCommandLabel.Execute := station.Commands.WaitCommandLabel;
+		station.Operation.WaitCommandLabel();
+		
+		station.Operation.WaitUntilAllDone.Execute := station.Commands.WaitUntilAllDone;
+		station.Operation.WaitUntilAllDone();
 	END_FOR;
-	
+
+
 	// Task outputs
 	// =================================================================================================================
     
@@ -170,6 +224,7 @@ PROGRAM _CYCLIC
 	gTasks.FastDemo.StateComplete := em.Command.StateComplete;
 	gTasks.FastDemo.StateInfo := em.StateInfo;
 	gTasks.FastDemo.WaitingForTask := em.Info.WaitingFor.Name;
+	gTasks.FastDemo.Error := task.Error;
 
 END_PROGRAM
 	
