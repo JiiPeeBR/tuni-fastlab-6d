@@ -9,7 +9,7 @@
       <Property ID="Gateway" Value="192.168.1.1" />
     </Group>
     <Group ID="Shuttles">
-      <Property ID="MaxShuttleCount" Value="35" Description="Maximum count of shuttles in the assembly" />
+      <Property ID="MaxShuttleCount" Value="20" Description="Maximum count of shuttles in the assembly" />
       <Property ID="ShuttleIDMode" Value="RealTimeID" />
       <Property ID="RealModeDetectionType" Value="Any" />
       <Group ID="DefaultPosition">
