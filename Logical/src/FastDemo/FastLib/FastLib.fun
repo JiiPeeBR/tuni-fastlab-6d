@@ -3,23 +3,24 @@ FUNCTION_BLOCK fdStationQueueControl
 	VAR_INPUT
 		Enable : BOOL;
 		ReleaseShuttles : BOOL;
-		ShuttleList : ARRAY[0..fdMAX_STATION_SHUTTLE_COUNT] OF MpTrafficShuttleInfoType;
-		ShuttleCapacity : DINT; (*Count how many shuttles process station can handle*)
-		Station_SelectedShuttle : MpTrafficStationShInfoType;
-		Station_Info : MpTrafficStationCtrlInfoType;
-		Station_ReleaseDone : BOOL;
-		Station_ReleaseAborted : BOOL;
+		ShuttleList : ARRAY[0..fdSTATION_SHUTTLE_LAST_INDEX] OF MpTrafficShuttleInfoType;
+		ShuttleCapacity : UINT; (*Count how many shuttles process station can handle*)
+		pStation : REFERENCE TO MpTrafficStationControl;
 	END_VAR
 	VAR_OUTPUT
 		ShuttleReleaseDone : BOOL;
-		Error : BOOL;
+		ShuttleReleaseAborted : BOOL;
 		ReleaseShuttle : BOOL;
-		SelectNextShuttle : BOOL;
+		NumOccypyingShuttles : UINT;
 	END_VAR
 	VAR
 		state : DINT;
+		lastState : DINT;
+		loop : DINT;
 		index : DINT;
-		shuttleIDToReleaseNext : UINT;
+		shuttleFound : BOOL;
+		shuttleIDToRelease : UINT;
+		shuttleIDToAutoRelease : UINT;
 	END_VAR
 END_FUNCTION_BLOCK
 
@@ -112,5 +113,46 @@ FUNCTION_BLOCK fdMove6D
 		i : DINT;
 		ShGetInfo : MC_BR_ShGetInfo_Acp6D;
 		Move6D : MC_BR_Move6D_Acp6D;
+	END_VAR
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK fdStation
+	VAR_INPUT
+		Assembly : REFERENCE TO Mc6DAssemblyType;
+		TrafficManager : REFERENCE TO MpTrafficManagerType;
+		Station : REFERENCE TO MpTrafficStationType;
+		NextStation : REFERENCE TO MpTrafficStationType;
+		Enable : BOOL;
+		NextState : BOOL;
+		JumpToState : UINT;
+		Parameters : fdStationParametersType;
+		Commands : fdStationCommandsType;
+		Operation : fdStationOperationType;
+		Loop : DINT;
+		StateInfo : STRING[80];
+	END_VAR
+	VAR_OUTPUT
+		State : UINT;
+		Active : BOOL;
+		NumOccupyingShuttles : UINT;
+		CommandDone : BOOL;
+		CommandAcknowledge : BOOL;
+		CommandError : BOOL;
+		ErrorID : DINT;
+		ErroredSequenceState : DINT;
+		Shuttles : fdStationShuttlesType;
+		VirtualShuttle : MpTrafficShuttleInfoType;
+		MacroShuttle : MpTrafficShuttleInfoType;
+	END_VAR
+	VAR
+		m_sequence_state : DINT;
+		m_control : fdStationMemberControlType;
+		m_move : fdStationMemberMoveType;
+		m_group : fdStationMemberGroupType;
+		m_macro : fdStationMemberMacroType;
+		m_zone : fdStationMemberZoneType;
+		m_cmd : fdStationMemberCommandType;
+		m_status : fdStationMemberStatusType;
+		m_var : fdStationMemberVarType;
 	END_VAR
 END_FUNCTION_BLOCK

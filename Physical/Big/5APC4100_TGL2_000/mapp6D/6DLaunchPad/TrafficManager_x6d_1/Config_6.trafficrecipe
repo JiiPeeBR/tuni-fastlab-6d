@@ -5,7 +5,9 @@
     <Property ID="ProductLabel" />
     <Group ID="ProcessStep[1]">
       <Property ID="StationName" Value="S1" />
-      <Selector ID="Process" Value="UserDefined" />
+      <Selector ID="Process" Value="DwellTime">
+        <Property ID="DwellTime" Value="1" />
+      </Selector>
       <Selector ID="Transition" Value="Next">
         <Property ID="ToStation" Value="S2" />
         <Property ID="Velocity" Value="2" />
@@ -14,7 +16,9 @@
     </Group>
     <Group ID="ProcessStep[2]">
       <Property ID="StationName" Value="S2" />
-      <Selector ID="Process" Value="UserDefined" />
+      <Selector ID="Process" Value="DwellTime">
+        <Property ID="DwellTime" Value="1" />
+      </Selector>
       <Selector ID="Transition" Value="Next">
         <Property ID="ToStation" Value="B1" />
         <Property ID="Velocity" Value="2" />
@@ -43,7 +47,9 @@
     </Group>
     <Group ID="ProcessStep[4]">
       <Property ID="StationName" Value="S3" />
-      <Selector ID="Process" Value="UserDefined" />
+      <Selector ID="Process" Value="DwellTime">
+        <Property ID="DwellTime" Value="1" />
+      </Selector>
       <Selector ID="Transition" Value="Next">
         <Property ID="ToStation" Value="S5" />
         <Property ID="Velocity" Value="2" />
@@ -52,7 +58,9 @@
     </Group>
     <Group ID="ProcessStep[5]">
       <Property ID="StationName" Value="S4" />
-      <Selector ID="Process" Value="UserDefined" />
+      <Selector ID="Process" Value="DwellTime">
+        <Property ID="DwellTime" Value="1" />
+      </Selector>
       <Selector ID="Transition" Value="Next">
         <Property ID="ToStation" Value="S5" />
         <Property ID="Velocity" Value="2" />
@@ -61,7 +69,9 @@
     </Group>
     <Group ID="ProcessStep[6]">
       <Property ID="StationName" Value="S5" />
-      <Selector ID="Process" Value="UserDefined" />
+      <Selector ID="Process" Value="DwellTime">
+        <Property ID="DwellTime" Value="1" />
+      </Selector>
       <Selector ID="Transition" Value="Next">
         <Property ID="ToStation" Value="S6" />
         <Property ID="Velocity" Value="2" />

@@ -37,38 +37,23 @@ ACTION PackML_state_machine:
 	  					em.SubState := 10;
 					END_IF;
 				10:
-					em.StateInfo := 'Delete all macros';
+					em.StateInfo := 'Wait until all stations are deactivated';
 					// -----------------------------------------------------------------
-					actions_substate.macro_delete := TRUE;
-					IF fb.MacroDelete.Done THEN
-						FOR station_num := 0 TO STATION_COUNT DO
-							brsmemset(ADR(stations[station_num].Macro.Shuttle), 0, SIZEOF(stations[station_num].Macro.Shuttle));
-						END_FOR;
-						em.SubState := 20;
-					END_IF;
-				20:
-					em.StateInfo := 'Delete all groups';
-					// -----------------------------------------------------------------
-					actions_state.group_get_enable := TRUE;
+					local.allStationsDeactivated := TRUE;
 					
-					IF fb.GroupGet.Valid THEN
-						IF fb.GroupGet.TotalCount = 0 THEN
-							// Clear all shuttle group references
-							FOR station_num := 0 TO STATION_COUNT DO
-	  							brsmemset(ADR(stations[station_num].Group.ShuttleGroup), 0, SIZEOF(stations[station_num].Group.ShuttleGroup));
-							END_FOR;
-	  						em.SubState := 100;
-						ELSE
-							fb.GroupDelete.ShuttleGroup := ADR(fb.GroupGet.ShuttleGroup);
-							actions_substate.group_delete := TRUE;
-							IF fb.GroupDelete.Done THEN
-								// Get next group in the assembly
-								fb.GroupGet(Next := TRUE);
-								fb.GroupGet(Next := FALSE);
-								actions_substate.group_delete := FALSE;
-							END_IF;
-						END_IF;
-					END_IF;		
+					FOR station_num := 0 TO STATION_COUNT DO
+						station ACCESS ADR(stations[station_num]);
+						
+						IF station.Active THEN
+							local.allStationsDeactivated := FALSE;
+							EXIT;
+						END_IF;	
+					END_FOR;
+					
+					IF local.allStationsDeactivated THEN
+	  					em.SubState := 100;
+					END_IF;
+					
 				100:
 					em.StateInfo := 'Reset complete';
 					// -----------------------------------------------------------------	
@@ -115,7 +100,7 @@ ACTION PackML_state_machine:
             // -----------------------------------------------------------------
 			em.Command.StateComplete := TRUE;
 			
-			actions_state.activate_queue_control := TRUE;
+			actions_state.activate_stations := TRUE;
 			
 			execute_station_S1;
 			execute_station_S2;

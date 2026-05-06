@@ -49,6 +49,7 @@
     <Parameter ID="ConfigurationID" Value="MainSystem_Config1" />
     <Parameter ID="ActivateHypervisor" Value="1" />
     <Parameter ID="ARembDramSizeInMb" Value="2048" />
+    <Parameter ID="Simulation" Value="1" />
     <Parameter ID="TimerDeviceType" Value="EPLX2X" />
     <Parameter ID="TimerDevice" Value="5LS182.8.IF1" />
     <Parameter ID="TaskClassIdleTime" Value="2000" />

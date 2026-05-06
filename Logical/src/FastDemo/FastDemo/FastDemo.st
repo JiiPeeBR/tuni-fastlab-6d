@@ -22,7 +22,6 @@ PROGRAM _CYCLIC
     // =================================================================================================================
     task ACCESS ADR(gFastDemo);
 
-
     // Inputs
     // =================================================================================================================
     IF NOT task.Input.Force THEN
@@ -58,14 +57,6 @@ PROGRAM _CYCLIC
 			task.Error.SubState := local.lastSubState;
 			task.Error.Description := local.lastStateInfo;
 		END_IF;
-		
-		FOR station_num := 0 TO STATION_COUNT DO
-			// Reset station commands when major state changes
-			stations[station_num].State := 0;
-			brsmemset(ADR(stations[station_num].Var), 0, SIZEOF(stations[station_num].Var));
-			brsmemset(ADR(stations[station_num].Commands), 0, SIZEOF(stations[station_num].Commands));
-			stations[station_num].Macro.Execute := FALSE;
-		END_FOR;
 	END_IF;
 		
 	// Substate changed event
@@ -101,120 +92,17 @@ PROGRAM _CYCLIC
 	fb.TrafficMonitor.MpLink := ADR(TrafficManager_x6d_1);
 	fb.TrafficMonitor();
 	
-	fb.MacroDelete.Assembly := ADR(gAssembly6D_Big);
-	fb.MacroDelete.Execute := actions_substate.macro_delete;
-	fb.MacroDelete.Command := mcACP6D_MACRO_DELETE_ALL;
-	fb.MacroDelete();
-	
-	fb.GroupGet.Assembly := ADR(gAssembly6D_Big);
-	fb.GroupGet.Enable := actions_state.group_get_enable;
-	fb.GroupGet();
-	
-	fb.GroupDelete.Execute := actions_substate.group_delete;
-	fb.GroupDelete();
-	
-	// Perform all common station operations
+	// Station logic calls
 	FOR station_num := 0 TO STATION_COUNT DO
 		station ACCESS ADR(stations[station_num]);
 		
-		// Station control
-		station.Control.MpLink := ADR(TrafficManager_x6d_1);
-		station.Control.ErrorReset := actions_state.error_reset;
-		station.Control.Release := station.Operation.StationQueueControl.ReleaseShuttle;
-		station.Control.SelectNextShuttle := station.Operation.StationQueueControl.SelectNextShuttle;
-		station.Control();
+		station.Enable := actions_state.activate_stations;
+		station.Parameters.StationNumber := station_num;
+		station.Assembly := ADR(gAssembly6D_Big);
+		station.TrafficManager := ADR(TrafficManager_x6d_1);
+		station();
+	END_FOR
 		
-		station.Operation.StationQueueControl.Enable := actions_state.activate_queue_control;
-		station.Operation.StationQueueControl.ReleaseShuttles := station.Commands.Release;
-		station.Operation.StationQueueControl.Station_SelectedShuttle := station.Control.SelectedShuttle;
-		station.Operation.StationQueueControl.Station_Info := station.Control.Info;
-		station.Operation.StationQueueControl.Station_ReleaseDone := station.Control.ReleaseDone;
-		station.Operation.StationQueueControl.Station_ReleaseAborted := station.Control.ReleaseAborted;
-		station.Operation.StationQueueControl();
-		
-		// Movement 
-		station.Operation.MoveInPlane.Execute := station.Commands.MoveInPlane;
-		station.Operation.MoveInPlane();
-		
-		station.Operation.MoveArc.Execute := station.Commands.MoveArc;
-		station.Operation.MoveArc();
-		
-		station.Operation.Move6D.Execute := station.Commands.Move6D;
-		station.Operation.Move6D();
-		
-		station.Operation.MoveShortAxis.Execute := station.Commands.MoveShortAxis;
-		station.Operation.MoveShortAxis();
-		
-		station.Operation.Spin.Execute := station.Commands.Spin;
-		station.Operation.Spin();
-		
-		station.Operation.TiltAround.Execute := station.Commands.TiltAround;
-		station.Operation.TiltAround();
-		
-		station.Operation.SunPlanet.Execute := station.Commands.ChangePlanet;
-		station.Operation.SunPlanet();
-		
-		station.Operation.GetShuttleInfo.Execute := station.Commands.GetShuttleInfo;
-		station.Operation.GetShuttleInfo();
-		
-		// Macro		
-		station.Macro.MacroCreate.Assembly := ADR(gAssembly6D_Big);
-		station.Macro.MacroCreate.Parameters.Name := station.Macro.Name;
-		station.Macro.MacroCreate.Execute := station.Commands.Macro.Create;
-		station.Macro.MacroCreate();
-		
-		station.Macro.MacroSave.Shuttle := ADR(station.Macro.Shuttle);
-		station.Macro.MacroSave.Execute := station.Commands.Macro.Save;
-		station.Macro.MacroSave();
-		
-		station.Macro.MacroRun.Name := station.Macro.Name;
-		station.Macro.MacroRun.Execute := station.Macro.Execute;
-		station.Macro.MacroRun();
-		
-		// Group
-		station.Group.GroupCreate.Execute := station.Commands.Group.Create;
-		station.Group.GroupCreate.Assembly := ADR(gAssembly6D_Big);
-		station.Group.GroupCreate();
-		
-		station.Group.GroupClear.Execute := station.Commands.Group.Clear;
-		station.Group.GroupClear.ShuttleGroup := ADR(station.Group.ShuttleGroup);
-		station.Group.GroupClear();
-		
-		station.Group.GroupAddShuttle.Execute := station.Commands.Group.AddShuttle;
-		station.Group.GroupAddShuttle.ShuttleGroup := ADR(station.Group.ShuttleGroup);
-		station.Group.GroupAddShuttle();
-		
-		station.Group.GroupCoupleCtrl.Execute := station.Commands.Group.ChangeCoupling;
-		station.Group.GroupCoupleCtrl.ShuttleGroup := ADR(station.Group.ShuttleGroup);
-		station.Group.GroupCoupleCtrl();
-		
-		// Zone
-		station.Zone.ZoneCreate.Execute := station.Commands.Zone.Create;
-		station.Zone.ZoneCreate.Assembly := ADR(gAssembly6D_Big);
-		station.Zone.ZoneCreate();
-		
-		station.Zone.ZoneGetBarrierInfo.Execute := station.Commands.Zone.GetBarrierInfo;
-		station.Zone.ZoneGetBarrierInfo.Zone := ADR(station.Zone.Zone);
-		station.Zone.ZoneGetBarrierInfo();
-		
-		station.Zone.FindZone.Execute := station.Commands.Zone.Find;
-		station.Zone.FindZone.Assembly := ADR(gAssembly6D_Big);
-		station.Zone.FindZone();
-		
-		// Virtual
-		station.Virtual.VirtualShCreate.Execute := station.Commands.CreateVirtualShuttle;
-		station.Virtual.VirtualShCreate.Assembly := ADR(gAssembly6D_Big);
-		station.Virtual.VirtualShCreate();	
-		
-		// Wait
-		station.Operation.WaitCommandLabel.Execute := station.Commands.WaitCommandLabel;
-		station.Operation.WaitCommandLabel();
-		
-		station.Operation.WaitUntilAllDone.Execute := station.Commands.WaitUntilAllDone;
-		station.Operation.WaitUntilAllDone();
-	END_FOR;
-
-
 	// Task outputs
 	// =================================================================================================================
     
