@@ -26,8 +26,81 @@ PROGRAM _CYCLIC
     // =================================================================================================================
     IF NOT task.Input.Force THEN
 
-    END_IF
-      
+	END_IF
+	
+	CASE test_state OF
+		0:
+			move6DSync.Execute := FALSE;
+		
+		10:
+			move6DSync.Home := TRUE;
+			IF move6DSync.Done THEN
+				move6DSync.Home := FALSE;
+				test_state := test_state + 1;
+			END_IF;
+		11:
+			move6DSync.Parameters.Position.X := 0.480;
+			move6DSync.Parameters.Position.Y := 0.060;
+			move6DSync.Parameters.Position.Z := 0.004;
+			move6DSync.Execute := TRUE;
+			IF move6DSync.Acknowledge THEN
+				move6DSync.Execute := FALSE;
+	  			test_state := test_state + 1;
+			END_IF;
+		12:
+			move6DSync.Parameters.Position.X := 0.660;
+			move6DSync.Parameters.Position.Y := 0.060;
+			move6DSync.Parameters.Position.Z := 0.001;
+			move6DSync.Execute := TRUE;
+			IF move6DSync.Acknowledge THEN
+				move6DSync.Execute := FALSE;
+				test_state := test_state + 1;
+			END_IF;
+		13:
+			move6DSync.Parameters.Position.X := 0.660;
+			move6DSync.Parameters.Position.Y := 0.180;
+			move6DSync.Parameters.Position.Z := 0.004;
+			move6DSync.Execute := TRUE;
+			IF move6DSync.Acknowledge THEN
+				move6DSync.Execute := FALSE;
+				test_state := test_state + 1;
+			END_IF;
+		14:
+			move6DSync.Parameters.Position.X := 0.480;
+			move6DSync.Parameters.Position.Y := 0.180;
+			move6DSync.Parameters.Position.Z := 0.001;
+			move6DSync.Execute := TRUE;
+			IF move6DSync.Acknowledge THEN
+				move6DSync.Execute := FALSE;
+				test_state := test_state + 1;
+			END_IF;
+		15:
+			move6DSync.Parameters.Position.X := 0.300;
+			move6DSync.Parameters.Position.Y := 0.180;
+			move6DSync.Parameters.Position.Z := 0.004;
+			move6DSync.Execute := TRUE;
+			IF move6DSync.Acknowledge THEN
+				move6DSync.Execute := FALSE;
+				test_state := test_state + 1;
+			END_IF;
+		16:
+			move6DSync.Parameters.Position.X := 0.300;
+			move6DSync.Parameters.Position.Y := 0.060;
+			move6DSync.Parameters.Position.Z := 0.001;
+			move6DSync.Execute := TRUE;
+			IF move6DSync.Acknowledge THEN
+				move6DSync.Execute := FALSE;
+				test_state := test_state + 1;
+			END_IF;
+	END_CASE;
+	
+	move6DSync.Shuttle := ADR(gShuttles.Shuttle[0].Ref);
+	move6DSync.Parameters.Acceleration.Z := 10;
+	move6DSync.Parameters.Acceleration.Rx := 10;
+	move6DSync.Parameters.Acceleration.Ry := 10;
+	move6DSync.Parameters.Acceleration.Rz := 10;
+	move6DSync();
+	
 	// Task state machine
 	// =================================================================================================================
 	// PackML state machine execution  

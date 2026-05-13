@@ -10,7 +10,7 @@
     <File>fdWaitUntilIdle.st</File>
     <File>fdPulse.st</File>
     <File>fdFindZone.st</File>
-    <File>fdMove6D.st</File>
+    <File>fdMove6DSync.st</File>
     <File>fdStation.st</File>
   </Files>
 </Library>

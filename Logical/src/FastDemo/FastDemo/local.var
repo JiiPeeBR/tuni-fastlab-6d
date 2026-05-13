@@ -22,4 +22,7 @@ END_VAR
 VAR
 	stations : ARRAY[0..STATION_COUNT] OF fdStation;
 	station : REFERENCE TO fdStation;
+	move6DSync : fdMove6DSync;
+	cyclic_position : MC_BR_ReadCyclicPosition_Acp6D;
+	test_state : UDINT;
 END_VAR

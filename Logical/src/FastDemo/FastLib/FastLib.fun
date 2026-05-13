@@ -97,25 +97,6 @@ FUNCTION_BLOCK fdFindZone
 	END_VAR
 END_FUNCTION_BLOCK
 
-FUNCTION_BLOCK fdMove6D
-	VAR_INPUT
-		Shuttle : REFERENCE TO Mc6DShuttleType; (*The assembly reference establishes the connection between the function block and the assembly.*)
-		Execute : BOOL;
-		Parameters : fdMove6DParametersType;
-	END_VAR
-	VAR_OUTPUT
-		Acknowledge : BOOL;
-		Done : BOOL;
-		Error : BOOL;
-	END_VAR
-	VAR
-		state : DINT;
-		i : DINT;
-		ShGetInfo : MC_BR_ShGetInfo_Acp6D;
-		Move6D : MC_BR_Move6D_Acp6D;
-	END_VAR
-END_FUNCTION_BLOCK
-
 FUNCTION_BLOCK fdStation
 	VAR_INPUT
 		Assembly : REFERENCE TO Mc6DAssemblyType;
@@ -156,3 +137,57 @@ FUNCTION_BLOCK fdStation
 		m_var : fdStationMemberVarType;
 	END_VAR
 END_FUNCTION_BLOCK
+(**)
+
+FUNCTION_BLOCK fdMove6DSync
+	VAR_INPUT
+		Shuttle : REFERENCE TO Mc6DShuttleType;
+		Execute : BOOL;
+		Home : BOOL;
+		Parameters : fdMove6DSyncParametersType;
+	END_VAR
+	VAR_OUTPUT
+		Acknowledge : BOOL;
+		Done : BOOL;
+		Error : BOOL;
+		ErrorID : DINT;
+		CurrentPosition : McAcp6DShPositionType;
+	END_VAR
+	VAR
+		state : DINT;
+		i : DINT;
+		ShGetInfo : MC_BR_ShGetInfo_Acp6D;
+		Move6D : MC_BR_Move6D_Acp6D;
+		m : fdMove6DSyncMemberType;
+	END_VAR
+END_FUNCTION_BLOCK
+
+FUNCTION fdCalcTimeToTarget : REAL
+	VAR_INPUT
+		Distance : REAL;
+		MaxVelocity : REAL;
+		Acceleration : REAL;
+	END_VAR
+	VAR
+		timeToMaxVelocity : REAL;
+		distanceToMaxVelocity : REAL;
+		distanceToTarget : REAL;
+	END_VAR
+END_FUNCTION
+
+FUNCTION fdCalcTargetVelocity : REAL
+	VAR_INPUT
+		Distance : REAL;
+		TimeToTarget : REAL;
+		Acceleration : REAL;
+	END_VAR
+	VAR
+		minimumVelocity : REAL;
+		discriminant : REAL;
+		a : REAL;
+		b : REAL;
+		c : REAL;
+		x1 : REAL;
+		x2 : REAL;
+	END_VAR
+END_FUNCTION

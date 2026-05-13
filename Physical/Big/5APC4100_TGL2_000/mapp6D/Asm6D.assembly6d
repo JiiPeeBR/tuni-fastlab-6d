@@ -26,10 +26,10 @@
         </Group>
         <Group ID="ShortAxLim">
           <Group ID="ShortAxAccLim">
-            <Property ID="AccZLim" Value="1" />
-            <Property ID="AccRxLim" Value="5" />
-            <Property ID="AccRyLim" Value="5" />
-            <Property ID="AccRzLim" Value="5" />
+            <Property ID="AccZLim" Value="10.0" />
+            <Property ID="AccRxLim" Value="10.0" />
+            <Property ID="AccRyLim" Value="10.0" />
+            <Property ID="AccRzLim" Value="10.0" />
           </Group>
           <Group ID="ShortAxVelLim">
             <Property ID="VelZLim" Value="0.15" />
