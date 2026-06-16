@@ -1,6 +1,6 @@
 /* Automation Studio generated header file */
 /* Do not edit ! */
-/* McAcp6D 3.6.0 */
+/* McAcp6D 3.7.0 */
 
 #ifndef _MCACP6D_
 #define _MCACP6D_
@@ -9,7 +9,7 @@ extern "C"
 {
 #endif
 #ifndef _McAcp6D_VERSION
-#define _McAcp6D_VERSION 3.6.0
+#define _McAcp6D_VERSION 3.7.0
 #endif
 
 #include <bur/plctypes.h>
@@ -447,7 +447,9 @@ typedef enum McAcp6DSegmentTypeEnum
 {	mcACP6D_SEG_S3_AS = 0,
 	mcACP6D_SEG_S3_AN_X = 1,
 	mcACP6D_SEG_S3_AN_Y = 2,
-	mcACP6D_SEG_S4_AS = 3
+	mcACP6D_SEG_S4_AS = 3,
+	mcACP6D_SEG_S4_AN_X = 4,
+	mcACP6D_SEG_S4_AN_Y = 5
 } McAcp6DSegmentTypeEnum;
 
 typedef enum McAcp6DSegmentGapSizeEnum

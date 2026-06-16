@@ -17,7 +17,7 @@
     <Object Type="Package">mappView</Object>
   </Objects>
   <Configuration ModuleId="5APC4100.TGL2-000">
-    <AutomationRuntime Version="6.6.2" />
+    <AutomationRuntime Version="6.7.5" />
     <Build GccVersion="11.3.0" />
     <DefaultTargetMemory Tasks="UserROM" />
     <Transfer AddToUserPart="False" AllowDowngrade="False" AllowInitialTransfer="False" AllowPartitioning="False" ExecuteInitExitProgram="False" ForceInitialTransfer="False" IgnoreVersion="True" KeepNonVolatileMemory="False" PreserveVariableValues="True" ProjectConsistent="False" RebootDuringTransfer="False" TargetIdentificationType="Always" TryToBootInRunMode="True" UserFilesIgnoreDifference="True" WaitForReconnectAfterReboot="True" />

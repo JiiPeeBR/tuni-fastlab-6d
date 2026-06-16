@@ -294,14 +294,72 @@ TYPE
     END_STRUCT;
 
     MpTrafficListNamesParType : STRUCT
-        Name : STRING[80] ; (*Name of the list.*)
+        Name : STRING[80]; (*Name of the list.*)
+    END_STRUCT;
+
+    MpTrafficRecipesParType : STRUCT
+		ArrayAddress : {REDUND_UNREPLICABLE} UDINT; (*List of recipes. Address of the array of datatype MpTrafficRecipeParType.*)
+        ArraySize : UINT; (*Size of the data array. (ArraySize = sizeof(array)/sizeof(array[0])).*)
+        NumberOfRecipes : UINT; (*Number of recipes.*)
+    END_STRUCT;
+
+
+    MpTrafficRecipeParType : STRUCT
+        Name : STRING[80]; (*Name of the recipe.*)
     END_STRUCT;
 
     MpTrafficManagerParamInfoType : STRUCT
         Diag : MpTrafficDiagType; (*Diagnostic structure for the status ID.*)
     END_STRUCT;
 
-    MpTrafficRecipeControlInfoType : STRUCT
+    MpTrafficRecipeProcessStepsType : STRUCT
+	ArrayAddress : {REDUND_UNREPLICABLE} UDINT; (*List of process steps. Address of the array of datatype MpTrafficRecipeProcessStepType.*)
+        ArraySize : UINT; (*Size of the data array. (ArraySize = sizeof(array)/sizeof(array[0])).*)
+        NumberOfProcessSteps : UINT; (*Number of process steps.*)
+    END_STRUCT;
+    MpTrafficRecipeProcessStepType : STRUCT
+        Station : STRING[80]; (*Name of the station this process step controls.*)
+    END_STRUCT;
+
+    MpTrafficRecipeParamInfoType : STRUCT
+        Diag : MpTrafficDiagType; (*Diagnostic structure for the status ID.*)
+    END_STRUCT;
+
+    MpTrafficProcessParType : STRUCT
+        Type : MpTrafficProcessTypeEnum; (*Type of process.*)
+        Dwell : MpTrafficProcessDwellType; (*Data for dwell process.*)
+    END_STRUCT;
+
+    MpTrafficProcessDwellType : STRUCT
+        DwellTime : REAL; (* Dwell time in seconds. *)
+    END_STRUCT;
+
+    MpTrafficTransitionParType : STRUCT
+        Type : MpTrafficTransitionTypeEnum; (*Type of transition.*)
+        Next : MpTrafficTransitionNextType; (*Data for next transition.*)
+        Distribution : MpTrafficTransitionDistType; (*Data for distribution transition.*)
+    END_STRUCT;
+
+    MpTrafficTransitionNextType : STRUCT
+        Station : STRING[80]; (*Name of the next station to move to.*)
+        Velocity : REAL; (*Move velocity in m/s.*)
+        Acceleration : REAL; (*Move acceleration in m/s^2.*)
+    END_STRUCT;
+
+    MpTrafficTransitionDistType : STRUCT
+        ArrayAddress : {REDUND_UNREPLICABLE} UDINT; (*Distributions from this step. Address of the array of datatype MpTrafficDistBranchParType.*)
+        ArraySize : UINT; (*Size of the data array. (ArraySize = sizeof(array)/sizeof(array[0])).*)
+        NumberOfBranches : UINT; (*Number of branches.*)
+    END_STRUCT;
+
+    MpTrafficDistBranchParType : STRUCT
+        ShuttleCount : UINT; (*Number of shuttles to send to this branch.*)
+        Station : STRING[80]; (*Name of the next station to move to for this branch.*)
+        Velocity : REAL; (*Move velocity in m/s.*)
+        Acceleration : REAL; (*Move acceleration in m/s^2.*)
+    END_STRUCT;
+
+    MpTrafficProcStepParamInfoType : STRUCT
         Diag : MpTrafficDiagType; (*Diagnostic structure for the status ID.*)
     END_STRUCT;
 END_TYPE
@@ -421,6 +479,18 @@ TYPE
     MpTrafficMotionSystemTypeEnum :
         ( (*Motion system controlled by the Traffic Manager.*)
         mpTRAFFIC_MOTION_SYS_ACP6D := 0 (*ACOPOS 6D system.*)
+        );
+    MpTrafficProcessTypeEnum :
+        ( (*Process type.*)
+        mpTRAFFIC_PROCESS_DWELL := 0, (*Dwell process*)
+        mpTRAFFIC_PROCESS_USER_DEFINED := 1 (*User defined process*)
+        );
+    MpTrafficTransitionTypeEnum :
+        ( (*Transition type.*)
+        mpTRAFFIC_TRANS_NEXT := 0, (*Next transition*)
+        mpTRAFFIC_TRANS_USER_DEFINED := 1, (*User defined transition*)
+        mpTRAFFIC_TRANS_DISTRIBUTION := 2 (*Branch transition*)
+        
         );
     
 END_TYPE

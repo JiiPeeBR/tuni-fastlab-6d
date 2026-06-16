@@ -1,6 +1,6 @@
 /* Automation Studio generated header file */
 /* Do not edit ! */
-/* MpTraffic 3.6.0 */
+/* MpTraffic 3.7.0 */
 
 #ifndef _MPTRAFFIC_
 #define _MPTRAFFIC_
@@ -9,7 +9,7 @@ extern "C"
 {
 #endif
 #ifndef _MpTraffic_VERSION
-#define _MpTraffic_VERSION 3.6.0
+#define _MpTraffic_VERSION 3.7.0
 #endif
 
 #include <bur/plctypes.h>
@@ -150,6 +150,17 @@ typedef enum MpTrafficMotionSystemTypeEnum
 {	mpTRAFFIC_MOTION_SYS_ACP6D = 0
 } MpTrafficMotionSystemTypeEnum;
 
+typedef enum MpTrafficProcessTypeEnum
+{	mpTRAFFIC_PROCESS_DWELL = 0,
+	mpTRAFFIC_PROCESS_USER_DEFINED = 1
+} MpTrafficProcessTypeEnum;
+
+typedef enum MpTrafficTransitionTypeEnum
+{	mpTRAFFIC_TRANS_NEXT = 0,
+	mpTRAFFIC_TRANS_USER_DEFINED = 1,
+	mpTRAFFIC_TRANS_DISTRIBUTION = 2
+} MpTrafficTransitionTypeEnum;
+
 typedef enum MpTrafficErrorEnum
 {	mpTRAFFIC_NO_ERROR = 0,
 	mpTRAFFIC_ERR_ACTIVATION = -1064239103,
@@ -172,20 +183,24 @@ typedef enum MpTrafficErrorEnum
 	mpTRAFFIC_ERR_REC_ARR_NULL = -1065745882,
 	mpTRAFFIC_ERR_MAP_ARR_NULL = -1065745881,
 	mpTRAFFIC_ERR_LISTS_ARR_NULL = -1065745880,
+	mpTRAFFIC_ERR_DATA_ARR_NULL = -1065745879,
 	mpTRAFFIC_ERR_EMPTY_OR_DUPL_NAME = -1065745877,
 	mpTRAFFIC_ERR_LISTNAME_CONFLICT = -1065745876,
 	mpTRAFFIC_ERR_REC_ARR_SIZE = -1065745872,
 	mpTRAFFIC_ERR_MAP_ARR_SIZE = -1065745871,
 	mpTRAFFIC_ERR_LISTS_ARR_SIZE = -1065745870,
+	mpTRAFFIC_ERR_DATA_ARR_SIZE = -1065745869,
 	mpTRAFFIC_WRN_REC_ARR_READ = -2139487686,
 	mpTRAFFIC_WRN_MAP_ARR_READ = -2139487685,
 	mpTRAFFIC_WRN_READ_NOT_ALL_LISTS = -2139487684,
+	mpTRAFFIC_WRN_READ_NOT_ALL_DATA = -2139487683,
 	mpTRAFFIC_ERR_OBJ_LST_NOT_EXIST = -1065745852,
 	mpTRAFFIC_ERR_MAP_LST_NOT_EXIST = -1065745851,
 	mpTRAFFIC_ERR_OBJ_NOT_IN_LIST = -1065745850,
 	mpTRAFFIC_ERR_OBJ_NO_LIST = -1065745847,
 	mpTRAFFIC_ERR_MAP_NO_LIST = -1065745846,
 	mpTRAFFIC_ERR_CHANGE_PARAM_STATE = -1065745832,
+	mpTRAFFIC_ERR_CHANGE_PARAM_REC = -1065745831,
 	mpTRAFFIC_ERR_ASM_CFG_BASE_READ = -1065745431,
 	mpTRAFFIC_ERR_ASM_CFG_BASE_TYPE = -1065745430,
 	mpTRAFFIC_ERR_ASM_CFG_BASE_REF = -1065745429,
@@ -233,6 +248,7 @@ typedef enum MpTrafficErrorEnum
 	mpTRAFFIC_ERR_PATH_NULL = -1065716303,
 	mpTRAFFIC_ERR_CMD_RTE_ACT = -1065716302,
 	mpTRAFFIC_ERR_SH_CONTROL_INVALID = -1065716301,
+	mpTRAFFIC_ERR_STATION_NAME = -1065716298,
 	mpTRAFFIC_ERR_ASSIGN_OBJ_TYPE = -1065716287,
 	mpTRAFFIC_ERR_RECOVER_POINTS = -1065716212,
 	mpTRAFFIC_ERR_RECOVER_SH = -1065716202,
@@ -248,7 +264,11 @@ typedef enum MpTrafficErrorEnum
 	mpTRAFFIC_ERR_RECIPE_ALL_EXIST = -1065716124,
 	mpTRAFFIC_ERR_RECIPE_ALL_INVALID = -1065716123,
 	mpTRAFFIC_ERR_RECIPE_ALL_PRODUCT = -1065716122,
-	mpTRAFFIC_ERR_RECIPE_CFG_STATE = -1065716112
+	mpTRAFFIC_ERR_RCP_STEP_NOT_EXIST = -1065716121,
+	mpTRAFFIC_ERR_RECIPE_NO_DIST = -1065716120,
+	mpTRAFFIC_ERR_RECIPE_CFG_STATE = -1065716112,
+	mpTRAFFIC_ERR_RCP_PAR_USER_DEF = -1065716072,
+	mpTRAFFIC_ERR_RCP_PAR_TRANS_ST = -1065716070
 } MpTrafficErrorEnum;
 
 typedef struct MpTrafficPositionType
@@ -548,13 +568,71 @@ typedef struct MpTrafficListNamesParType
 {	plcstring Name[81];
 } MpTrafficListNamesParType;
 
+typedef struct MpTrafficRecipesParType
+{	unsigned long ArrayAddress;
+	unsigned short ArraySize;
+	unsigned short NumberOfRecipes;
+} MpTrafficRecipesParType;
+
+typedef struct MpTrafficRecipeParType
+{	plcstring Name[81];
+} MpTrafficRecipeParType;
+
 typedef struct MpTrafficManagerParamInfoType
 {	struct MpTrafficDiagType Diag;
 } MpTrafficManagerParamInfoType;
 
-typedef struct MpTrafficRecipeControlInfoType
+typedef struct MpTrafficRecipeProcessStepsType
+{	unsigned long ArrayAddress;
+	unsigned short ArraySize;
+	unsigned short NumberOfProcessSteps;
+} MpTrafficRecipeProcessStepsType;
+
+typedef struct MpTrafficRecipeProcessStepType
+{	plcstring Station[81];
+} MpTrafficRecipeProcessStepType;
+
+typedef struct MpTrafficRecipeParamInfoType
 {	struct MpTrafficDiagType Diag;
-} MpTrafficRecipeControlInfoType;
+} MpTrafficRecipeParamInfoType;
+
+typedef struct MpTrafficProcessDwellType
+{	float DwellTime;
+} MpTrafficProcessDwellType;
+
+typedef struct MpTrafficProcessParType
+{	enum MpTrafficProcessTypeEnum Type;
+	struct MpTrafficProcessDwellType Dwell;
+} MpTrafficProcessParType;
+
+typedef struct MpTrafficTransitionNextType
+{	plcstring Station[81];
+	float Velocity;
+	float Acceleration;
+} MpTrafficTransitionNextType;
+
+typedef struct MpTrafficTransitionDistType
+{	unsigned long ArrayAddress;
+	unsigned short ArraySize;
+	unsigned short NumberOfBranches;
+} MpTrafficTransitionDistType;
+
+typedef struct MpTrafficTransitionParType
+{	enum MpTrafficTransitionTypeEnum Type;
+	struct MpTrafficTransitionNextType Next;
+	struct MpTrafficTransitionDistType Distribution;
+} MpTrafficTransitionParType;
+
+typedef struct MpTrafficDistBranchParType
+{	unsigned short ShuttleCount;
+	plcstring Station[81];
+	float Velocity;
+	float Acceleration;
+} MpTrafficDistBranchParType;
+
+typedef struct MpTrafficProcStepParamInfoType
+{	struct MpTrafficDiagType Diag;
+} MpTrafficProcStepParamInfoType;
 
 typedef struct MpTrafficControl
 {
@@ -875,6 +953,7 @@ typedef struct MpTrafficManagerParam
 	struct MpTrafficObjectListsParType* TrafficObjects;
 	struct MpTrafficMappingListsParType* Mapping;
 	struct MpTrafficRuleListsParType* Rules;
+	struct MpTrafficRecipesParType* Recipes;
 	/* VAR_OUTPUT (analog) */
 	signed long StatusID;
 	struct MpTrafficManagerParamInfoType Info;
@@ -892,6 +971,55 @@ typedef struct MpTrafficManagerParam
 	plcbit CommandDone;
 } MpTrafficManagerParam_typ;
 
+typedef struct MpTrafficRecipeParam
+{
+	/* VAR_INPUT (analog) */
+	struct MpTrafficManagerType* MpLink;
+	plcstring Recipe[81];
+	plcstring (*ProductLabel);
+	struct MpTrafficRecipeProcessStepsType* ProcessSteps;
+	/* VAR_OUTPUT (analog) */
+	signed long StatusID;
+	struct MpTrafficRecipeParamInfoType Info;
+	/* VAR (analog) */
+	struct MpComInternalDataType Internal;
+	/* VAR_INPUT (digital) */
+	plcbit Enable;
+	plcbit ErrorReset;
+	plcbit Read;
+	plcbit Write;
+	/* VAR_OUTPUT (digital) */
+	plcbit Active;
+	plcbit Error;
+	plcbit CommandBusy;
+	plcbit CommandDone;
+} MpTrafficRecipeParam_typ;
+
+typedef struct MpTrafficProcessStepParam
+{
+	/* VAR_INPUT (analog) */
+	struct MpTrafficManagerType* MpLink;
+	plcstring Recipe[81];
+	plcstring Station[81];
+	struct MpTrafficProcessParType* Process;
+	struct MpTrafficTransitionParType* Transition;
+	/* VAR_OUTPUT (analog) */
+	signed long StatusID;
+	struct MpTrafficProcStepParamInfoType Info;
+	/* VAR (analog) */
+	struct MpComInternalDataType Internal;
+	/* VAR_INPUT (digital) */
+	plcbit Enable;
+	plcbit ErrorReset;
+	plcbit Read;
+	plcbit Write;
+	/* VAR_OUTPUT (digital) */
+	plcbit Active;
+	plcbit Error;
+	plcbit CommandBusy;
+	plcbit CommandDone;
+} MpTrafficProcessStepParam_typ;
+
 
 
 /* Prototyping of functions and function blocks */
@@ -907,6 +1035,8 @@ _BUR_PUBLIC void MpTrafficStationParam(struct MpTrafficStationParam* inst);
 _BUR_PUBLIC void MpTrafficWaypointParam(struct MpTrafficWaypointParam* inst);
 _BUR_PUBLIC void MpTrafficObjectCreator(struct MpTrafficObjectCreator* inst);
 _BUR_PUBLIC void MpTrafficManagerParam(struct MpTrafficManagerParam* inst);
+_BUR_PUBLIC void MpTrafficRecipeParam(struct MpTrafficRecipeParam* inst);
+_BUR_PUBLIC void MpTrafficProcessStepParam(struct MpTrafficProcessStepParam* inst);
 
 
 #ifdef __cplusplus

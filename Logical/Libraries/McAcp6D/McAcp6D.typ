@@ -894,7 +894,9 @@ TYPE
 		mcACP6D_SEG_S3_AS := 0, (* Square segments of S3 with 240x240. *)
 		mcACP6D_SEG_S3_AN_X := 1, (* Narrow segments of S3 with 480x120. *)
 		mcACP6D_SEG_S3_AN_Y := 2, (* Narrow segments of S3 with 120x480. *)
-		mcACP6D_SEG_S4_AS := 3 (* Square segments of S3 with 320x320. *)
+		mcACP6D_SEG_S4_AS := 3, (* Square segments of S4 with 320x320. *)
+		mcACP6D_SEG_S4_AN_X := 4, (* Narrow segments of S4 with 640x160. *)
+		mcACP6D_SEG_S4_AN_Y := 5 (* Narrow segments of S4 with 160x640. *)
 	);
 	McAcp6DSegmentGapsCfgType : STRUCT
 		Left : McAcp6DSegmentGapSizeEnum; (* Gap left of the segment. *)

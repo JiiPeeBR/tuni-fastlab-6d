@@ -17,13 +17,13 @@
     <Object Type="Library" Language="binary" Description="The SYS_LIB library contains functions for memory management and operating system manipulation as well as hardware-specific functions.">sys_lib</Object>
     <Object Type="Library" Language="binary" Description="This library contains FBKs for exchanging data (data stream) via stream sockets (TCP).">AsTCP</Object>
     <Object Type="Library" Language="binary" Description="This library contains standard function blocks and functions for IEC 61131-3.">standard</Object>
-    <Object Type="Library" Language="Binary" Description="Core library for mapp components">MpBase</Object>
-    <Object Type="Library" Language="binary" Description="[mapp 6D] ACOPOS 6D library">McAcp6D</Object>
-    <Object Type="Library" Language="binary" Description="[mapp Motion] Base library">McBase</Object>
     <Object Type="Library" Language="ANSIC" Description="OMAC PackML">BrdkPackML</Object>
     <Object Type="Library" Language="ANSIC">brdkSTR</Object>
     <Object Type="Library" Language="ANSIC">PackMLCore</Object>
-    <Object Type="Library" Language="binary" Description="[mapp Traffic] Traffic management library">MpTraffic</Object>
     <Object Type="Library" Language="Binary" Description="[mapp Safety] SafeDOMAIN management library">SfDomain</Object>
+    <Object Type="Library" Language="binary" Description="[mapp Motion] Base library">McBase</Object>
+    <Object Type="Library" Language="Binary" Description="Core library for mapp components">MpBase</Object>
+    <Object Type="Library" Language="binary" Description="[mapp 6D] ACOPOS 6D library">McAcp6D</Object>
+    <Object Type="Library" Language="binary" Description="[mapp Traffic] Traffic management library">MpTraffic</Object>
   </Objects>
 </Package>

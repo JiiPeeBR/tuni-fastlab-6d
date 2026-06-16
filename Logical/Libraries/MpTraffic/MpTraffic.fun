@@ -7,8 +7,8 @@ FUNCTION_BLOCK MpTrafficControl (*Traffic control.*)
 		Acceleration : REAL; (*Acceleration of shuttle movement at a recovery process.*) (* *) (*#CMD##OPT#*)
 		Recover : BOOL; (*Edge sensitive. Recover all shuttles managed by the traffic manager.*) (* *) (*#CMD#*)
 		Recipe : REFERENCE TO STRING[80]; (*Recipe for activation or deactivation.*) (* *) (*#CMD##OPT#*)
-		ActivateRecipe : BOOL; (*Edge sensitive. Activate the specified recipe. If no recipe is specified, all parametrized recipes will be activated.*) (* *) (*#CMD#*)
-		DeactivateRecipe : BOOL; (*Edge sensitive. Deactivate the specified recipe. If no recipe is specified, all parametrized recipes will be deactivated.*) (* *) (*#CMD#*)
+		ActivateRecipe : BOOL; (*Edge sensitive. Activate the specified recipe. If no recipe is specified, all parameterized recipes will be activated.*) (* *) (*#CMD#*)
+		DeactivateRecipe : BOOL; (*Edge sensitive. Deactivate the specified recipe. If no recipe is specified, all parameterized recipes will be deactivated.*) (* *) (*#CMD#*)
 		Halt : BOOL; (*Edge sensitive. Halt the movements of all shuttles managed by the traffic manager.*) (* *) (*#CMD#*)
 		Resume : BOOL; (*Edge sensitive. Resume the movements of all shuttles managed by the traffic manager.*) (* *) (*#CMD#*)
 		Stop : BOOL; (*Edge sensitive. Stop the movements of all shuttles managed by the traffic manager.*) (* *) (*#CMD#*)
@@ -51,7 +51,7 @@ FUNCTION_BLOCK MpTrafficMonitor (*Traffic monitor.*)
 		Active : BOOL; (*Function block is active. Outputs are valid.*) (* *) (*#PAR#*)
 		Error : BOOL; (*An error occurred*) (* *) (*#PAR#*)
 		StatusID : DINT; (*Error that occurred*) (* *) (*#PAR#*)
-		SelectedObjectsValid : BOOL; (*The selected objects output is valid*) (*#CMD#*)
+		SelectedObjectsValid : BOOL; (*The selected objects output is valid*) (* *) (*#CMD#*)
 		TotalCount : UINT; (*Total count of selected objects*) (* *) (*#CMD#*)
 		RemainingCount : UINT; (*Number of unevaluated detected objects.*) (* *) (*#CMD#*)
 		Shuttle : MpTrafficShuttleInfoType; (*Shuttle info*) (* *) (*#CMD#*)
@@ -81,8 +81,8 @@ FUNCTION_BLOCK MpTrafficShuttleControl (*Shuttle control.*)
 		Resume : BOOL; (*Resume the movement of this shuttle on the rising edge.*) (* *) (*#CMD#*)
 		Stop : BOOL; (*Abort any active routed move and stop the shuttle on the rising edge.*) (* *) (*#CMD#*)
 	END_VAR
-		VAR_OUTPUT
-		Active : BOOL; (*Function block is controlling the waypoint.*) (* *) (*#PAR#*)
+	VAR_OUTPUT
+		Active : BOOL; (*Function block is controlling the shuttle.*) (* *) (*#PAR#*)
 		Error : BOOL; (*Error occurred during execution.*) (* *) (*#PAR#*)
 		StatusID : DINT; (*Error number*) (* *) (*#PAR#*)
 		UpdateDone : BOOL; (*Update done successfully.*) (* *) (*#PAR##OPT#*)
@@ -113,7 +113,7 @@ FUNCTION_BLOCK MpTrafficStationControl (*Station control.*)
 		ErrorReset : BOOL; (*Error reset.*) (* *) (*#PAR#*)
 		Station : REFERENCE TO MpTrafficStationType; (*Station reference.*) (* *) (*#PAR#*)
 		Update : BOOL; (*Edge sensitive. If the station is valid, update done will be TRUE. Otherwise a warning is output and the old station will be controlled.*) (* *) (*#PAR##OPT#*)
-		SelectNextShuttle : BOOL; (*Edge sensitive. If the station is occupied with more than 1 shuttles, the shuttle can be selected which should be released.*) (* *) (*#CMD##OPT#*)
+		SelectNextShuttle : BOOL; (*Edge sensitive. If the station is occupied with more than 1 shuttle, the shuttle can be selected which should be released.*) (* *) (*#CMD##OPT#*)
 		ExitVelocity : REAL; (*Exit velocity of shuttles released by the station.*) (* *) (*#CMD##OPT#*)
 		ExitAcceleration : REAL; (*Exit acceleration of shuttles released by the station.*) (* *) (*#CMD##OPT#*)
 		To : REFERENCE TO MpTrafficStationType; (*Station to move to.*) (* *) (*#CMD##OPT#*)
@@ -169,7 +169,7 @@ FUNCTION_BLOCK MpTrafficWaypointControl (*Waypoint control.*)
 		Enable : BOOL; (*Enable waypoint control.*) (* *) (*#PAR#*)
 		ErrorReset : BOOL; (*Error reset.*) (* *) (*#PAR#*)
 		Waypoint : REFERENCE TO MpTrafficWaypointType; (*Waypoint reference.*) (* *) (*#PAR#*)
-        Update : BOOL; (*Edge sensitive. If the waypoint is valid, update done will be TRUE. Otherwise a warning is output and the old waypoint will be controlled.*) (* *) (*#PAR#*)
+        Update : BOOL; (*Edge sensitive. If the waypoint is valid, update done will be TRUE. Otherwise a warning is output and the old waypoint will be controlled.*) (* *) (*#PAR##OPT#*)
 		Tickets : DINT; (*One shuttle will enter the waypoint per ticket. Once the RemainingTicket count reaches 0, it will be closed.*) (* *) (*#CMD##OPT#*)
 		AddTickets : BOOL; (*Add tickets.*) (* *) (*#CMD##OPT#*)
 		Close : BOOL; (*Edge sensitive. Close the waypoint and set the remaining tickets to 0. If a waypoint is closed, shuttles will wait at the last traffic object prior to this one. Once the waypoint is open again, shuttles will continue to move there.*) (* *) (*#CMD#*)
@@ -181,7 +181,7 @@ FUNCTION_BLOCK MpTrafficWaypointControl (*Waypoint control.*)
 		Active : BOOL; (*Function block is active. Outputs are valid.*) (* *) (*#PAR#*)
 		Error : BOOL; (*An error occurred*) (* *) (*#PAR#*)
 		StatusID : DINT; (*Error that occurred*) (* *) (*#PAR#*)
-		UpdateDone : BOOL; (*Update done successfully.*) (* *) (*#PAR#*)
+		UpdateDone : BOOL; (*Update done successfully.*) (* *) (*#PAR##OPT#*)
 		State : MpTrafficWaypointStateEnum; (*State.*) (* *) (*#CMD#*)
 		Info : MpTrafficWaypointCtrlInfoType; (*Waypoint Info.*) (* *) (*#CMD#*)
 	END_VAR
@@ -238,7 +238,7 @@ FUNCTION_BLOCK MpTrafficStationParam (*Parameterization of a station from the tr
 		Enable : BOOL; (*Enable parameterization functions.*) (* *) (*#PAR#*)
 		ErrorReset : BOOL; (*Error reset*) (* *) (*#PAR#*)
 		Station : REFERENCE TO MpTrafficStationType; (*Station to parameterize.*) (* *) (*#PAR#*)
-		Update : BOOL; (*Edge sensitive. If the station is valid, update done will be TRUE. Otherwise a warning is output and the old station will be used.*) (* *) (*#PAR#*)
+		Update : BOOL; (*Edge sensitive. If the station is valid, update done will be TRUE. Otherwise a warning is output and the old station will be used.*) (* *) (*#PAR##OPT#*)
 		Position : REFERENCE TO MpTrafficPositionType; (*The position of the traffic object. A nullpointer deactivates reading or writing of the traffic object position.*) (* *) (*#CMD#*) 
 		Recovery : REFERENCE TO MpTrafficRecoveryType; (*Recovery parameterization. A nullpointer deactivates the reading or writing of the recovery settings from the traffic object.*) (* *) (*#CMD#*)
 		Mapping : REFERENCE TO MpTrafficMappingType; (*Mapping of the traffic objects. A nullpointer deactivates the reading or writing of the mapping from the traffic object.*) (* *) (*#CMD#*)
@@ -250,7 +250,7 @@ FUNCTION_BLOCK MpTrafficStationParam (*Parameterization of a station from the tr
 		Error : BOOL; (*An error occurred*) (* *) (*#PAR#*)
 		StatusID : DINT; (*Error that occurred*) (* *) (*#PAR#*)
 		UpdateDone : BOOL; (*Update done successfully.*) (* *) (*#PAR##OPT#*)
-		CommandBusy : BOOL; (*Processing a command.*) (* *) (*#CMD#*)
+		CommandBusy : BOOL; (*Processing a command.*) (* *) (*#CMD##OPT#*)
 		CommandDone : BOOL; (*Command done.*) (* *) (*#CMD#*)
 		Info : MpTrafficStationParamInfoType; (*Info.*) (* *) (*#CMD#*)
 	END_VAR
@@ -265,7 +265,7 @@ FUNCTION_BLOCK MpTrafficWaypointParam (*Parameterization of a waypoint from the 
 		Enable : BOOL; (*Enable parameterization functions.*) (* *) (*#PAR#*)
 		ErrorReset : BOOL; (*Error reset*) (* *) (*#PAR#*)
 		Waypoint : REFERENCE TO MpTrafficWaypointType; (*Waypoint to parameterize.*) (* *) (*#PAR#*)
-		Update : BOOL; (*Edge sensitive. If the waypoint is valid, update done will be TRUE. Otherwise a warning is output and the old waypoint will be used.*) (* *) (*#PAR#*)
+		Update : BOOL; (*Edge sensitive. If the waypoint is valid, update done will be TRUE. Otherwise a warning is output and the old waypoint will be used.*) (* *) (*#PAR##OPT#*)
 		Position : REFERENCE TO MpTrafficPositionType; (*The position of the traffic object. A nullpointer deactivates reading or writing of the traffic object position.*) (* *) (*#CMD#*) 
 		Mapping : REFERENCE TO MpTrafficMappingType; (*Mapping of the traffic objects. A nullpointer deactivates the reading or writing of the mapping from the traffic object.*) (* *) (*#CMD#*)
 		Read : BOOL; (*Read the current parameterization of the traffic object into the referenced data structures.*) (* *) (*#CMD#*)
@@ -276,7 +276,7 @@ FUNCTION_BLOCK MpTrafficWaypointParam (*Parameterization of a waypoint from the 
 		Error : BOOL; (*An error occurred*) (* *) (*#PAR#*)
 		StatusID : DINT; (*Error that occurred*) (* *) (*#PAR#*)
 		UpdateDone : BOOL; (*Update done successfully.*) (* *) (*#PAR##OPT#*)
-		CommandBusy : BOOL; (*Processing a command.*) (* *) (*#CMD#*)
+		CommandBusy : BOOL; (*Processing a command.*) (* *) (*#CMD##OPT#*)
 		CommandDone : BOOL; (*Command done.*) (* *) (*#CMD#*)
 		Info : MpTrafficWaypointParamInfoType; (*Info.*) (* *) (*#CMD#*)
 	END_VAR
@@ -294,7 +294,7 @@ FUNCTION_BLOCK MpTrafficObjectCreator (*Add or remove a traffic object to or fro
 		ObjectType : MpTrafficObjectTypeEnum; (*Type of the traffic object.*) (* *) (*#CMD#*)
 		ObjectListName : STRING[80]; (*Name of the traffic object list.*) (* *) (*#CMD#*)
 		Add : BOOL; (*Add the traffic object to the specified list of the traffic manager.*) (* *) (*#CMD#*)
-		Remove : BOOL; (*Remove the traffic object from the traffic manager. Rhe ObjectListName is not required for this operation.*) (* *) (*#CMD#OPT#*)
+		Remove : BOOL; (*Remove the traffic object from the traffic manager. The ObjectListName is not required for this operation.*) (* *) (*#CMD#*)
 	END_VAR
 	VAR_OUTPUT
 		Active : BOOL; (*Function block is active. Outputs are valid.*) (* *) (*#PAR#*)
@@ -309,7 +309,7 @@ FUNCTION_BLOCK MpTrafficObjectCreator (*Add or remove a traffic object to or fro
 	END_VAR
 END_FUNCTION_BLOCK
 
-FUNCTION_BLOCK MpTrafficManagerParam (*Parameterization the traffic manager.*)
+FUNCTION_BLOCK MpTrafficManagerParam (*Parameterization of the traffic manager.*)
     VAR_INPUT
         MpLink : REFERENCE TO MpTrafficManagerType; (*Traffic Manager.*) (* *) (*#PAR#*)
 		Enable : BOOL; (* The function block is active as long as this input is set.*) (* *) (*#PAR#*)
@@ -318,8 +318,9 @@ FUNCTION_BLOCK MpTrafficManagerParam (*Parameterization the traffic manager.*)
         TrafficObjects : REFERENCE TO MpTrafficObjectListsParType; (*Address of a datastructure which contains the names of the traffic object lists. A nullpointer deactivates the reading or writing of this dataset.*) (* *) (*#CMD#*)
         Mapping : REFERENCE TO MpTrafficMappingListsParType; (*Address of a datastructure which contains the names of the traffic mapping lists. A nullpointer deactivates the reading or writing of this dataset.*) (* *) (*#CMD#*)
         Rules : REFERENCE TO MpTrafficRuleListsParType; (*Address of a datastructure which contains the names of the traffic rule lists. A nullpointer deactivates the reading or writing of this dataset.*) (* *) (*#CMD#*)
-		Read : BOOL; (*Loads the current parameterization settings into the referenced data structure "Data".*) (* *) (*#CMD#*)
-		Write : BOOL; (*Saves the specified settings at the referenced data structure "Data" into the parameterization of the component.*) (* *) (*#CMD#*)
+		Recipes : REFERENCE TO MpTrafficRecipesParType; (*Address of a datastructure which contains the recipes. A nullpointer deactivates the reading or writing of this dataset.*) (* *) (*#CMD#*)
+		Read : BOOL; (*Read the current parameterization settings into the referenced data structures.*) (* *) (*#CMD#*)
+		Write : BOOL; (*Write the specified settings at the referenced data structures into the parameterization of the component.*) (* *) (*#CMD#*)
 	END_VAR
 	VAR_OUTPUT
 		Active : BOOL; (*Function block is active. Outputs are valid.*) (* *) (*#PAR#*)
@@ -328,6 +329,55 @@ FUNCTION_BLOCK MpTrafficManagerParam (*Parameterization the traffic manager.*)
 		CommandBusy : BOOL; (*Processing a command*) (* *) (*#CMD#OPT#*)
         CommandDone : BOOL; (*Command done*) (* *) (*#CMD#*)
 		Info : MpTrafficManagerParamInfoType; (*Info.*) (* *) (*#CMD#*)
+	END_VAR
+	VAR
+		Internal : {REDUND_UNREPLICABLE} MpComInternalDataType; (*Internal data*)
+	END_VAR
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK MpTrafficRecipeParam (*Parameterization of a recipe.*)
+    VAR_INPUT
+        MpLink : REFERENCE TO MpTrafficManagerType; (*Traffic Manager.*) (* *) (*#PAR#*)
+		Enable : BOOL; (* The function block is active as long as this input is set.*) (* *) (*#PAR#*)
+		ErrorReset : BOOL; (*Error reset*) (* *) (*#PAR#*)
+		Recipe : STRING[80]; (*Name of the recipe to view or modify.*) (* *) (*#CMD#*)
+		ProductLabel : REFERENCE TO STRING[80]; (*Product label for this recipe.*) (* *) (*#CMD#*)
+		ProcessSteps : REFERENCE TO MpTrafficRecipeProcessStepsType; (*Datastructure which contains the process steps. A nullpointer deactivates reading or writing of this dataset.*) (* *) (*#CMD#*)
+		Read : BOOL; (*Read the current parameterization settings into the referenced data structures.*) (* *) (*#CMD#*)
+		Write : BOOL; (*Write the specified settings at the referenced data structures into the parameterization of the component.*) (* *) (*#CMD#*)
+	END_VAR
+	VAR_OUTPUT
+		Active : BOOL; (*Function block is active. Outputs are valid.*) (* *) (*#PAR#*)
+		Error : BOOL; (*An error occurred*) (* *) (*#PAR#*)
+		StatusID : DINT; (*Error that occurred*) (* *) (*#PAR#*)
+		CommandBusy : BOOL; (*Processing a command*) (* *) (*#CMD#OPT#*)
+		CommandDone : BOOL; (*Command done*) (* *) (*#CMD#*)
+		Info : MpTrafficRecipeParamInfoType; (*Info.*) (* *) (*#CMD#*)
+	END_VAR
+	VAR
+		Internal : {REDUND_UNREPLICABLE} MpComInternalDataType; (*Internal data*)
+	END_VAR
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK MpTrafficProcessStepParam (*Parameterize a recipe process step.*)
+	VAR_INPUT
+		MpLink : REFERENCE TO MpTrafficManagerType; (*Traffic Manager.*) (* *) (*#PAR#*)
+		Enable : BOOL; (*Enable parameter commands.*) (* *) (*#PAR#*)
+		ErrorReset : BOOL; (*Error reset*) (* *) (*#PAR#*)
+		Recipe : STRING[80]; (*Name of the recipe.*) (* *) (*#CMD#*)
+		Station : STRING[80]; (*Name of the station which identifies the process step.*) (* *) (*#CMD#*)
+		Process : REFERENCE TO MpTrafficProcessParType; (*Process data of the process step. A nullpointer deactivates reading or writing of the Process.*) (* *) (*#CMD#*)
+		Transition : REFERENCE TO MpTrafficTransitionParType; (*Transition data of the process step.  A nullpointer deactivates reading or writing of the Transition.*) (* *) (*#CMD#*)
+		Read : BOOL; (*Read the process step data to the specified recipe of the traffic manager.*) (* *) (*#CMD#*)
+		Write : BOOL; (*Write the process step data to the specified recipe of the traffic manager.*) (* *) (*#CMD#*)
+	END_VAR
+	VAR_OUTPUT
+		Active : BOOL; (*Function block is active. Outputs are valid.*) (* *) (*#PAR#*)
+		Error : BOOL; (*An error occurred*) (* *) (*#PAR#*)
+		StatusID : DINT; (*Error that occurred*) (* *) (*#PAR#*)
+		CommandBusy : BOOL; (*Processing a command*) (* *) (*#CMD#OPT#*)
+		CommandDone : BOOL; (*Command done*) (* *) (*#CMD#*)
+		Info : MpTrafficProcStepParamInfoType; (*Info.*) (* *) (*#CMD#*)
 	END_VAR
 	VAR
 		Internal : {REDUND_UNREPLICABLE} MpComInternalDataType; (*Internal data*)
