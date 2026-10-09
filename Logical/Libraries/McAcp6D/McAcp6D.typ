@@ -655,12 +655,19 @@ TYPE
 	McAcp6DGetPowerSecAddInfoType : 	STRUCT
 		SectorID : UINT;
 		Name : STRING[32];
+		Mode : McAcp6DPowerSecModeEnum;
 	END_STRUCT;
 	McAcp6DPowerSecInfoType : 	STRUCT
 	        Name : STRING[32];
 		SectorID : UINT;
 		State : McAcp6PowerSecStateEnum;
+		Mode : McAcp6DPowerSecModeEnum;
 	END_STRUCT;
+	McAcp6DPowerSecModeEnum : 
+	(
+		mcACP6D_POWER_SECTOR := 0, (* Power sector *)
+		mcACP6D_SAFETY_SECTOR := 1 (* Safety sector *)
+	);
 	McAcp6PowerSecStateEnum :
 		(
 		mcACP6D_POWER_SEC_UNDEFINED := 0,
@@ -869,6 +876,7 @@ TYPE
 		Name : STRING[80]; (* Name *)
 		IsMaster : BOOL; (* Master segment *)
 		PowerSectorName : STRING[80]; (* Name of Power Sector. Assign segments to a Power Sector *)
+		PowerSectorMode : McAcp6DPowerSecModeEnum; (* Mode of Power Sector. Can be Power or Safety Sector*)
 		Gaps : McAcp6DSegmentGapsCfgType; (* Gaps between segments. Gaps facing each other will overlap and maximum of both is used. *)
 		BorderID: McAcp6DSegmentBorderIDCfgType; (* Border ID configuration for assembly linking. *)
 	END_STRUCT;

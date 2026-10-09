@@ -212,6 +212,30 @@ TYPE
         Diag : MpTrafficDiagType; (*Diagnostic structure for the status ID.*)
     END_STRUCT;
 
+    MpTrafficRuleCreatorInfoType : 	STRUCT
+        Diag : MpTrafficDiagType; (*Diagnostic structure for the status ID.*)
+    END_STRUCT;
+
+    MpTrafficExclGrpObjParType : STRUCT
+        ArrayAddress : UDINT; (*Contains the names of the traffic objects assigned to the exclusivity group. Adress of the array of datatype MpTrafficExclGrpObjNameType.*)
+        ArraySize : UINT; (*Size of the data array. (ArraySize = sizeof(array)/sizeof(array[0])).*)
+        NumberOfObjects : UINT; (*Number of traffic objects assigned to the exclusivity group.*)
+    END_STRUCT;
+
+    MpTrafficExclGrpObjNameType : STRUCT
+        Name : STRING[80]; (*Name of the traffic object.*)
+    END_STRUCT;
+
+    MpTrafficExclGrpParType : STRUCT
+        TrafficObjects : REFERENCE TO MpTrafficExclGrpObjParType; (*Traffic objects assigned to the exclusivity group.*)
+        EntryObjects : REFERENCE TO MpTrafficExclGrpObjParType; (*Entry objects of the exclusivity group.*)
+        ExitObjects : REFERENCE TO MpTrafficExclGrpObjParType; (*Exit objects of the exclusivity group.*)
+    END_STRUCT;
+
+    MpTrafficRuleParamInfoType : STRUCT
+        Diag : MpTrafficDiagType; (*Diagnostic structure for the status ID.*)
+    END_STRUCT;
+
     MpTrafficRecoveryType : 	STRUCT
         RecoveryMode : MpTrafficStationRecoveryModeEnum; (*Recovery mode of the station.*)
         StationIsRecoveryPoint : BOOL; (*If true, the station is a recovery point.*)
@@ -241,6 +265,11 @@ TYPE
 
     MpTrafficObjectNameType : 	STRUCT
         Name : STRING[80]; (*Name of the traffic object.*)
+    END_STRUCT;
+
+    MpTrafficWaypointRoundingType : STRUCT
+        Type : MpTrafficWaypointRoundingEnum; (*Waypoint rounding type.*)
+        MaximumRadius : REAL; (*Maximum used radius for rounding. Actual used radius might be smaller due to geometrical constrains. Only needed for type mpTRAFFIC_ROUNDING_RADIUS.*)
     END_STRUCT;
 
     MpTrafficWaypointParamInfoType : 	STRUCT
@@ -374,6 +403,10 @@ TYPE
         mpTRAFFIC_OBJECT_WAYPOINT := 2, (*Waypoint object*)
         mpTRAFFIC_OBJECT_PATH := 3 (*Path object*)
         );
+    MpTrafficRuleTypeEnum :
+        ( (*Traffic rule type.*)
+        mpTRAFFIC_RULE_EXCLUSIVITY_GROUP := 0 (*The traffic rule is an exclusivity group.*)
+        );
     MpTrafficManagerStateEnum :
         (
         mpTRAFFIC_MNG_DISABLED := 0, (*The function block is disabled. No information about the traffic manager is specified.*)
@@ -475,6 +508,11 @@ TYPE
         ( (*Recovery mode of the station.*)
         mpTRAFFIC_RECOVER_DIRECT := 0, (*Shuttle will move from the recovery point directly to the station.*)
         mpTRAFFIC_RECOVER_SEQUENTIAL := 1 (*Shuttle will move along remaining recovery points to the station.*)
+        );
+    MpTrafficWaypointRoundingEnum :
+        ( (*Waypoint rounding mode.*)
+        mpTRAFFIC_ROUNDING_NOT_USED := 0, (*Waypoint rounding not used. Shuttle will stop at this waypoint.*)
+        mpTRAFFIC_ROUNDING_RADIUS := 1 (*Shuttle passes close to the waypoint in a rounded motion without stopping, based on radius.*)
         );
     MpTrafficMotionSystemTypeEnum :
         ( (*Motion system controlled by the Traffic Manager.*)

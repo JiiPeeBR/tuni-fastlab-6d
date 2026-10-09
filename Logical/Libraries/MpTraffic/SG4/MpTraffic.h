@@ -1,6 +1,6 @@
 /* Automation Studio generated header file */
 /* Do not edit ! */
-/* MpTraffic 3.7.0 */
+/* MpTraffic 3.8.0 */
 
 #ifndef _MPTRAFFIC_
 #define _MPTRAFFIC_
@@ -9,7 +9,7 @@ extern "C"
 {
 #endif
 #ifndef _MpTraffic_VERSION
-#define _MpTraffic_VERSION 3.7.0
+#define _MpTraffic_VERSION 3.8.0
 #endif
 
 #include <bur/plctypes.h>
@@ -43,6 +43,10 @@ typedef enum MpTrafficObjectTypeEnum
 	mpTRAFFIC_OBJECT_WAYPOINT = 2,
 	mpTRAFFIC_OBJECT_PATH = 3
 } MpTrafficObjectTypeEnum;
+
+typedef enum MpTrafficRuleTypeEnum
+{	mpTRAFFIC_RULE_EXCLUSIVITY_GROUP = 0
+} MpTrafficRuleTypeEnum;
 
 typedef enum MpTrafficManagerStateEnum
 {	mpTRAFFIC_MNG_DISABLED = 0,
@@ -146,6 +150,11 @@ typedef enum MpTrafficStationRecoveryModeEnum
 	mpTRAFFIC_RECOVER_SEQUENTIAL = 1
 } MpTrafficStationRecoveryModeEnum;
 
+typedef enum MpTrafficWaypointRoundingEnum
+{	mpTRAFFIC_ROUNDING_NOT_USED = 0,
+	mpTRAFFIC_ROUNDING_RADIUS = 1
+} MpTrafficWaypointRoundingEnum;
+
 typedef enum MpTrafficMotionSystemTypeEnum
 {	mpTRAFFIC_MOTION_SYS_ACP6D = 0
 } MpTrafficMotionSystemTypeEnum;
@@ -211,6 +220,15 @@ typedef enum MpTrafficErrorEnum
 	mpTRAFFIC_ERR_REM_OBJ_NOT_EXIST = -1065745381,
 	mpTRAFFIC_ERR_CR_OBJ_NO_NAME = -1065745380,
 	mpTRAFFIC_ERR_REM_TYP_NOT_MATCH = -1065745379,
+	mpTRAFFIC_ERR_RULE_NO_NAME = -1065745372,
+	mpTRAFFIC_ERR_CR_RULE_EXISTS = -1065745371,
+	mpTRAFFIC_ERR_RULE_NO_RULE_LIST = -1065745370,
+	mpTRAFFIC_ERR_RULE_OBJ_NOT_EXIST = -1065745369,
+	mpTRAFFIC_ERR_RULE_NOT_EXIST = -1065745368,
+	mpTRAFFIC_ERR_RULE_NOT_IN_LIST = -1065745367,
+	mpTRAFFIC_ERR_RULE_LST_NOT_EXIST = -1065745366,
+	mpTRAFFIC_ERR_RULE_DUP_OBJ = -1065745365,
+	mpTRAFFIC_ERR_RULE_TYPE_NULL = -1065745364,
 	mpTRAFFIC_ERR_ACCESS_STATION = -1065744431,
 	mpTRAFFIC_ERR_ACCESS_WAYPOINT = -1065744430,
 	mpTRAFFIC_ERR_OBJ_INVALID = -1065736430,
@@ -268,7 +286,8 @@ typedef enum MpTrafficErrorEnum
 	mpTRAFFIC_ERR_RECIPE_NO_DIST = -1065716120,
 	mpTRAFFIC_ERR_RECIPE_CFG_STATE = -1065716112,
 	mpTRAFFIC_ERR_RCP_PAR_USER_DEF = -1065716072,
-	mpTRAFFIC_ERR_RCP_PAR_TRANS_ST = -1065716070
+	mpTRAFFIC_ERR_RCP_PAR_TRANS_ST = -1065716070,
+	mpTRAFFIC_ERR_WAYPOINT_ROUNDING = -1065716062
 } MpTrafficErrorEnum;
 
 typedef struct MpTrafficPositionType
@@ -493,6 +512,30 @@ typedef struct MpTrafficObjectCreatorInfoType
 	struct MpTrafficDiagType Diag;
 } MpTrafficObjectCreatorInfoType;
 
+typedef struct MpTrafficRuleCreatorInfoType
+{	struct MpTrafficDiagType Diag;
+} MpTrafficRuleCreatorInfoType;
+
+typedef struct MpTrafficExclGrpObjParType
+{	unsigned long ArrayAddress;
+	unsigned short ArraySize;
+	unsigned short NumberOfObjects;
+} MpTrafficExclGrpObjParType;
+
+typedef struct MpTrafficExclGrpObjNameType
+{	plcstring Name[81];
+} MpTrafficExclGrpObjNameType;
+
+typedef struct MpTrafficExclGrpParType
+{	struct MpTrafficExclGrpObjParType* TrafficObjects;
+	struct MpTrafficExclGrpObjParType* EntryObjects;
+	struct MpTrafficExclGrpObjParType* ExitObjects;
+} MpTrafficExclGrpParType;
+
+typedef struct MpTrafficRuleParamInfoType
+{	struct MpTrafficDiagType Diag;
+} MpTrafficRuleParamInfoType;
+
 typedef struct MpTrafficRecoveryPointsType
 {	unsigned long ArrayAddress;
 	unsigned short ArraySize;
@@ -523,6 +566,11 @@ typedef struct MpTrafficMappingType
 typedef struct MpTrafficObjectNameType
 {	plcstring Name[81];
 } MpTrafficObjectNameType;
+
+typedef struct MpTrafficWaypointRoundingType
+{	enum MpTrafficWaypointRoundingEnum Type;
+	float MaximumRadius;
+} MpTrafficWaypointRoundingType;
 
 typedef struct MpTrafficWaypointParamInfoType
 {	struct MpTrafficDiagType Diag;
@@ -895,12 +943,37 @@ typedef struct MpTrafficStationParam
 	plcbit CommandDone;
 } MpTrafficStationParam_typ;
 
+typedef struct MpTrafficRuleParam
+{
+	/* VAR_INPUT (analog) */
+	struct MpTrafficManagerType* MpLink;
+	plcstring RuleName[81];
+	enum MpTrafficRuleTypeEnum* RuleType;
+	struct MpTrafficExclGrpParType* ExclusivityGroup;
+	/* VAR_OUTPUT (analog) */
+	signed long StatusID;
+	struct MpTrafficRuleParamInfoType Info;
+	/* VAR (analog) */
+	struct MpComInternalDataType Internal;
+	/* VAR_INPUT (digital) */
+	plcbit Enable;
+	plcbit ErrorReset;
+	plcbit Read;
+	plcbit Write;
+	/* VAR_OUTPUT (digital) */
+	plcbit Active;
+	plcbit Error;
+	plcbit CommandBusy;
+	plcbit CommandDone;
+} MpTrafficRuleParam_typ;
+
 typedef struct MpTrafficWaypointParam
 {
 	/* VAR_INPUT (analog) */
 	struct MpTrafficManagerType* MpLink;
 	struct MpTrafficWaypointType* Waypoint;
 	struct MpTrafficPositionType* Position;
+	struct MpTrafficWaypointRoundingType* Rounding;
 	struct MpTrafficMappingType* Mapping;
 	/* VAR_OUTPUT (analog) */
 	signed long StatusID;
@@ -944,6 +1017,29 @@ typedef struct MpTrafficObjectCreator
 	plcbit CommandBusy;
 	plcbit CommandDone;
 } MpTrafficObjectCreator_typ;
+
+typedef struct MpTrafficRuleCreator
+{
+	/* VAR_INPUT (analog) */
+	struct MpTrafficManagerType* MpLink;
+	plcstring RuleName[81];
+	plcstring RuleListName[81];
+	/* VAR_OUTPUT (analog) */
+	signed long StatusID;
+	struct MpTrafficRuleCreatorInfoType Info;
+	/* VAR (analog) */
+	struct MpComInternalDataType Internal;
+	/* VAR_INPUT (digital) */
+	plcbit Enable;
+	plcbit ErrorReset;
+	plcbit Add;
+	plcbit Remove;
+	/* VAR_OUTPUT (digital) */
+	plcbit Active;
+	plcbit Error;
+	plcbit CommandBusy;
+	plcbit CommandDone;
+} MpTrafficRuleCreator_typ;
 
 typedef struct MpTrafficManagerParam
 {
@@ -1032,8 +1128,10 @@ _BUR_PUBLIC void MpTrafficWaypointControl(struct MpTrafficWaypointControl* inst)
 _BUR_PUBLIC void MpTrafficWaypointMonitor(struct MpTrafficWaypointMonitor* inst);
 _BUR_PUBLIC void MpTrafficConfigHandler(struct MpTrafficConfigHandler* inst);
 _BUR_PUBLIC void MpTrafficStationParam(struct MpTrafficStationParam* inst);
+_BUR_PUBLIC void MpTrafficRuleParam(struct MpTrafficRuleParam* inst);
 _BUR_PUBLIC void MpTrafficWaypointParam(struct MpTrafficWaypointParam* inst);
 _BUR_PUBLIC void MpTrafficObjectCreator(struct MpTrafficObjectCreator* inst);
+_BUR_PUBLIC void MpTrafficRuleCreator(struct MpTrafficRuleCreator* inst);
 _BUR_PUBLIC void MpTrafficManagerParam(struct MpTrafficManagerParam* inst);
 _BUR_PUBLIC void MpTrafficRecipeParam(struct MpTrafficRecipeParam* inst);
 _BUR_PUBLIC void MpTrafficProcessStepParam(struct MpTrafficProcessStepParam* inst);

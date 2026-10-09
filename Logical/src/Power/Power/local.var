@@ -1,12 +1,19 @@
+VAR CONSTANT
+	PSU_STATE_INIT : USINT := 0;
+	PSU_STATE_READY : USINT := 1;
+	PSU_STATE_ACTIVE : USINT := 2;
+	PSU_STATE_ERROR : USINT := 3;
+END_VAR
+(**)
 VAR
-	task : REFERENCE TO PowerType;
-	local : PowerLocalType;
-	fb : PowerFbType;
-	hmi : PowerHmiType;
-	actions : PowerActionsType;
+	Task : REFERENCE TO PowerType;
+	Local : PowerLocalType;
+	Fb : PowerFbType;
+	Hmi : PowerHmiType;
+	Commands : PowerCommandsType;
 	i : UDINT;
 END_VAR
 (* ----- PackML ----- *)
 VAR
-	cm : ControlModule;
+	Cm : ControlModule;
 END_VAR

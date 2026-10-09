@@ -1,144 +1,156 @@
 PROGRAM _INIT
 	
-    // Access the task interface
-    task ACCESS ADR(gPower);
+    // Access the Task interface
+    Task ACCESS ADR(gPower);
 
     // Register module config interface for common setup/parametrization functionality
 	//fb.MpRecipeRegPar_settings(MpLink := ADR(gSystemSettings), Enable := TRUE , PVName := ADR('gPower.settings'), Category := ADR('Power'));
 	
 	// PackML setup
     // =================================================================================================================
-    cm.Setup.Name := 'Power';
-	cm.Setup.ParentName := 'Main';
+    Cm.Setup.Name := 'Power';
+	Cm.Setup.ParentName := 'Main';
 	
-	local.automaticPowerOnAtStart := TRUE;
+	Local.AutomaticPowerOnAtStart := TRUE;
 	
 END_PROGRAM
 	
 PROGRAM _CYCLIC
 	
-    // Access task interface
+    // Access Task interface
     // =================================================================================================================
-    task ACCESS ADR(gPower);
+    Task ACCESS ADR(gPower);
 
 
     // Inputs
     // =================================================================================================================
-    IF NOT task.Input.Force THEN
+    IF NOT Task.Input.Force THEN
 
     END_IF
 
     // Task state machine
     // =================================================================================================================
-    CASE cm.State OF
-        0:
-            cm.StateInfo := 'Wait for all power units to be ready';
+	CASE Cm.State OF
+		0:
+			Cm.StateInfo := 'Wait until all power units are ready to start';
+			// ---------------------------------------------------------------------------------				
+			IF Local.AllPowerSuppliesReadyToStart THEN
+				Cm.State := Cm.State + 1;	
+			END_IF;			
+		1:
+            Cm.StateInfo := 'Track power off';
 			// ---------------------------------------------------------------------------------
-			local.allReadyToStart := TRUE;
-			
-			FOR i := 0 TO AUX_POWER_LAST_INDEX DO
-				// Check if unit is ready
-				IF task.AuxPowerUnit[i].StatusRunMode = 0 OR task.AuxPowerUnit[i].StatusRunMode = 3 THEN
-	  				local.allReadyToStart := FALSE;
-				END_IF;
-			END_FOR;
-			
-			IF local.automaticPowerOnAtStart THEN
-				task.Input.Command.PowerOn := TRUE;
+			IF Fb.rPowerOn.Q THEN
+				Cm.State := Cm.State + 1;
 			END_IF;
-			
-			IF local.allReadyToStart THEN
-				cm.State := 10;	
-			END_IF;
-	
-		10:
-            cm.StateInfo := 'Track power off';
+		2:
+			Cm.StateInfo := 'Powering on';
 			// ---------------------------------------------------------------------------------
-			IF task.Input.Command.PowerOn THEN
-				cm.State := 20;
-			END_IF;
+			Commands.PowerOn := TRUE;
 			
-		20:
-			cm.StateInfo := 'Enabling auxiliary power supplies';
+			IF Local.AllPowerSuppliesPoweredOn THEN
+				Cm.State := Cm.State + 1;
+			END_IF
+		3:
+			Cm.StateInfo := 'Track power on';
 			// ---------------------------------------------------------------------------------
-			actions.power_on := TRUE;
-			IF local.allPowerOn THEN
-				cm.State := 30;
+			IF Fb.rPowerOff.Q THEN
+				Cm.State := Cm.State + 1;
 			END_IF;
+		4:
+			Cm.StateInfo := 'Powering off';
+			// ---------------------------------------------------------------------------------
+			Commands.PowerOff := TRUE;
 			
-		30:
-			cm.StateInfo := 'Track power on';
-			// ---------------------------------------------------------------------------------
-			IF (NOT task.Input.Command.PowerOn) THEN
-				cm.State := 40;
-			END_IF;
-			
-		40:
-			cm.StateInfo := 'Disabling auxiliary power supplies';
-			// ---------------------------------------------------------------------------------
-			actions.power_off := TRUE;
-			IF local.allPowerOff THEN
-				cm.State := 10;
-			END_IF;
-	END_CASE // End of main task logic
+			IF Local.AllPowerSuppliesPoweredOff THEN
+				Cm.State := 1;
+			END_IF
+	END_CASE // End of main Task logic
   
-	task.Error.Acknowledge := FALSE; 
+	Task.Error.Acknowledge := FALSE;
+	
+	Fb.rPowerOn(CLK := Task.Input.Command.PowerOn);
+	Fb.rPowerOff(CLK := Task.Input.Command.PowerOff);
+	
+	brsmemset(ADR(Task.Input.Command), 0, SIZEOF(Task.Input.Command));
       
 	// Detect state change events
 	// =================================================================================================================
-	local.onStateEntry := (cm.State <> local.lastState) OR (cm.SubState <> local.lastSubState);
+	Local.OnStateEntry := (Cm.State <> Local.LastState) OR (Cm.SubState <> Local.LastSubState);
 
-	IF local.onStateEntry THEN
-		brsmemset(ADR(actions), 0, SIZEOF(actions));
+	IF Local.OnStateEntry THEN
+		brsmemset(ADR(Commands), 0, SIZEOF(Commands));
 	END_IF;
 	
-	IF cm.State <> local.lastState THEN
-		cm.SubState := 0;
-		local.lastState := cm.State;
+	IF Cm.State <> Local.LastState THEN
+		Cm.SubState := 0;
+		Local.LastState := Cm.State;
 	END_IF
 
     // Reset current state actions also when substate changes
-    IF cm.SubState <> local.lastSubState THEN
-        local.lastSubState := cm.SubState;
+    IF Cm.SubState <> Local.LastSubState THEN
+        Local.LastSubState := Cm.SubState;
 	END_IF
 
     // PackML control module
     // =================================================================================================================
-	cm();
+	Cm();
     
-	// Power command
+	// Power supply axis mapping
     // =================================================================================================================
-	FOR i := 0 TO AUX_POWER_LAST_INDEX DO
-		task.AuxPowerUnit[i].Command.EnableOutput := actions.power_on;
-	END_FOR;
+	Fb.ApsmPowerOn[0].Axis := Fb.ApsmPowerOff[0].Axis := ADR(PSU_A);
+	Fb.ApsmPowerOn[1].Axis := Fb.ApsmPowerOff[1].Axis := ADR(PSU_B);
+	Fb.ApsmPowerOn[2].Axis := Fb.ApsmPowerOff[2].Axis := ADR(PSU_C);
+	Fb.ApsmPowerOn[3].Axis := Fb.ApsmPowerOff[3].Axis := ADR(PSU_D);
+	Fb.ApsmPowerOn[4].Axis := Fb.ApsmPowerOff[4].Axis := ADR(PSU_E);
+	Fb.ApsmPowerOn[5].Axis := Fb.ApsmPowerOff[5].Axis := ADR(PSU_F);
+	Fb.ApsmPowerOn[6].Axis := Fb.ApsmPowerOff[6].Axis := ADR(PSU_G);
 	
-	FOR i := 0 TO AUX_POWER_LAST_INDEX DO
-		task.AuxPowerUnit[i].Command.DisableOutput := actions.power_off;
-	END_FOR;
-	
-	// Power on status
+	// Functions
 	// =================================================================================================================
-	local.allPowerOn := TRUE;
-	local.allPowerOff := TRUE;
+	FOR i := 0 TO AUX_POWER_LAST_INDEX DO
+		Fb.ApsmPowerOn[i].Execute := Commands.PowerOn;
+		Fb.ApsmPowerOn[i]();
+		
+		Fb.ApsmPowerOff[i].Execute := Commands.PowerOff;
+		Fb.ApsmPowerOff[i]();
+	END_FOR;
+	
+	// Power supply group statuses
+	// =================================================================================================================
+	Local.AllPowerSuppliesReadyToStart := TRUE;
+	Local.AllPowerSuppliesPoweredOn := TRUE;
+	Local.AllPowerSuppliesPoweredOff := TRUE;
 	
 	FOR i := 0 TO AUX_POWER_LAST_INDEX DO
-		IF NOT task.AuxPowerUnit[i].OutputEnabled THEN
-			local.allPowerOn := FALSE;
+		// Check if all are ready to start
+		CASE Task.AuxPowerUnit[i].StatusRunMode OF
+			PSU_STATE_INIT, PSU_STATE_ERROR:
+				Local.AllPowerSuppliesReadyToStart := FALSE;
+		END_CASE;
+		
+		// Check if all power supplies are on
+		IF NOT Task.AuxPowerUnit[i].OutputEnabled THEN
+			Local.AllPowerSuppliesPoweredOn := FALSE;
 		END_IF;
 		
-		IF task.AuxPowerUnit[i].OutputEnabled THEN
-			local.allPowerOff := FALSE;
+		// Check if all power supplies are off
+		IF Task.AuxPowerUnit[i].OutputEnabled THEN
+			Local.AllPowerSuppliesPoweredOff := FALSE;
 		END_IF;
 	END_FOR;
 	
-	task.Output.PowerOn := local.allPowerOn;
+	Task.Output.TrackPowerOn := Local.AllPowerSuppliesPoweredOn;
 	
 	// Task diagnostics
 	// =================================================================================================================
-	gTasks.Power.State := cm.State;
-	gTasks.Power.SubState := cm.SubState;
-	gTasks.Power.StateInfo := cm.StateInfo;
-
+	gTasks.Power.State := Cm.State;
+	gTasks.Power.SubState := Cm.SubState;
+	gTasks.Power.StateInfo := Cm.StateInfo;
+	
+	Task.StateInfo := Cm.StateInfo;
+	Task.State := Cm.State;
+	
 END_PROGRAM
 	
 PROGRAM _EXIT

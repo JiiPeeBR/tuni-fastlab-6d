@@ -1,6 +1,6 @@
 /* Automation Studio generated header file */
 /* Do not edit ! */
-/* McAcp6D 3.7.0 */
+/* McAcp6D 3.8.0 */
 
 #ifndef _MCACP6D_
 #define _MCACP6D_
@@ -9,7 +9,7 @@ extern "C"
 {
 #endif
 #ifndef _McAcp6D_VERSION
-#define _McAcp6D_VERSION 3.7.0
+#define _McAcp6D_VERSION 3.8.0
 #endif
 
 #include <bur/plctypes.h>
@@ -327,6 +327,11 @@ typedef enum McAcp6DShWaitDispTypeEnum
 	mcACP6D_SH_WAIT_DISP_RE = 2,
 	mcACP6D_SH_WAIT_DISP_FE = 3
 } McAcp6DShWaitDispTypeEnum;
+
+typedef enum McAcp6DPowerSecModeEnum
+{	mcACP6D_POWER_SECTOR = 0,
+	mcACP6D_SAFETY_SECTOR = 1
+} McAcp6DPowerSecModeEnum;
 
 typedef enum McAcp6PowerSecStateEnum
 {	mcACP6D_POWER_SEC_UNDEFINED = 0,
@@ -905,12 +910,14 @@ typedef struct Mc6DInternalPowerSecIfType
 typedef struct McAcp6DGetPowerSecAddInfoType
 {	unsigned short SectorID;
 	plcstring Name[33];
+	enum McAcp6DPowerSecModeEnum Mode;
 } McAcp6DGetPowerSecAddInfoType;
 
 typedef struct McAcp6DPowerSecInfoType
 {	plcstring Name[33];
 	unsigned short SectorID;
 	enum McAcp6PowerSecStateEnum State;
+	enum McAcp6DPowerSecModeEnum Mode;
 } McAcp6DPowerSecInfoType;
 
 typedef struct McAcp6DSetJerkLimitParType
@@ -1057,6 +1064,7 @@ typedef struct McAcp6DSegmentCfgType
 	plcstring Name[81];
 	plcbit IsMaster;
 	plcstring PowerSectorName[81];
+	enum McAcp6DPowerSecModeEnum PowerSectorMode;
 	struct McAcp6DSegmentGapsCfgType Gaps;
 	struct McAcp6DSegmentBorderIDCfgType BorderID;
 } McAcp6DSegmentCfgType;

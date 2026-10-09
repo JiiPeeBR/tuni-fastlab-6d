@@ -47,7 +47,7 @@ FUNCTION_BLOCK MpTrafficMonitor (*Traffic monitor.*)
 		GetSelectedObjects : BOOL; (*Edge sensitive. Get all traffic objects, that fulfill the selection mode criteria at this moment.*) (* *) (*#CMD#*)
 		GetNextObject : BOOL; (*Edge sensitive. Write the next traffic object info to the output.*) (* *) (*#CMD#*)
 	END_VAR
-	VAR_OUTPUT		
+	VAR_OUTPUT
 		Active : BOOL; (*Function block is active. Outputs are valid.*) (* *) (*#PAR#*)
 		Error : BOOL; (*An error occurred*) (* *) (*#PAR#*)
 		StatusID : DINT; (*Error that occurred*) (* *) (*#PAR#*)
@@ -150,7 +150,7 @@ FUNCTION_BLOCK MpTrafficStationMonitor (*Station monitor.*)
 		Station : REFERENCE TO MpTrafficStationType; (*Station to monitor for shuttles*) (* *) (*#PAR#*)
 		GetNextShuttle : BOOL; (*Edge sensitive. Write the next detected shuttle info to the output.*) (* *) (*#CMD#*)
 	END_VAR
-	VAR_OUTPUT		
+	VAR_OUTPUT
 		Active : BOOL; (*Function block is active. Outputs are valid.*) (* *) (*#PAR#*)
 		Error : BOOL; (*An error occurred*) (* *) (*#PAR#*)
 		StatusID : DINT; (*Error that occurred*) (* *) (*#PAR#*)
@@ -259,6 +259,30 @@ FUNCTION_BLOCK MpTrafficStationParam (*Parameterization of a station from the tr
 	END_VAR
 END_FUNCTION_BLOCK
 
+FUNCTION_BLOCK MpTrafficRuleParam (*Parameterization of a traffic rule from the traffic manager. *)
+	VAR_INPUT
+		MpLink : REFERENCE TO MpTrafficManagerType; (*Traffic manager.*) (* *) (*#PAR#*)
+		Enable : BOOL; (*Enable parameterization functions.*) (* *) (*#PAR#*)
+		ErrorReset : BOOL; (*Error reset*) (* *) (*#PAR#*)
+		RuleName : STRING[80]; (*Rule to modify.*) (* *) (*#CMD#*)
+		RuleType : REFERENCE TO MpTrafficRuleTypeEnum; (*Type of the traffic rule.*) (* *) (*#CMD#*)
+		ExclusivityGroup : REFERENCE TO MpTrafficExclGrpParType; (*Reference to the exclusivity group parameter.*) (* *) (*#CMD#*)
+		Read : BOOL; (*Read the current parameterization of the traffic rule into the referenced data structures.*) (* *) (*#CMD#*)
+		Write : BOOL; (*Write the specified settings at the referenced data structures into the parameterization of the traffic rule.*) (* *) (*#CMD#*)
+	END_VAR
+	VAR_OUTPUT
+		Active : BOOL; (*Function block is active. Outputs are valid.*) (* *) (*#PAR#*)
+		Error : BOOL; (*An error occurred*) (* *) (*#PAR#*)
+		StatusID : DINT; (*Error that occurred*) (* *) (*#PAR#*)
+		CommandBusy : BOOL; (*Processing a command.*) (* *) (*#CMD##OPT#*)
+		CommandDone : BOOL; (*Command done.*) (* *) (*#CMD#*)
+		Info : MpTrafficRuleParamInfoType; (*Info.*) (* *) (*#CMD#*)
+	END_VAR
+	VAR
+		Internal : {REDUND_UNREPLICABLE} MpComInternalDataType; (*Internal data*)
+	END_VAR
+END_FUNCTION_BLOCK
+
 FUNCTION_BLOCK MpTrafficWaypointParam (*Parameterization of a waypoint from the traffic manager. *)
 	VAR_INPUT
 		MpLink : REFERENCE TO MpTrafficManagerType; (*Traffic manager.*) (* *) (*#PAR#*)
@@ -267,6 +291,7 @@ FUNCTION_BLOCK MpTrafficWaypointParam (*Parameterization of a waypoint from the 
 		Waypoint : REFERENCE TO MpTrafficWaypointType; (*Waypoint to parameterize.*) (* *) (*#PAR#*)
 		Update : BOOL; (*Edge sensitive. If the waypoint is valid, update done will be TRUE. Otherwise a warning is output and the old waypoint will be used.*) (* *) (*#PAR##OPT#*)
 		Position : REFERENCE TO MpTrafficPositionType; (*The position of the traffic object. A nullpointer deactivates reading or writing of the traffic object position.*) (* *) (*#CMD#*) 
+		Rounding : REFERENCE TO MpTrafficWaypointRoundingType; (*Rounding parameterization of the waypoint. A nullpointer deactivates reading or writing of the waypoint rounding settings.*) (* *) (*#CMD#*)
 		Mapping : REFERENCE TO MpTrafficMappingType; (*Mapping of the traffic objects. A nullpointer deactivates the reading or writing of the mapping from the traffic object.*) (* *) (*#CMD#*)
 		Read : BOOL; (*Read the current parameterization of the traffic object into the referenced data structures.*) (* *) (*#CMD#*)
 		Write : BOOL; (*Write the specified settings at the referenced data structures into the parameterization of the traffic object.*) (* *) (*#CMD#*)
@@ -303,6 +328,29 @@ FUNCTION_BLOCK MpTrafficObjectCreator (*Add or remove a traffic object to or fro
 		CommandBusy : BOOL; (*Processing a command*) (* *) (*#CMD#OPT#*)
         CommandDone : BOOL; (*Command done*) (* *) (*#CMD#*)
 		Info : MpTrafficObjectCreatorInfoType; (*Info.*) (* *) (*#CMD#*)
+	END_VAR
+	VAR
+		Internal : {REDUND_UNREPLICABLE} MpComInternalDataType; (*Internal data*)
+	END_VAR
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK MpTrafficRuleCreator (*Add or remove a traffic rule to or from the traffic manager.*)
+	VAR_INPUT
+		MpLink : REFERENCE TO MpTrafficManagerType; (*Traffic Manager.*) (* *) (*#PAR#*)
+		Enable : BOOL; (*Enable parameter commands.*) (* *) (*#PAR#*)
+		ErrorReset : BOOL; (*Error reset*) (* *) (*#PAR#*)
+		RuleName : STRING[80]; (*Name of the traffic rule.*) (* *) (*#CMD#*)
+		RuleListName : STRING[80]; (*Name of the traffic rule list.*) (* *) (*#CMD#*)
+		Add : BOOL; (*Add the traffic rule to the traffic manager.*) (* *) (*#CMD#*)
+		Remove : BOOL; (*Remove the traffic rule from the traffic manager.*) (* *) (*#CMD#*)
+	END_VAR
+	VAR_OUTPUT
+		Active : BOOL; (*Function block is active. Outputs are valid.*) (* *) (*#PAR#*)
+		Error : BOOL; (*An error occurred*) (* *) (*#PAR#*)
+		StatusID : DINT; (*Error that occurred*) (* *) (*#PAR#*)
+		CommandBusy : BOOL; (*Processing a command*) (* *) (*#CMD#OPT#*)
+		CommandDone : BOOL; (*Command done*) (* *) (*#CMD#*)
+		Info : MpTrafficRuleCreatorInfoType; (*Info.*) (* *) (*#CMD#*)
 	END_VAR
 	VAR
 		Internal : {REDUND_UNREPLICABLE} MpComInternalDataType; (*Internal data*)

@@ -21,6 +21,7 @@ END_TYPE
 TYPE
 	PowerInputCommandType : 	STRUCT 
 		PowerOn : BOOL;
+		PowerOff : BOOL;
 	END_STRUCT;
 	PowerInputType : 	STRUCT 
 		Force : BOOL;
@@ -33,7 +34,7 @@ END_TYPE
 
 TYPE
 	PowerOutputType : 	STRUCT 
-		PowerOn : BOOL;
+		TrackPowerOn : BOOL;
 	END_STRUCT;
 END_TYPE
 
@@ -52,23 +53,18 @@ END_TYPE
 
 TYPE
 	AuxPowerUnitType : 	STRUCT 
-		Command : AuxPowerUnitCommandType;
 		CrOk : BOOL;
 		OutputEnabled : BOOL;
 		StatusRunMode : USINT;
 		Current_A : REAL;
 		Voltage_V : REAL;
 	END_STRUCT;
-	AuxPowerUnitCommandType : 	STRUCT 
-		EnableOutput : BOOL;
-		DisableOutput : BOOL;
-		AcknowledgeAllErrors : BOOL;
-		AcknowledgeAllWarnings : BOOL;
-	END_STRUCT;
 	PowerType : 	STRUCT 
 		Error : PowerErrorType;
 		Input : PowerInputType;
 		Output : PowerOutputType;
 		AuxPowerUnit : ARRAY[0..AUX_POWER_LAST_INDEX]OF AuxPowerUnitType;
+		StateInfo : STRING[80];
+		State : DINT;
 	END_STRUCT;
 END_TYPE
