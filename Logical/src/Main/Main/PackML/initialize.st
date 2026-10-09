@@ -82,10 +82,10 @@ ACTION sequence_initialize:
 			// ---------------------------------------------------------------------------------		
 			actions_substate.assemblyPowerOff := TRUE;
 					
-			IF fb.AssemblyPowerOn.Done THEN
+			IF fb.AssemblyPowerOff.Done THEN
 				em.SubState := 102;
-			ELSIF fb.AssemblyPowerOn.Error THEN
-				task.Error.Code := fb.AssemblyPowerOn.ErrorID;
+			ELSIF fb.AssemblyPowerOff.Error THEN
+				task.Error.Code := fb.AssemblyPowerOff.ErrorID;
 				em.Command.Abort := TRUE;
 			END_IF
 		102:

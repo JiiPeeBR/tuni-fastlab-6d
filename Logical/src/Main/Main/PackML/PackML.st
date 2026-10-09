@@ -122,7 +122,7 @@ ACTION PackML_state_machine:
 
 		STATE_EXECUTE:
 			// -----------------------------------------------------------------
-			state_execute;
+			em.Command.StateComplete := TRUE;
 			
 		STATE_COMPLETING:
 			em.StateInfo := '';

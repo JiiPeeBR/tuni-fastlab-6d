@@ -1,13 +1,7 @@
 PROGRAM _INIT
 	
-    // Access the task interface
-    task ACCESS ADR(gFastDemo);
-
-    // Register module config interface for common setup/parametrization functionality
-    //fb.MpRecipeRegPar_settings(MpLink := ADR(gSystemSettings), Enable := TRUE , PVName := ADR('gFastDemo.settings'), Category := ADR('FastDemo'));
-
-    // Check for simulator
-    //task.IsSimulated := DiagCpuIsSimulated();
+    // Access the Task interface
+    Task ACCESS ADR(gFastDemo);
   
     // PackML setup
     // =================================================================================================================
@@ -18,88 +12,15 @@ END_PROGRAM
 	
 PROGRAM _CYCLIC
 	
-    // Access task interface
+    // Access Task interface
     // =================================================================================================================
-    task ACCESS ADR(gFastDemo);
+    Task ACCESS ADR(gFastDemo);
 
     // Inputs
     // =================================================================================================================
-    IF NOT task.Input.Force THEN
+    IF NOT Task.Input.Force THEN
 
 	END_IF
-	
-	CASE test_state OF
-		0:
-			move6DSync.Execute := FALSE;
-		
-		10:
-			move6DSync.Home := TRUE;
-			IF move6DSync.Done THEN
-				move6DSync.Home := FALSE;
-				test_state := test_state + 1;
-			END_IF;
-		11:
-			move6DSync.Parameters.Position.X := 0.480;
-			move6DSync.Parameters.Position.Y := 0.060;
-			move6DSync.Parameters.Position.Z := 0.004;
-			move6DSync.Execute := TRUE;
-			IF move6DSync.Acknowledge THEN
-				move6DSync.Execute := FALSE;
-	  			test_state := test_state + 1;
-			END_IF;
-		12:
-			move6DSync.Parameters.Position.X := 0.660;
-			move6DSync.Parameters.Position.Y := 0.060;
-			move6DSync.Parameters.Position.Z := 0.001;
-			move6DSync.Execute := TRUE;
-			IF move6DSync.Acknowledge THEN
-				move6DSync.Execute := FALSE;
-				test_state := test_state + 1;
-			END_IF;
-		13:
-			move6DSync.Parameters.Position.X := 0.660;
-			move6DSync.Parameters.Position.Y := 0.180;
-			move6DSync.Parameters.Position.Z := 0.004;
-			move6DSync.Execute := TRUE;
-			IF move6DSync.Acknowledge THEN
-				move6DSync.Execute := FALSE;
-				test_state := test_state + 1;
-			END_IF;
-		14:
-			move6DSync.Parameters.Position.X := 0.480;
-			move6DSync.Parameters.Position.Y := 0.180;
-			move6DSync.Parameters.Position.Z := 0.001;
-			move6DSync.Execute := TRUE;
-			IF move6DSync.Acknowledge THEN
-				move6DSync.Execute := FALSE;
-				test_state := test_state + 1;
-			END_IF;
-		15:
-			move6DSync.Parameters.Position.X := 0.300;
-			move6DSync.Parameters.Position.Y := 0.180;
-			move6DSync.Parameters.Position.Z := 0.004;
-			move6DSync.Execute := TRUE;
-			IF move6DSync.Acknowledge THEN
-				move6DSync.Execute := FALSE;
-				test_state := test_state + 1;
-			END_IF;
-		16:
-			move6DSync.Parameters.Position.X := 0.300;
-			move6DSync.Parameters.Position.Y := 0.060;
-			move6DSync.Parameters.Position.Z := 0.001;
-			move6DSync.Execute := TRUE;
-			IF move6DSync.Acknowledge THEN
-				move6DSync.Execute := FALSE;
-				test_state := test_state + 1;
-			END_IF;
-	END_CASE;
-	
-	move6DSync.Shuttle := ADR(gShuttles.Shuttle[0].Ref);
-	move6DSync.Parameters.Acceleration.Z := 10;
-	move6DSync.Parameters.Acceleration.Rx := 10;
-	move6DSync.Parameters.Acceleration.Ry := 10;
-	move6DSync.Parameters.Acceleration.Rz := 10;
-	move6DSync();
 	
 	// Task state machine
 	// =================================================================================================================
@@ -109,34 +30,34 @@ PROGRAM _CYCLIC
 	// Detect state change events
 	// =================================================================================================================
 	// Record information which state caused abort
-	fb.R_TRIG_Abort(CLK := em.Command.Abort);
+	Fb.R_TRIG_Abort(CLK := em.Command.Abort);
 	
-	IF fb.R_TRIG_Abort.Q THEN
-		task.Error.State := em.StateCurrent;
-		task.Error.SubState := em.SubState;
-		task.Error.Description := em.StateInfo; 
+	IF Fb.R_TRIG_Abort.Q THEN
+		Task.Error.State := em.StateCurrent;
+		Task.Error.SubState := em.SubState;
+		Task.Error.Description := em.StateInfo; 
 	END_IF;
 	
 	// State change event
-	fb.rtStateComplete(CLK := em.Command.StateComplete);
+	Fb.rtStateComplete(CLK := em.Command.StateComplete);
 	
-	IF fb.rtStateComplete.Q THEN
+	IF Fb.rtStateComplete.Q THEN
 		em.StateInfo := '';
-		brsmemset(ADR(actions_state), 0, SIZEOF(actions_state));
+		brsmemset(ADR(StateCommands), 0, SIZEOF(StateCommands));
 		
 		// Record information which state caused abort
 		IF em.StateCurrent = STATE_ABORTING THEN
-			task.Error.State := local.lastState;
-			task.Error.SubState := local.lastSubState;
-			task.Error.Description := local.lastStateInfo;
+			Task.Error.State := Local.lastState;
+			Task.Error.SubState := Local.lastSubState;
+			Task.Error.Description := Local.lastStateInfo;
 		END_IF;
 	END_IF;
 		
 	// Substate changed event
-	IF em.SubState <> local.lastSubState THEN
+	IF em.SubState <> Local.lastSubState THEN
 		em.StateInfo := '';
-		brsmemset(ADR(actions_substate), 0, SIZEOF(actions_substate));
-		local.lastSubState := em.SubState;
+		brsmemset(ADR(SubStateCommands), 0, SIZEOF(SubStateCommands));
+		Local.lastSubState := em.SubState;
 	END_IF;
 	
 	
@@ -144,36 +65,45 @@ PROGRAM _CYCLIC
 	// =================================================================================================================
 	em();
 
+	// Station configuration
+	// -------------------------------------------------------------------------------------------------------------------
+	stations[1].Station := ADR(S1);
+	stations[2].Station := ADR(S2);
+	stations[3].Station := ADR(S3);
+	stations[4].Station := ADR(S4);
+	stations[5].Station := ADR(S5);
+	stations[6].Station := ADR(S6);
+	
 	// Function calls
-    // =================================================================================================================
-	fb.TrafficControl.Enable := TRUE;
-	fb.TrafficControl.MpLink := ADR(TrafficManager_x6d_1); 
-	fb.TrafficControl.ActivateRecipe := actions_substate.traffic_activate_recipe;
-	fb.TrafficControl.DeactivateRecipe := actions_substate.traffic_deactivate_recipe;
-	fb.TrafficControl.ErrorReset := actions_state.error_reset;
-	fb.TrafficControl.Halt := actions_substate.traffic_halt;
-	fb.TrafficControl.Recover := actions_substate.traffic_recover;
-	fb.TrafficControl.Resume := actions_substate.traffic_resume;
-	fb.TrafficControl.Stop := actions_substate.traffic_stop;
-	fb.TrafficControl();
+	// =================================================================================================================
+	Fb.TrafficControl.Enable := TRUE;
+	Fb.TrafficControl.MpLink := ADR(TrafficManager_x6d_1); 
+	Fb.TrafficControl.ActivateRecipe := SubStateCommands.traffic_activate_recipe;
+	Fb.TrafficControl.DeactivateRecipe := SubStateCommands.traffic_deactivate_recipe;
+	Fb.TrafficControl.ErrorReset := StateCommands.error_reset;
+	Fb.TrafficControl.Halt := SubStateCommands.traffic_halt;
+	Fb.TrafficControl.Recover := SubStateCommands.traffic_recover;
+	Fb.TrafficControl.Resume := SubStateCommands.traffic_resume;
+	Fb.TrafficControl.Stop := SubStateCommands.traffic_stop;
+	Fb.TrafficControl();
 	
-	fb.TON_RecoverTimeout.IN := fb.TrafficControl.RecoverBuffered;
-	fb.TON_RecoverTimeout.PT := T#5s;
-	fb.TON_RecoverTimeout();
+	Fb.TON_RecoverTimeout.IN := Fb.TrafficControl.RecoverBuffered;
+	Fb.TON_RecoverTimeout.PT := T#5s;
+	Fb.TON_RecoverTimeout();
 	
-	fb.TrafficMonitor.Enable := TRUE;
-	fb.TrafficMonitor.MpLink := ADR(TrafficManager_x6d_1);
-	fb.TrafficMonitor();
-	
+	Fb.TrafficMonitor.Enable := TRUE;
+	Fb.TrafficMonitor.MpLink := ADR(TrafficManager_x6d_1);
+	Fb.TrafficMonitor();
+		
 	// Station logic calls
 	FOR station_num := 0 TO STATION_COUNT DO
-		station ACCESS ADR(stations[station_num]);
+		pStation ACCESS ADR(stations[station_num]);
 		
-		station.Enable := actions_state.activate_stations;
-		station.Parameters.StationNumber := station_num;
-		station.Assembly := ADR(gAssembly6D_Big);
-		station.TrafficManager := ADR(TrafficManager_x6d_1);
-		station();
+		pStation.Enable := StateCommands.activate_stations;
+		pStation.Parameters.StationNumber := station_num;
+		pStation.Assembly := ADR(gAssembly6D_Big);
+		pStation.TrafficManager := ADR(TrafficManager_x6d_1);
+		pStation();
 	END_FOR
 		
 	// Task outputs
@@ -188,7 +118,7 @@ PROGRAM _CYCLIC
 	gTasks.FastDemo.StateComplete := em.Command.StateComplete;
 	gTasks.FastDemo.StateInfo := em.StateInfo;
 	gTasks.FastDemo.WaitingForTask := em.Info.WaitingFor.Name;
-	gTasks.FastDemo.Error := task.Error;
+	gTasks.FastDemo.Error := Task.Error;
 
 END_PROGRAM
 	

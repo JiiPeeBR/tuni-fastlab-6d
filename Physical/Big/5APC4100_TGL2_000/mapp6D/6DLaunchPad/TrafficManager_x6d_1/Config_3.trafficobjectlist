@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
 <Configuration>
   <Element ID="Stations_1" Type="trafficobjectlist">
     <Selector ID="TrafficObject[1]" Value="Station">
@@ -7,8 +8,7 @@
         <Property ID="X" Value="0.3" />
         <Property ID="Y" Value="0.42" />
       </Selector>
-
-       <Group ID="RecoveryPoints">
+      <Group ID="RecoveryPoints">
         <Property ID="Mode" Value="Direct" />
         <Property ID="StationIsRecoveryPoint" Value="Enable" />
         <Group ID="RecoveryPoint[1]">
@@ -47,7 +47,6 @@
             <Property ID="Y" Value="1.14" />
           </Selector>
         </Group>
-
         <Group ID="RecoveryPoint[7]">
           <Selector ID="Position" Value="Absolute">
             <Property ID="X" Value="0.42" />
@@ -85,7 +84,6 @@
           </Selector>
         </Group>
       </Group>
-
     </Selector>
     <Selector ID="TrafficObject[2]" Value="Station">
       <Property ID="Name" Value="S2" />
@@ -95,7 +93,7 @@
       </Selector>
       <Group ID="RecoveryPoints">
         <Property ID="Mode" Value="Direct" />
-        <Property ID="StationIsRecoveryPoint" Value="Enable" />
+        <Property ID="StationIsRecoveryPoint" Value="Disable" />
       </Group>
     </Selector>
     <Selector ID="TrafficObject[3]" Value="Station">
@@ -106,7 +104,7 @@
       </Selector>
       <Group ID="RecoveryPoints">
         <Property ID="Mode" Value="Direct" />
-        <Property ID="StationIsRecoveryPoint" Value="Enable" />
+        <Property ID="StationIsRecoveryPoint" Value="Disable" />
       </Group>
     </Selector>
     <Selector ID="TrafficObject[4]" Value="Station">
@@ -117,7 +115,7 @@
       </Selector>
       <Group ID="RecoveryPoints">
         <Property ID="Mode" Value="Direct" />
-        <Property ID="StationIsRecoveryPoint" Value="Enable" />
+        <Property ID="StationIsRecoveryPoint" Value="Disable" />
       </Group>
     </Selector>
     <Selector ID="TrafficObject[5]" Value="Station">
@@ -128,7 +126,7 @@
       </Selector>
       <Group ID="RecoveryPoints">
         <Property ID="Mode" Value="Direct" />
-        <Property ID="StationIsRecoveryPoint" Value="Enable" />
+        <Property ID="StationIsRecoveryPoint" Value="Disable" />
       </Group>
     </Selector>
     <Selector ID="TrafficObject[6]" Value="Station">
@@ -139,7 +137,7 @@
       </Selector>
       <Group ID="RecoveryPoints">
         <Property ID="Mode" Value="Direct" />
-        <Property ID="StationIsRecoveryPoint" Value="Enable" />
+        <Property ID="StationIsRecoveryPoint" Value="Disable" />
       </Group>
     </Selector>
     <Selector ID="TrafficObject[7]" Value="Station">
@@ -150,7 +148,7 @@
       </Selector>
       <Group ID="RecoveryPoints">
         <Property ID="Mode" Value="Direct" />
-        <Property ID="StationIsRecoveryPoint" Value="Enable" />
+        <Property ID="StationIsRecoveryPoint" Value="Disable" />
       </Group>
     </Selector>
     <Selector ID="TrafficObject[8]" Value="Station">
@@ -161,7 +159,7 @@
       </Selector>
       <Group ID="RecoveryPoints">
         <Property ID="Mode" Value="Direct" />
-        <Property ID="StationIsRecoveryPoint" Value="Enable" />
+        <Property ID="StationIsRecoveryPoint" Value="Disable" />
       </Group>
     </Selector>
     <Selector ID="TrafficObject[9]" Value="Station">
@@ -172,7 +170,7 @@
       </Selector>
       <Group ID="RecoveryPoints">
         <Property ID="Mode" Value="Direct" />
-        <Property ID="StationIsRecoveryPoint" Value="Enable" />
+        <Property ID="StationIsRecoveryPoint" Value="Disable" />
       </Group>
     </Selector>
   </Element>
@@ -184,6 +182,7 @@
         <Property ID="X" Value="0.66" />
         <Property ID="Y" Value="0.42" />
       </Selector>
+      <Selector ID="Rounding" Value="RoundingNotUsed" />
     </Selector>
     <Selector ID="TrafficObject[2]" Value="Waypoint">
       <Property ID="Name" Value="G9" />
@@ -191,6 +190,7 @@
         <Property ID="X" Value="0.42" />
         <Property ID="Y" Value="4.14" />
       </Selector>
+      <Selector ID="Rounding" Value="RoundingNotUsed" />
     </Selector>
     <Selector ID="TrafficObject[3]" Value="Waypoint">
       <Property ID="Name" Value="G6" />
@@ -198,6 +198,7 @@
         <Property ID="X" Value="0.54" />
         <Property ID="Y" Value="2.22" />
       </Selector>
+      <Selector ID="Rounding" Value="RoundingNotUsed" />
     </Selector>
     <Selector ID="TrafficObject[4]" Value="Waypoint">
       <Property ID="Name" Value="G5" />
@@ -205,6 +206,7 @@
         <Property ID="X" Value="0.66" />
         <Property ID="Y" Value="2.22" />
       </Selector>
+      <Selector ID="Rounding" Value="RoundingNotUsed" />
     </Selector>
     <Selector ID="TrafficObject[5]" Value="Waypoint">
       <Property ID="Name" Value="G4" />
@@ -212,6 +214,7 @@
         <Property ID="X" Value="0.66" />
         <Property ID="Y" Value="1.86" />
       </Selector>
+      <Selector ID="Rounding" Value="RoundingNotUsed" />
     </Selector>
     <Selector ID="TrafficObject[6]" Value="Waypoint">
       <Property ID="Name" Value="G12" />
@@ -219,6 +222,7 @@
         <Property ID="X" Value="0.3" />
         <Property ID="Y" Value="2.94" />
       </Selector>
+      <Selector ID="Rounding" Value="RoundingNotUsed" />
     </Selector>
     <Selector ID="TrafficObject[7]" Value="Waypoint">
       <Property ID="Name" Value="G1" />
@@ -226,6 +230,7 @@
         <Property ID="X" Value="0.3" />
         <Property ID="Y" Value="0.06" />
       </Selector>
+      <Selector ID="Rounding" Value="RoundingNotUsed" />
     </Selector>
     <Selector ID="TrafficObject[8]" Value="Waypoint">
       <Property ID="Name" Value="G8" />
@@ -233,6 +238,7 @@
         <Property ID="X" Value="0.66" />
         <Property ID="Y" Value="3.3" />
       </Selector>
+      <Selector ID="Rounding" Value="RoundingNotUsed" />
     </Selector>
     <Selector ID="TrafficObject[9]" Value="Waypoint">
       <Property ID="Name" Value="G13" />
@@ -240,6 +246,7 @@
         <Property ID="X" Value="0.54" />
         <Property ID="Y" Value="1.38" />
       </Selector>
+      <Selector ID="Rounding" Value="RoundingNotUsed" />
     </Selector>
     <Selector ID="TrafficObject[10]" Value="Waypoint">
       <Property ID="Name" Value="G15" />
@@ -247,6 +254,7 @@
         <Property ID="X" Value="0.42" />
         <Property ID="Y" Value="0.42" />
       </Selector>
+      <Selector ID="Rounding" Value="RoundingNotUsed" />
     </Selector>
     <Selector ID="TrafficObject[11]" Value="Waypoint">
       <Property ID="Name" Value="G16" />
@@ -254,6 +262,7 @@
         <Property ID="X" Value="0.3" />
         <Property ID="Y" Value="4.26" />
       </Selector>
+      <Selector ID="Rounding" Value="RoundingNotUsed" />
     </Selector>
     <Selector ID="TrafficObject[12]" Value="Waypoint">
       <Property ID="Name" Value="G17" />
@@ -261,6 +270,7 @@
         <Property ID="X" Value="0.54" />
         <Property ID="Y" Value="1.86" />
       </Selector>
+      <Selector ID="Rounding" Value="RoundingNotUsed" />
     </Selector>
   </Element>
 </Configuration>

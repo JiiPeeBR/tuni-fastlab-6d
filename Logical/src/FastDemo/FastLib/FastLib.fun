@@ -105,7 +105,8 @@ FUNCTION_BLOCK fdStation
 		NextStation : REFERENCE TO MpTrafficStationType;
 		Enable : BOOL;
 		NextState : BOOL;
-		JumpToState : UINT;
+		JumpToTargetState : BOOL;
+		TargetState : UINT; (*Target state where GoToState jumps to*)
 		Parameters : fdStationParametersType;
 		Commands : fdStationCommandsType;
 		Operation : fdStationOperationType;

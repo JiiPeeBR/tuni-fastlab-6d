@@ -4,6 +4,5 @@
   <Objects>
     <Object Type="File">PackML.st</Object>
     <Object Type="File">initialize.st</Object>
-    <Object Type="File">execute.st</Object>
   </Objects>
 </Package>

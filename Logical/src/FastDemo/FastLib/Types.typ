@@ -112,6 +112,8 @@ TYPE
 		str : STRING[80];
 		index : DINT;
 		CommandLabel : UINT;
+		rNextState : R_TRIG;
+		rGoToState : R_TRIG;
 	END_STRUCT;
 	fdStationMemberControlType : 	STRUCT 
 		StationControl : MpTrafficStationControl;

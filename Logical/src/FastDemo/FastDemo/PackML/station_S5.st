@@ -1,365 +1,376 @@
 
-ACTION execute_station_S5:
+ACTION StationSequence_S5:
 	// Point station reference to this station
-	station ACCESS ADR(stations[5]);
+	pStation ACCESS ADR(stations[5]);
 
 	// Station parameters
-	station.Station := ADR(S5);
-	station.NextStation := ADR(S6);
-	station.Parameters.ShuttleCapacity := 2;
-	station.Parameters.Zone.BottomLeft.X := 0.720;
-	station.Parameters.Zone.BottomLeft.Y := 2.880;
-	station.Parameters.Zone.TopRight.X := 0.960;
-	station.Parameters.Zone.TopRight.Y := 3.360;
+//	pStation.Station := ADR(S5);
+//	pStation.NextStation := ADR(S6);
+	pStation.Parameters.ShuttleCapacity := 2;
+	pStation.Parameters.Zone.BottomLeft.X := 0.720;
+	pStation.Parameters.Zone.BottomLeft.Y := 2.880;
+	pStation.Parameters.Zone.TopRight.X := 0.960;
+	pStation.Parameters.Zone.TopRight.Y := 3.360;
 		
-	CASE station.State OF
+	CASE pStation.State OF
 		0:
-			station.StateInfo := 'Activating station';
+			pStation.StateInfo := 'Activating station';
 			// -----------------------------------------------------------------
-			IF station.Active THEN
-				station.Loop := 0;
-				station.JumpToState := 100;
+			IF pStation.Active THEN
+				pStation.Loop := 0;
+				pStation.TargetState := 100;
+				pStation.JumpToTargetState := TRUE;
 			END_IF;
 		
 		100:
-			station.StateInfo := 'Movement settings';
+			pStation.StateInfo := 'Movement settings';
 			// -----------------------------------------------------------------
 			set_movement_parameters_to_default_values;
-			station.Operation.Shuttle := station.MacroShuttle;
-			station.JumpToState := 200;
+			pStation.Operation.Shuttle := pStation.MacroShuttle;
+			pStation.TargetState := 200;
+			pStation.JumpToTargetState := TRUE;
 			
 		200:
-			station.StateInfo := 'Waiting for first shuttle to arrive at station';
+			pStation.StateInfo := 'Waiting for first shuttle to arrive at station';
 			// -----------------------------------------------------------------
 			set_movement_parameters_to_default_values;
-			station.Loop := 0;
+			pStation.Loop := 0;
 			
-			IF station.NumOccupyingShuttles > 0 THEN
-				station.NextState := TRUE;
+			IF pStation.NumOccupyingShuttles > 0 THEN
+				pStation.NextState := TRUE;
 			END_IF;
 		201:
-			station.StateInfo := 'Add last arrived shuttle to the station';
+			pStation.StateInfo := 'Add last arrived shuttle to the station';
 			// -----------------------------------------------------------------
-			station.Commands.AddShuttle := TRUE;
+			pStation.Commands.AddShuttle := TRUE;
 
-			IF station.CommandDone THEN
-				station.NextState := TRUE;
+			IF pStation.CommandDone THEN
+				pStation.NextState := TRUE;
 			END_IF;	
 		202:
-			station.StateInfo := 'Move first shuttle to start position';
+			pStation.StateInfo := 'Move first shuttle to start position';
 			// -----------------------------------------------------------------
-			station.Operation.Shuttle := station.Shuttles.List[0];
-			station.Operation.MoveInPlane.Position.X := 0.900;
-			station.Operation.MoveInPlane.Position.Y := 2.940;
-			station.Commands.MoveInPlane := TRUE;
+			pStation.Operation.Shuttle := pStation.Shuttles.List[0];
+			pStation.Operation.MoveInPlane.Position.X := 0.900;
+			pStation.Operation.MoveInPlane.Position.Y := 2.940;
+			pStation.Commands.MoveInPlane := TRUE;
 			
-			IF station.CommandDone THEN
-				station.NextState := TRUE;
+			IF pStation.CommandDone THEN
+				pStation.NextState := TRUE;
 			END_IF;
 		203:	
-			station.StateInfo := 'Waiting for second shuttle to arrive at station';
+			pStation.StateInfo := 'Waiting for second shuttle to arrive at station';
 			// -----------------------------------------------------------------
-			IF station.NumOccupyingShuttles > 1 THEN		
-				station.NextState := TRUE;
+			IF pStation.NumOccupyingShuttles > 1 THEN		
+				pStation.NextState := TRUE;
 			END_IF;
 		204:
-			station.StateInfo := 'Add last arrived shuttle to the station';
+			pStation.StateInfo := 'Add last arrived shuttle to the station';
 			// -----------------------------------------------------------------
-			station.Commands.AddShuttle := TRUE;
+			pStation.Commands.AddShuttle := TRUE;
 
-			IF station.CommandDone THEN
-				station.NextState := TRUE;
+			IF pStation.CommandDone THEN
+				pStation.NextState := TRUE;
 			END_IF;		
 		205:
-			station.StateInfo := 'Move second shuttle to start position';
+			pStation.StateInfo := 'Move second shuttle to start position';
 			// -----------------------------------------------------------------
-			station.Operation.Shuttle := station.Shuttles.List[1];
-			station.Operation.MoveInPlane.Position.X := 0.780;
-			station.Operation.MoveInPlane.Position.Y := 2.940;
-			station.Commands.MoveInPlane := TRUE;
+			pStation.Operation.Shuttle := pStation.Shuttles.List[1];
+			pStation.Operation.MoveInPlane.Position.X := 0.780;
+			pStation.Operation.MoveInPlane.Position.Y := 2.940;
+			pStation.Commands.MoveInPlane := TRUE;
 			
-			IF station.CommandDone THEN
-				station.NextState := TRUE;
+			IF pStation.CommandDone THEN
+				pStation.NextState := TRUE;
 			END_IF;
 		206:
-			station.StateInfo := 'Couple grouped shuttles together';
+			pStation.StateInfo := 'Couple grouped shuttles together';
 			// -----------------------------------------------------------------
-			station.Commands.Group.Couple_CommonCenterPoint := TRUE;
+			pStation.Commands.Group.Couple_CommonCenterPoint := TRUE;
 			
-			IF station.CommandDone THEN
-				station.JumpToState := 300;
+			IF pStation.CommandDone THEN
+				pStation.TargetState := 300;
+				pStation.JumpToTargetState := TRUE;
 			END_IF;
 			
 		300:
-			station.StateInfo := 'Move group init';
+			pStation.StateInfo := 'Move group init';
 			// -----------------------------------------------------------------
 			set_movement_parameters_to_default_values;
-			station.Loop := 0;
-			station.Operation.Shuttle := station.Shuttles.List[0];
-			station.NextState := TRUE;
+			pStation.Loop := 0;
+			pStation.Operation.Shuttle := pStation.Shuttles.List[0];
+			pStation.NextState := TRUE;
 		301:
-			station.StateInfo := 'Move group';
+			pStation.StateInfo := 'Move group';
 			// -----------------------------------------------------------------
-			station.Operation.MoveInPlane.Mode :=  mcACP6D_MOVE_RELATIVE;
-			station.Operation.MoveInPlane.Position.X := 0.0;
-			station.Operation.MoveInPlane.Position.Y := 0.360;
-			station.Commands.MoveInPlane := TRUE;
+			pStation.Operation.MoveInPlane.Mode :=  mcACP6D_MOVE_RELATIVE;
+			pStation.Operation.MoveInPlane.Position.X := 0.0;
+			pStation.Operation.MoveInPlane.Position.Y := 0.360;
+			pStation.Commands.MoveInPlane := TRUE;
 			
-			IF station.CommandAcknowledge THEN
-				station.NextState := TRUE;
+			IF pStation.CommandAcknowledge THEN
+				pStation.NextState := TRUE;
 			END_IF;
 		302:
-			station.StateInfo := 'Move group';
+			pStation.StateInfo := 'Move group';
 			// -----------------------------------------------------------------
-			station.Operation.MoveInPlane.Mode :=  mcACP6D_MOVE_RELATIVE;
-			station.Operation.MoveInPlane.Position.X := 0.0;
-			station.Operation.MoveInPlane.Position.Y := -0.360;
-			station.Commands.MoveInPlane := TRUE;
+			pStation.Operation.MoveInPlane.Mode :=  mcACP6D_MOVE_RELATIVE;
+			pStation.Operation.MoveInPlane.Position.X := 0.0;
+			pStation.Operation.MoveInPlane.Position.Y := -0.360;
+			pStation.Commands.MoveInPlane := TRUE;
 			
-			IF station.CommandAcknowledge THEN
-				station.NextState := TRUE;
+			IF pStation.CommandAcknowledge THEN
+				pStation.NextState := TRUE;
 			END_IF;
 		303:
-			station.StateInfo := 'Move group';
+			pStation.StateInfo := 'Move group';
 			// -----------------------------------------------------------------
-			IF station.Loop < 4 THEN
-				station.JumpToState := 301;
-				station.Loop := station.Loop + 1;
+			IF pStation.Loop < 4 THEN
+				pStation.TargetState := 301;
+				pStation.JumpToTargetState := TRUE;
+				pStation.Loop := pStation.Loop + 1;
 			ELSE
-				station.JumpToState := 400;
+				pStation.TargetState := 400;
+				pStation.JumpToTargetState := TRUE;
 			END_IF;
 			
 		400:
-			station.StateInfo := 'Decouple group';
+			pStation.StateInfo := 'Decouple group';
 			// -----------------------------------------------------------------
-			station.Commands.Group.Decouple := TRUE;
+			pStation.Commands.Group.Decouple := TRUE;
 			
-			IF station.CommandDone THEN
-				station.NextState := TRUE;
+			IF pStation.CommandDone THEN
+				pStation.NextState := TRUE;
 			END_IF;
 		401:
-			station.StateInfo := 'Move shuttle 1';
+			pStation.StateInfo := 'Move shuttle 1';
 			// -----------------------------------------------------------------
-			station.Operation.Shuttle := station.Shuttles.List[0];
-			station.Operation.MoveInPlane.Position.X := 0.000;
-			station.Operation.MoveInPlane.Position.Y := 0.360;
-			station.Commands.MoveInPlane := TRUE;
+			pStation.Operation.Shuttle := pStation.Shuttles.List[0];
+			pStation.Operation.MoveInPlane.Position.X := 0.000;
+			pStation.Operation.MoveInPlane.Position.Y := 0.360;
+			pStation.Commands.MoveInPlane := TRUE;
 			
-			IF station.CommandAcknowledge THEN
-				station.NextState := TRUE;
+			IF pStation.CommandAcknowledge THEN
+				pStation.NextState := TRUE;
 			END_IF;
 		402:
-			station.StateInfo := 'Move shuttle 1';
+			pStation.StateInfo := 'Move shuttle 1';
 			// -----------------------------------------------------------------
-			station.Operation.MoveInPlane.Position.X := -0.060;
-			station.Operation.MoveInPlane.Position.Y := 0.000;
-			station.Commands.MoveInPlane := TRUE;
+			pStation.Operation.MoveInPlane.Position.X := -0.060;
+			pStation.Operation.MoveInPlane.Position.Y := 0.000;
+			pStation.Commands.MoveInPlane := TRUE;
 			
-			IF station.CommandAcknowledge THEN
-				station.NextState := TRUE;
+			IF pStation.CommandAcknowledge THEN
+				pStation.NextState := TRUE;
 			END_IF;
 		403:
-			station.StateInfo := 'Move shuttle 1 to mid';
+			pStation.StateInfo := 'Move shuttle 1 to mid';
 			// -----------------------------------------------------------------
-			station.Operation.MoveInPlane.Position.X := 0.000;
-			station.Operation.MoveInPlane.Position.Y := -0.120;
-			station.Commands.MoveInPlane := TRUE;
+			pStation.Operation.MoveInPlane.Position.X := 0.000;
+			pStation.Operation.MoveInPlane.Position.Y := -0.120;
+			pStation.Commands.MoveInPlane := TRUE;
 			
-			IF station.CommandAcknowledge THEN
-				station.NextState := TRUE;
+			IF pStation.CommandAcknowledge THEN
+				pStation.NextState := TRUE;
 			END_IF;
 		404:
-			station.StateInfo := 'Move shuttle 2';
+			pStation.StateInfo := 'Move shuttle 2';
 			// -----------------------------------------------------------------
-			station.Operation.Shuttle := station.Shuttles.List[1];
-			station.Operation.MoveInPlane.Position.X := 0.060;
-			station.Operation.MoveInPlane.Position.Y := 0.000;
-			station.Commands.MoveInPlane := TRUE;
+			pStation.Operation.Shuttle := pStation.Shuttles.List[1];
+			pStation.Operation.MoveInPlane.Position.X := 0.060;
+			pStation.Operation.MoveInPlane.Position.Y := 0.000;
+			pStation.Commands.MoveInPlane := TRUE;
 			
-			IF station.CommandAcknowledge THEN
-				station.NextState := TRUE;
+			IF pStation.CommandAcknowledge THEN
+				pStation.NextState := TRUE;
 			END_IF;
 		405:
-			station.StateInfo := 'Move shuttle 2 to mid';
+			pStation.StateInfo := 'Move shuttle 2 to mid';
 			// -----------------------------------------------------------------
-			station.Operation.MoveInPlane.Position.X := 0.000;
-			station.Operation.MoveInPlane.Position.Y := 0.120;
-			station.Commands.MoveInPlane := TRUE;
+			pStation.Operation.MoveInPlane.Position.X := 0.000;
+			pStation.Operation.MoveInPlane.Position.Y := 0.120;
+			pStation.Commands.MoveInPlane := TRUE;
 			
-			IF station.CommandAcknowledge THEN
-				station.NextState := TRUE;
+			IF pStation.CommandAcknowledge THEN
+				pStation.NextState := TRUE;
 			END_IF;
 		406:
-			station.StateInfo := 'Sync shuttles';
+			pStation.StateInfo := 'Sync shuttles';
 			// -----------------------------------------------------------------
-			station.Commands.WaitUntilAllDone := TRUE;
+			pStation.Commands.WaitUntilAllDone := TRUE;
 			
-			IF station.CommandDone THEN
-				station.NextState := TRUE;
+			IF pStation.CommandDone THEN
+				pStation.NextState := TRUE;
 			END_IF;
 		407:
-			station.StateInfo := 'Group shuttles';
+			pStation.StateInfo := 'Group shuttles';
 			// -----------------------------------------------------------------
-			station.Commands.Group.Couple_CommonCenterPoint := TRUE;
+			pStation.Commands.Group.Couple_CommonCenterPoint := TRUE;
 			
-			IF station.CommandDone THEN
-				station.JumpToState := 420;
+			IF pStation.CommandDone THEN
+				pStation.TargetState := 420;
+				pStation.JumpToTargetState := TRUE;
 			END_IF;	
 		420:
-			station.StateInfo := 'Rotate shuttles';
+			pStation.StateInfo := 'Rotate shuttles';
 			// -----------------------------------------------------------------
 			set_movement_parameters_to_default_values;
 			
-			station.Loop := 0;
-			brsmemset(ADR(station.Operation.MoveShortAxis.Position), 0, SIZEOF(station.Operation.MoveShortAxis.Position));
-			station.Operation.MoveShortAxis.Rotation.Type := mcACP6D_SHORT_AX_ROT_CENTER;
-			station.Operation.MoveShortAxis.Rotation.Center.X := 0.840;
-			station.Operation.MoveShortAxis.Rotation.Center.Y := 3.120;
-			station.Operation.MoveShortAxis.Velocity.Rz := 0.3;
-			station.Operation.Shuttle := station.Shuttles.List[0];
-			station.NextState := TRUE;
+			pStation.Loop := 0;
+			brsmemset(ADR(pStation.Operation.MoveShortAxis.Position), 0, SIZEOF(pStation.Operation.MoveShortAxis.Position));
+			pStation.Operation.MoveShortAxis.Rotation.Type := mcACP6D_SHORT_AX_ROT_CENTER;
+			pStation.Operation.MoveShortAxis.Rotation.Center.X := 0.840;
+			pStation.Operation.MoveShortAxis.Rotation.Center.Y := 3.120;
+			pStation.Operation.MoveShortAxis.Velocity.Rz := 0.3;
+			pStation.Operation.Shuttle := pStation.Shuttles.List[0];
+			pStation.NextState := TRUE;
 		421:
-			station.StateInfo := 'Rotate shuttles';
+			pStation.StateInfo := 'Rotate shuttles';
 			// -----------------------------------------------------------------
-			station.Operation.MoveShortAxis.Mode := mcACP6D_MOVE_RELATIVE;
-			station.Operation.MoveShortAxis.Position.Rz := 0.15;
-			station.Commands.MoveShortAxis := TRUE;
+			pStation.Operation.MoveShortAxis.Mode := mcACP6D_MOVE_RELATIVE;
+			pStation.Operation.MoveShortAxis.Position.Rz := 0.15;
+			pStation.Commands.MoveShortAxis := TRUE;
 			
-			IF station.CommandAcknowledge THEN
-				station.NextState := TRUE;
+			IF pStation.CommandAcknowledge THEN
+				pStation.NextState := TRUE;
 			END_IF;	
 		422:
-			station.StateInfo := 'Rotate shuttles';
+			pStation.StateInfo := 'Rotate shuttles';
 			// -----------------------------------------------------------------
-			station.Operation.MoveShortAxis.Mode := mcACP6D_MOVE_RELATIVE;
-			station.Operation.MoveShortAxis.Position.Rz := -0.30;
-			station.Commands.MoveShortAxis := TRUE;
+			pStation.Operation.MoveShortAxis.Mode := mcACP6D_MOVE_RELATIVE;
+			pStation.Operation.MoveShortAxis.Position.Rz := -0.30;
+			pStation.Commands.MoveShortAxis := TRUE;
 			
-			IF station.CommandAcknowledge THEN
-				station.NextState := TRUE;
+			IF pStation.CommandAcknowledge THEN
+				pStation.NextState := TRUE;
 			END_IF;	
 		423:
-			station.StateInfo := 'Rotate shuttles';
+			pStation.StateInfo := 'Rotate shuttles';
 			// -----------------------------------------------------------------
-			station.Operation.MoveShortAxis.Mode := mcACP6D_MOVE_RELATIVE;
-			station.Operation.MoveShortAxis.Position.Rz := 0.15;
-			station.Commands.MoveShortAxis := TRUE;
+			pStation.Operation.MoveShortAxis.Mode := mcACP6D_MOVE_RELATIVE;
+			pStation.Operation.MoveShortAxis.Position.Rz := 0.15;
+			pStation.Commands.MoveShortAxis := TRUE;
 			
-			IF station.CommandAcknowledge THEN
-				station.NextState := TRUE;
+			IF pStation.CommandAcknowledge THEN
+				pStation.NextState := TRUE;
 			END_IF;	
 		424:
-			station.StateInfo := 'Rotate shuttles';
+			pStation.StateInfo := 'Rotate shuttles';
 			// -----------------------------------------------------------------
-			IF station.Loop < 2 THEN
-				station.JumpToState := 421;
-				station.Loop := station.Loop + 1;
+			IF pStation.Loop < 2 THEN
+				pStation.TargetState := 421;
+				pStation.JumpToTargetState := TRUE;
+				pStation.Loop := pStation.Loop + 1;
 			ELSE
-				station.Loop := 0;
-				station.JumpToState := 500;
+				pStation.Loop := 0;
+				pStation.TargetState := 500;
+				pStation.JumpToTargetState := TRUE;
 			END_IF;
 		500:
-			station.StateInfo := 'Group move initialize';
+			pStation.StateInfo := 'Group move initialize';
 			// -----------------------------------------------------------------
 			set_movement_parameters_to_default_values;
-			station.Loop := 0;
-			station.NextState := TRUE;
+			pStation.Loop := 0;
+			pStation.NextState := TRUE;
 		501:
-			station.StateInfo := 'Group move';
+			pStation.StateInfo := 'Group move';
 			// -----------------------------------------------------------------
-			station.Operation.Shuttle := station.Shuttles.List[0];
-			station.Operation.MoveInPlane.Mode :=  mcACP6D_MOVE_RELATIVE;
-			station.Operation.MoveInPlane.Position.X := 0.060;
-			station.Operation.MoveInPlane.Position.Y := 0.000;
-			station.Commands.MoveInPlane := TRUE;
+			pStation.Operation.Shuttle := pStation.Shuttles.List[0];
+			pStation.Operation.MoveInPlane.Mode :=  mcACP6D_MOVE_RELATIVE;
+			pStation.Operation.MoveInPlane.Position.X := 0.060;
+			pStation.Operation.MoveInPlane.Position.Y := 0.000;
+			pStation.Commands.MoveInPlane := TRUE;
 			
-			IF station.CommandAcknowledge THEN
-				station.NextState := TRUE;
+			IF pStation.CommandAcknowledge THEN
+				pStation.NextState := TRUE;
 			END_IF;	
 		502:
-			station.StateInfo := 'Group move';
+			pStation.StateInfo := 'Group move';
 			// -----------------------------------------------------------------
-			station.Operation.MoveArc.Direction := mcACP6D_ARC_COUNTER_CLOCKWISE;
-			station.Operation.MoveArc.Angular.Angle :=  10 * brmTWOPI;
-			station.Operation.MoveArc.Angular.Center.X := -0.060;
-			station.Operation.MoveArc.Angular.Center.Y := 0.000;
-			station.Operation.MoveArc.EndVelocity := 1.5;
-			station.Commands.MoveArc := TRUE;
+			pStation.Operation.MoveArc.Direction := mcACP6D_ARC_COUNTER_CLOCKWISE;
+			pStation.Operation.MoveArc.Angular.Angle :=  10 * brmTWOPI;
+			pStation.Operation.MoveArc.Angular.Center.X := -0.060;
+			pStation.Operation.MoveArc.Angular.Center.Y := 0.000;
+			pStation.Operation.MoveArc.EndVelocity := 1.5;
+			pStation.Commands.MoveArc := TRUE;
 			
-			IF station.CommandAcknowledge THEN
-				station.NextState := TRUE;
+			IF pStation.CommandAcknowledge THEN
+				pStation.NextState := TRUE;
 			END_IF;	
 		503:
-			station.StateInfo := 'Group move';
+			pStation.StateInfo := 'Group move';
 			// -----------------------------------------------------------------
-			station.Operation.MoveInPlane.Mode :=  mcACP6D_MOVE_RELATIVE;
-			station.Operation.MoveInPlane.Position.X := 0.000;
-			station.Operation.MoveInPlane.Position.Y := 0.120;
-			station.Commands.MoveInPlane := TRUE;
+			pStation.Operation.MoveInPlane.Mode :=  mcACP6D_MOVE_RELATIVE;
+			pStation.Operation.MoveInPlane.Position.X := 0.000;
+			pStation.Operation.MoveInPlane.Position.Y := 0.120;
+			pStation.Commands.MoveInPlane := TRUE;
 			
-			IF station.CommandAcknowledge THEN
-				station.NextState := TRUE;
+			IF pStation.CommandAcknowledge THEN
+				pStation.NextState := TRUE;
 			END_IF;	
 		504:
-			station.StateInfo := 'Group move';
+			pStation.StateInfo := 'Group move';
 			// -----------------------------------------------------------------
-			station.Operation.MoveInPlane.Mode :=  mcACP6D_MOVE_RELATIVE;
-			station.Operation.MoveInPlane.Position.X := -0.120;
-			station.Operation.MoveInPlane.Position.Y := 0.000;
-			station.Commands.MoveInPlane := TRUE;
+			pStation.Operation.MoveInPlane.Mode :=  mcACP6D_MOVE_RELATIVE;
+			pStation.Operation.MoveInPlane.Position.X := -0.120;
+			pStation.Operation.MoveInPlane.Position.Y := 0.000;
+			pStation.Commands.MoveInPlane := TRUE;
 			
-			IF station.CommandAcknowledge THEN
-				station.NextState := TRUE;
+			IF pStation.CommandAcknowledge THEN
+				pStation.NextState := TRUE;
 			END_IF;	
 		505:
-			station.StateInfo := 'Group move';
+			pStation.StateInfo := 'Group move';
 			// -----------------------------------------------------------------
-			station.Operation.MoveInPlane.Mode :=  mcACP6D_MOVE_RELATIVE;
-			station.Operation.MoveInPlane.Position.X := 0.000;
-			station.Operation.MoveInPlane.Position.Y := -0.240;
-			station.Commands.MoveInPlane := TRUE;
+			pStation.Operation.MoveInPlane.Mode :=  mcACP6D_MOVE_RELATIVE;
+			pStation.Operation.MoveInPlane.Position.X := 0.000;
+			pStation.Operation.MoveInPlane.Position.Y := -0.240;
+			pStation.Commands.MoveInPlane := TRUE;
 			
-			IF station.CommandAcknowledge THEN
-				station.NextState := TRUE;
+			IF pStation.CommandAcknowledge THEN
+				pStation.NextState := TRUE;
 			END_IF;	
 		506:
-			station.StateInfo := 'Group move';
+			pStation.StateInfo := 'Group move';
 			// -----------------------------------------------------------------
-			station.Operation.MoveInPlane.Mode :=  mcACP6D_MOVE_RELATIVE;
-			station.Operation.MoveInPlane.Position.X := 0.120;
-			station.Operation.MoveInPlane.Position.Y := 0.000;
-			station.Commands.MoveInPlane := TRUE;
+			pStation.Operation.MoveInPlane.Mode :=  mcACP6D_MOVE_RELATIVE;
+			pStation.Operation.MoveInPlane.Position.X := 0.120;
+			pStation.Operation.MoveInPlane.Position.Y := 0.000;
+			pStation.Commands.MoveInPlane := TRUE;
 			
-			IF station.CommandAcknowledge THEN
-				station.NextState := TRUE;
+			IF pStation.CommandAcknowledge THEN
+				pStation.NextState := TRUE;
 			END_IF;	
 		507:
-			station.StateInfo := 'Group move';
+			pStation.StateInfo := 'Group move';
 			// -----------------------------------------------------------------
-			station.Operation.MoveInPlane.Mode :=  mcACP6D_MOVE_RELATIVE;
-			station.Operation.MoveInPlane.Position.X := 0.000;
-			station.Operation.MoveInPlane.Position.Y := 0.240;
-			station.Commands.MoveInPlane := TRUE;
+			pStation.Operation.MoveInPlane.Mode :=  mcACP6D_MOVE_RELATIVE;
+			pStation.Operation.MoveInPlane.Position.X := 0.000;
+			pStation.Operation.MoveInPlane.Position.Y := 0.240;
+			pStation.Commands.MoveInPlane := TRUE;
 			
-			IF station.CommandDone THEN
-				station.JumpToState := 508;
+			IF pStation.CommandDone THEN
+				pStation.TargetState := 508;
+				pStation.JumpToTargetState := TRUE;
 			END_IF;	
 		508:
-			station.StateInfo := 'decouple shuttles';
+			pStation.StateInfo := 'decouple shuttles';
 			// -----------------------------------------------------------------
-			station.Commands.Group.Decouple := TRUE;
+			pStation.Commands.Group.Decouple := TRUE;
 			
-			IF station.CommandDone THEN
-				station.JumpToState := 1000;
+			IF pStation.CommandDone THEN
+				pStation.TargetState := 1000;
+				pStation.JumpToTargetState := TRUE;
 			END_IF;	
 			
 		1000:
-			station.StateInfo := 'Release shuttle to traffic network';
+			pStation.StateInfo := 'Release shuttle to traffic network';
 			// -----------------------------------------------------------------
-			station.Commands.ReleaseAllShuttles := TRUE;
+			pStation.Commands.ReleaseAllShuttles := TRUE;
 
-			IF station.CommandDone THEN
-				station.JumpToState := 200;
+			IF pStation.CommandDone THEN
+				pStation.TargetState := 200;
+				pStation.JumpToTargetState := TRUE;
 			END_IF;
 	END_CASE;
 	

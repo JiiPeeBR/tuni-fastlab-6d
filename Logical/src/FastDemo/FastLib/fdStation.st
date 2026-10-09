@@ -17,21 +17,23 @@ FUNCTION_BLOCK fdStation
 	
 	// External state control
 	// ----------------------------------------------------------------------------------------
+	m_var.rNextState(CLK := NextState);
+	m_var.rGoToState(CLK := JumpToTargetState);
+	
 	IF Active THEN
-		IF NextState THEN
+		IF m_var.rNextState.Q THEN
 			State := State + 1;
 			m_var.StateChanged := TRUE;
-		ELSIF JumpToState <> State THEN
-			State := JumpToState;
+		ELSIF m_var.rGoToState.Q THEN
+			State := TargetState;
 			m_var.StateChanged := TRUE;
 		END_IF;
 
 		IF m_var.StateChanged THEN
 			m_var.StateChanged := FALSE;
 			NextState := FALSE;
-			JumpToState := State;;
+			JumpToTargetState := FALSE;
 			brsmemset(ADR(Commands), 0, SIZEOF(Commands));
-			JumpToState := State;;
 		END_IF;  
 	END_IF;
 
@@ -48,7 +50,8 @@ FUNCTION_BLOCK fdStation
 			Active := FALSE;
 			State := 0;
 			NextState := FALSE;
-			JumpToState := 0;
+			JumpToTargetState := FALSE;
+			TargetState := 0;
 			Loop := 0;
 			brsmemset(ADR(Commands), 0, SIZEOF(Commands));
 			brsmemset(ADR(Operation), 0, SIZEOF(Operation));
@@ -595,9 +598,9 @@ END_CASE;
 	// Station control
 	// ----------------------------------------------------------------------------------------
 	m_control.StationControl.MpLink := ADR(TrafficManager);
-	m_control.StationControl.Enable := Enable;
+	m_control.StationControl.Enable := TRUE;
 	m_control.StationControl.Station := ADR(Station);
-	m_control.StationControl.To := ADR(NextStation);
+	//m_control.StationControl.To := ADR(NextStation);
 	m_control.StationControl.ErrorReset := m_cmd.Input.ErrorReset;
 	m_control.StationControl.Release := m_control.StationQueueControl.ReleaseShuttle;
 	m_control.StationControl();

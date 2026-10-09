@@ -6,12 +6,6 @@ PROGRAM _INIT
     // Access the task interface
 	task ACCESS ADR(gMain);
 
-	// Register module config interface for common setup/parametrization functionality
-	//fb.MpRecipeRegPar_settings(MpLink := ADR(gSystemSettings), Enable := TRUE , PVName := ADR('gMain.settings'), Category := ADR('Main'));
-
-	// Check for simulator
-	//task.IsSimulated := DiagCpuIsSimulated();
-  
 	// Calculate home positions for shuttles
 	FOR i := 0 TO gMAX_INDEX_SHUTTLE DO
 		local.homePosition[i].x := DINT_TO_REAL(420 + (i MOD 2) * 120) / 1000;
@@ -94,6 +88,8 @@ PROGRAM _CYCLIC
 	IF commands.Unhold.Q THEN em.Command.Unhold := TRUE; END_IF;
 	IF commands.Unsuspend.Q THEN em.Command.Unsuspend := TRUE; END_IF;
 	
+	brsmemset(ADR(task.Input.Command), 0, SIZEOF(task.Input.Command));
+	
 	// PackML equipment module
 	// =================================================================================================================
 	em();
@@ -150,9 +146,6 @@ PROGRAM _CYCLIC
 	
 	CASE em.StateCurrent OF
 		STATE_ACTIVATING:
-//			gDO.Button1_Led := fb.LampSequence.Lamp1;
-//			gDO.Button2_Led := fb.LampSequence.Lamp2;
-			//			gDO.Button3_Led := fb.LampSequence.Lamp3;
 			gDO.Button1_Led := TRUE;
 			gDO.Button2_Led := TRUE;
 			gDO.Button3_Led := TRUE;

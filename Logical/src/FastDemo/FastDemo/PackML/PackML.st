@@ -32,25 +32,25 @@ ACTION PackML_state_machine:
 				0:
 					em.StateInfo := 'Reset traffic control errors';
 					// -----------------------------------------------------------------
-					actions_state.error_reset := TRUE;
-					IF NOT fb.TrafficControl.Error THEN
+					StateCommands.error_reset := TRUE;
+					IF NOT Fb.TrafficControl.Error THEN
 	  					em.SubState := 10;
 					END_IF;
 				10:
 					em.StateInfo := 'Wait until all stations are deactivated';
 					// -----------------------------------------------------------------
-					local.allStationsDeactivated := TRUE;
+					Local.allStationsDeactivated := TRUE;
 					
 					FOR station_num := 0 TO STATION_COUNT DO
-						station ACCESS ADR(stations[station_num]);
+						pStation ACCESS ADR(stations[station_num]);
 						
-						IF station.Active THEN
-							local.allStationsDeactivated := FALSE;
+						IF pStation.Active THEN
+							Local.allStationsDeactivated := FALSE;
 							EXIT;
 						END_IF;	
 					END_FOR;
 					
-					IF local.allStationsDeactivated THEN
+					IF Local.allStationsDeactivated THEN
 	  					em.SubState := 100;
 					END_IF;
 					
@@ -70,25 +70,25 @@ ACTION PackML_state_machine:
 				0:
 					em.StateInfo := 'Move shuttles to recovery points';
 					// -----------------------------------------------------------------
-					fb.TrafficControl.Velocity := 1.8;
-					fb.TrafficControl.Acceleration := 8.0; 
-					actions_substate.traffic_recover := TRUE;
+					Fb.TrafficControl.Velocity := 1.8;
+					Fb.TrafficControl.Acceleration := 8.0; 
+					SubStateCommands.traffic_recover := TRUE;
 					
-					IF fb.TrafficControl.RecoverDone OR fb.TON_RecoverTimeout.Q THEN
+					IF Fb.TrafficControl.RecoverDone OR Fb.TON_RecoverTimeout.Q THEN
 						em.SubState := 10;
 					END_IF;		
 				10:
 					em.StateInfo := 'Activating traffic recipe';
 					// -----------------------------------------------------------------
-					actions_substate.traffic_activate_recipe := TRUE;
+					SubStateCommands.traffic_activate_recipe := TRUE;
 					
-					IF fb.TrafficControl.ActivateRecipeDone THEN
+					IF Fb.TrafficControl.ActivateRecipeDone THEN
 						em.SubState := 100;
 					END_IF;
 				100:
 					em.StateInfo := 'Traffic manager started';
 					// -----------------------------------------------------------------
-					IF fb.TrafficControl.Error THEN
+					IF Fb.TrafficControl.Error THEN
 	  					em.SubState := 200;
 					ELSE
 						em.Command.StateComplete := TRUE;			
@@ -100,17 +100,17 @@ ACTION PackML_state_machine:
             // -----------------------------------------------------------------
 			em.Command.StateComplete := TRUE;
 			
-			actions_state.activate_stations := TRUE;
+			StateCommands.activate_stations := TRUE;
 			
-			execute_station_S1;
-			execute_station_S2;
-			execute_station_S3;
-			execute_station_S4;
-			execute_station_S5;
-			execute_station_S6;
-			//execute_station_S7;
+			StationSequence_S1;
+			StationSequence_S2;
+			StationSequence_S3;
+			StationSequence_S4;			
+			StationSequence_S5;
+			StationSequence_S6;
+			//			StationSequence_S7;
           
-        STATE_COMPLETING:
+		STATE_COMPLETING:
             em.StateInfo := '';
             // -----------------------------------------------------------------
             em.Command.StateComplete := TRUE;
@@ -123,8 +123,8 @@ ACTION PackML_state_machine:
         STATE_STOPPING:
             em.StateInfo := 'Stop traffic manager';
 			// -----------------------------------------------------------------
-			actions_substate.traffic_stop := TRUE;
-			IF fb.TrafficControl.StopDone THEN
+			SubStateCommands.traffic_stop := TRUE;
+			IF Fb.TrafficControl.StopDone THEN
 	  			em.Command.StateComplete := TRUE;   
 			END_IF;
 	END_CASE
