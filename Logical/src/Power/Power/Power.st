@@ -11,6 +11,7 @@ PROGRAM _INIT
     Cm.Setup.Name := 'Power';
 	Cm.Setup.ParentName := 'Main';
 	
+	// Automatic power on during startup
 	Local.AutomaticPowerOnAtStart := TRUE;
 	
 END_PROGRAM
@@ -40,7 +41,10 @@ PROGRAM _CYCLIC
 		1:
             Cm.StateInfo := 'Track power off';
 			// ---------------------------------------------------------------------------------
-			IF Fb.rPowerOn.Q THEN
+			IF Fb.rPowerOn.Q OR Local.AutomaticPowerOnAtStart THEN
+				// Reset the automatic power on command after one triggering so that manual
+				// commands function as expected
+				Local.AutomaticPowerOnAtStart := FALSE;
 				Cm.State := Cm.State + 1;
 			END_IF;
 		2:
@@ -71,9 +75,7 @@ PROGRAM _CYCLIC
 	
 	Fb.rPowerOn(CLK := Task.Input.Command.PowerOn);
 	Fb.rPowerOff(CLK := Task.Input.Command.PowerOff);
-	
-	brsmemset(ADR(Task.Input.Command), 0, SIZEOF(Task.Input.Command));
-      
+	      
 	// Detect state change events
 	// =================================================================================================================
 	Local.OnStateEntry := (Cm.State <> Local.LastState) OR (Cm.SubState <> Local.LastSubState);

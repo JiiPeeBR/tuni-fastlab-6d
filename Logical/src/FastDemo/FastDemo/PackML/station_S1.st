@@ -5,8 +5,8 @@ ACTION StationSequence_S1:
 	pStation ACCESS ADR(stations[1]);
 
 	// Station parameters
-//	pStation.Station := ADR(S1);
-//	pStation.NextStation := ADR(S2);
+	pStation.Station := ADR(S1);
+	pStation.NextStation := ADR(S2);
 	pStation.Parameters.ShuttleCapacity := 1;
 	pStation.Parameters.Zone.BottomLeft.X := 0;
 	pStation.Parameters.Zone.BottomLeft.Y := 0;

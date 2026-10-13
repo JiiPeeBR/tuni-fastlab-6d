@@ -8,5 +8,6 @@
     <Object Type="Package" Description="Global libraries">Libraries</Object>
     <Object Type="Package" TransferedForTargetSourceCompare="true">Docs</Object>
     <Object Type="Package">src</Object>
+    <Object Type="Package">mappView</Object>
   </Objects>
 </Package>

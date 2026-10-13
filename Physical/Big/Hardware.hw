@@ -4,7 +4,7 @@
   <Module Name="5APC4100.BX02-001" Type="5APC4100.BX02-001" Version="1.0.0.1">
     <Connection Connector="SY" TargetModule="5APC4100_TGL2_000" TargetConnector="SY3" />
   </Module>
-  <Module Name="5APC4100_TGL2_000" Type="5APC4100.TGL2-000" Version="1.4.1.0">
+  <Module Name="5APC4100_TGL2_000" Type="5APC4100.TGL2-000" Version="1.4.1.1">
     <Connector Name="IF3">
       <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
       <Parameter ID="ActivateDevice" Value="1" />
@@ -71,7 +71,7 @@
     <Parameter ID="WebServerProtocol" Value="1" />
     <Parameter ID="ActivateSdm" Value="1" />
   </Module>
-  <Module Name="5LS182.8" Type="5LS182.8" Version="1.5.1.1">
+  <Module Name="5LS182.8" Type="5LS182.8" Version="1.5.1.2">
     <Connection Connector="SL" TargetModule="5APC4100.BX02-001" TargetConnector="SL1" />
     <Connector Name="IF1">
       <Parameter ID="EplNatSubnet" Value="192.168.102.0" />
@@ -85,6 +85,7 @@
     <Connection Connector="PLK2" TargetModule="8B0C0320HW00.B00-1_B" TargetConnector="PLK1">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
+    <Parameter ID="Supervision" Value="off" />
     <Parameter ID="AxisReference" Location="FunctionModel/PowerSection" Value="PSU_A" />
     <Parameter ID="Voltage" Location="FunctionModel/PowerSection/OutputParameters" Value="48" />
     <Parameter ID="OutputVoltageOn" Location="FunctionModel/PowerSection" Value="No" />
@@ -96,6 +97,7 @@
     <Connection Connector="PLK2" TargetModule="8B0C0320HW00.B00-1_C" TargetConnector="PLK1">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
+    <Parameter ID="Supervision" Value="off" />
     <Parameter ID="AxisReference" Location="FunctionModel/PowerSection" Value="PSU_B" />
     <Parameter ID="Voltage" Location="FunctionModel/PowerSection/OutputParameters" Value="48" />
     <Parameter ID="OutputVoltageOn" Location="FunctionModel/PowerSection" Value="No" />
@@ -107,6 +109,7 @@
     <Connection Connector="PLK2" TargetModule="8B0C0320HW00.B00-1_D" TargetConnector="PLK1">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
+    <Parameter ID="Supervision" Value="off" />
     <Parameter ID="AxisReference" Location="FunctionModel/PowerSection" Value="PSU_C" />
     <Parameter ID="Voltage" Location="FunctionModel/PowerSection/OutputParameters" Value="48" />
     <Parameter ID="OutputVoltageOn" Location="FunctionModel/PowerSection" Value="No" />
@@ -118,6 +121,7 @@
     <Connection Connector="PLK2" TargetModule="8B0C0320HW00.B00-1_E" TargetConnector="PLK1">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
+    <Parameter ID="Supervision" Value="off" />
     <Parameter ID="AxisReference" Location="FunctionModel/PowerSection" Value="PSU_D" />
     <Parameter ID="Voltage" Location="FunctionModel/PowerSection/OutputParameters" Value="48" />
     <Parameter ID="OutputVoltageOn" Location="FunctionModel/PowerSection" Value="No" />
@@ -129,6 +133,7 @@
     <Connection Connector="PLK2" TargetModule="8B0C0320HW00.B00-1_F" TargetConnector="PLK1">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
+    <Parameter ID="Supervision" Value="off" />
     <Parameter ID="AxisReference" Location="FunctionModel/PowerSection" Value="PSU_E" />
     <Parameter ID="Voltage" Location="FunctionModel/PowerSection/OutputParameters" Value="48" />
     <Parameter ID="OutputVoltageOn" Location="FunctionModel/PowerSection" Value="No" />
@@ -140,6 +145,7 @@
     <Connection Connector="PLK2" TargetModule="8B0C0320HW00.B00-1_G" TargetConnector="PLK1">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
+    <Parameter ID="Supervision" Value="off" />
     <Parameter ID="AxisReference" Location="FunctionModel/PowerSection" Value="PSU_F" />
     <Parameter ID="Voltage" Location="FunctionModel/PowerSection/OutputParameters" Value="48" />
     <Parameter ID="OutputVoltageOn" Location="FunctionModel/PowerSection" Value="No" />
@@ -151,6 +157,7 @@
     <Connection Connector="PLK2" TargetModule="8FLM01.0000.00I-1" TargetConnector="PLK1">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
+    <Parameter ID="Supervision" Value="off" />
     <Parameter ID="AxisReference" Location="FunctionModel/PowerSection" Value="PSU_G" />
     <Parameter ID="Voltage" Location="FunctionModel/PowerSection/OutputParameters" Value="48" />
     <Parameter ID="OutputVoltageOn" Location="FunctionModel/PowerSection" Value="No" />

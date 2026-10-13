@@ -103,11 +103,11 @@ ACTION PackML_state_machine:
 			StateCommands.activate_stations := TRUE;
 			
 			StationSequence_S1;
-			StationSequence_S2;
-			StationSequence_S3;
-			StationSequence_S4;			
-			StationSequence_S5;
-			StationSequence_S6;
+//			StationSequence_S2;
+//			StationSequence_S3;
+//			StationSequence_S4;			
+//			StationSequence_S5;
+//			StationSequence_S6;
 			//			StationSequence_S7;
           
 		STATE_COMPLETING:
