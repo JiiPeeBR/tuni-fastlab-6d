@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Content id="MainPage" guid="20ed1828-d76d-4d34-a573-cdeecc5628dc" height="420" width="800" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Widgets>
+    <Widget xsi:type="widgets.brease.GroupBox" id="GroupBox1" top="360" left="0" width="800" height="60" zIndex="0" alignment="horizontal" childPositioning="relative" borderStyle="none" fontSize="0px" margin="0px">
+      <Widgets>
+        <Widget xsi:type="widgets.brease.TextOutput" id="TextOutput1" top="0" left="0" width="250" height="60" zIndex="0" borderWidth="2px" cornerRadius="10px" backColor="rgba(150, 150, 150, 1)" borderColor="rgba(255, 128, 0, 1)" borderStyle="none" textColor="rgba(255, 255, 255, 1)" textAlign="center" fontSize="20px" underline="false" margin="0px 25px 0px 0px" />
+        <Widget xsi:type="widgets.brease.TextOutput" id="TextOutput2" top="0" left="0" width="250" height="60" zIndex="1" borderWidth="2px" cornerRadius="15px" backColor="rgba(150, 150, 150, 1)" borderColor="rgba(255, 128, 0, 1)" borderStyle="none" textColor="rgba(255, 255, 255, 1)" textAlign="center" fontSize="20px" underline="false" margin="0px 25px 0px 0px" />
+        <Widget xsi:type="widgets.brease.TextOutput" id="TextOutput3" top="0" left="0" width="250" height="60" zIndex="2" borderWidth="2px" cornerRadius="10px" backColor="rgba(150, 150, 150, 1)" borderColor="rgba(255, 128, 0, 1)" borderStyle="none" textColor="rgba(255, 255, 255, 1)" textAlign="center" fontSize="20px" underline="false" />
+      </Widgets>
+    </Widget>
+    <Widget xsi:type="widgets.brease.Label" id="Label1" top="300" left="0" width="160" height="40" zIndex="1" text="Machine state:" fontSize="20px" />
+    <Widget xsi:type="widgets.brease.TextOutput" id="TextOutput4" top="300" left="180" width="600" height="40" zIndex="2" style="OutputField" />
+  </Widgets>
+</Content>
