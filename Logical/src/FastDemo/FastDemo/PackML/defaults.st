@@ -1,41 +1,57 @@
-ACTION set_movement_parameters_to_default_values:
-	// Move in plane
-	brsmemset(ADR(pStation.Operation.MoveInPlane), 0, SIZEOF(pStation.Operation.MoveInPlane));
-	pStation.Operation.MoveInPlane.Velocity := 1.5;
-	pStation.Operation.MoveInPlane.Acceleration := 18;
-	pStation.Operation.MoveInPlane.EndVelocity := 0;
-	pStation.Operation.MoveInPlane.Path := mcACP6D_PATH_DIRECT;
-	pStation.Operation.MoveInPlane.Mode := mcACP6D_MOVE_ABSOLUTE;
+
+ACTION reset_parameters_all:
+	reset_parameters_MoveInPlane;
+	reset_parameters_MoveShortAxis;
+	reset_parameters_MoveArc;
+	reset_parameters_Move6D;
+END_ACTION
+
+ACTION reset_parameters_MoveInPlane:
+	brsmemset(ADR(station.Operation.MoveInPlane.Parameters), 0, SIZEOF(station.Operation.MoveInPlane.Parameters));
 	
-	// Move short axis
-	brsmemset(ADR(pStation.Operation.MoveShortAxis), 0, SIZEOF(pStation.Operation.MoveShortAxis));
-	pStation.Operation.MoveShortAxis.Velocity.Rx := 0.1;
-	pStation.Operation.MoveShortAxis.Velocity.Ry := 0.1;
-	pStation.Operation.MoveShortAxis.Velocity.Rz := 0.1;
-	pStation.Operation.MoveShortAxis.Velocity.Z := 0.005;
-	pStation.Operation.MoveShortAxis.Position.Rx := 0;
-	pStation.Operation.MoveShortAxis.Position.Ry:= 0;
-	pStation.Operation.MoveShortAxis.Position.Rz := 0;
-	pStation.Operation.MoveShortAxis.Position.Z := gDEFAULT_Z;
-	pStation.Operation.MoveShortAxis.Mode := mcACP6D_MOVE_ABSOLUTE;
+	station.Operation.MoveInPlane.CommandLabel := 0;
+	station.Operation.MoveInPlane.Parameters.Velocity := 1.5;
+	station.Operation.MoveInPlane.Parameters.Acceleration := 18;
+	station.Operation.MoveInPlane.Parameters.EndVelocity := 0;
+	station.Operation.MoveInPlane.Parameters.Path :=  mcACP6D_PATH_DIRECT;
+	station.Operation.MoveInPlane.Parameters.Mode :=  mcACP6D_MOVE_ABSOLUTE;
+END_ACTION
+
+ACTION reset_parameters_MoveShortAxis:
+	brsmemset(ADR(station.Operation.MoveShortAxis.Parameters), 0, SIZEOF(station.Operation.MoveShortAxis.Parameters));
+
+	station.Operation.MoveShortAxis.CommandLabel := 0;
+	station.Operation.MoveShortAxis.Parameters.Velocity.Rx := 0.1;
+	station.Operation.MoveShortAxis.Parameters.Velocity.Ry := 0.1;
+	station.Operation.MoveShortAxis.Parameters.Velocity.Rz := 0.1;
+	station.Operation.MoveShortAxis.Parameters.Velocity.Z := 0.005;
+	station.Operation.MoveShortAxis.Parameters.Position.Rx := 0;
+	station.Operation.MoveShortAxis.Parameters.Position.Ry:= 0;
+	station.Operation.MoveShortAxis.Parameters.Position.Rz := 0;
+	station.Operation.MoveShortAxis.Parameters.Position.Z := gDEFAULT_Z;
+	station.Operation.MoveShortAxis.Parameters.Mode := mcACP6D_MOVE_ABSOLUTE;
+END_ACTION
+
+ACTION reset_parameters_MoveArc:
+	brsmemset(ADR(station.Operation.MoveArc.Parameters), 0, SIZEOF(station.Operation.MoveArc.Parameters));
 	
-	// Move arc
-	brsmemset(ADR(pStation.Operation.MoveArc), 0, SIZEOF(pStation.Operation.MoveArc));
-	pStation.Operation.MoveArc.Velocity := 1.5;
-	pStation.Operation.MoveArc.Acceleration := 18;
-	pStation.Operation.MoveArc.EndVelocity := 0;
-	pStation.Operation.MoveArc.Angular.Angle := 0;
-	pStation.Operation.MoveArc.Option := mcACP6D_ARC_ANGULAR;
-	pStation.Operation.MoveArc.Mode :=  mcACP6D_MOVE_RELATIVE;
+	station.Operation.MoveArc.CommandLabel := 0;
+	station.Operation.MoveArc.Parameters.Velocity := 1.5;
+	station.Operation.MoveArc.Parameters.Acceleration := 18;
+	station.Operation.MoveArc.Parameters.EndVelocity := 0;
+	station.Operation.MoveArc.Parameters.Angular.Angle := 0;
+	station.Operation.MoveArc.Parameters.Mode :=  mcACP6D_MOVE_RELATIVE;
+	station.Operation.MoveArc.Parameters.Option := mcACP6D_ARC_ANGULAR;
+END_ACTION
+
+ACTION reset_parameters_Move6D:
 	
-	// Move 6D
-	brsmemset(ADR(pStation.Operation.Move6D), 0, SIZEOF(pStation.Operation.Move6D));
-	
-	// Wait command label
-	pStation.Operation.WaitCommandLabel.LabelType :=  mcACP6D_SH_WAIT_CMDLB_REGULAR;
-	pStation.Operation.WaitCommandLabel.TriggerCmdLb := 0;
-	pStation.Operation.WaitCommandLabel.TriggerType := mcACP6D_SH_WAIT_CMDLB_START;
-	pStation.Operation.WaitCommandLabel.TriggerShuttleID := 0;
-	
+END_ACTION
+
+ACTION reset_parameters_WaitCommandLabel:
+	station.Operation.WaitCommandLabel.LabelType :=  mcACP6D_SH_WAIT_CMDLB_REGULAR;
+	station.Operation.WaitCommandLabel.TriggerCmdLb := 0;
+	station.Operation.WaitCommandLabel.TriggerType := mcACP6D_SH_WAIT_CMDLB_START;
+	station.Operation.WaitCommandLabel.TriggerXID := 0;
 END_ACTION
 

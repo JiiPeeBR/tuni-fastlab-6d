@@ -1,14 +1,10 @@
-VAR CONSTANT
-	STATION_COUNT : DINT := 7;
-END_VAR
-(**)
 VAR
-	Task : REFERENCE TO FastDemoType;
-	Local : FastDemoLocalType;
-	Fb : FastDemoFbType;
-	Hmi : FastDemoHmiType;
-	StateCommands : FastDemoActionsStateType;
-	SubStateCommands : FastDemoActionsSubstateType;
+	task : REFERENCE TO FastDemoType;
+	local : FastDemoLocalType;
+	fb : FastDemoFbType;
+	hmi : FastDemoHmiType;
+	actions_state : FastDemoActionsStateType;
+	actions_substate : FastDemoActionsSubstateType;
 END_VAR
 (* ----- PackML ----- *)
 VAR
@@ -17,8 +13,15 @@ END_VAR
 (*----- Stations ----*)
 VAR
 	station_num : {REDUND_UNREPLICABLE} DINT := 0;
-	stations : ARRAY[0..STATION_COUNT] OF fdStation;
-	pStation : REFERENCE TO fdStation;
 	str : STRING[80];
 	i : DINT;
+END_VAR
+VAR CONSTANT
+	STATION_COUNT : DINT := 7;
+	STATION_SHUTTLE_COUNT : DINT := 4;
+	STATION_SHUTTLE_LAST_INDEX : DINT := STATION_SHUTTLE_COUNT-1;
+END_VAR
+VAR
+	stations : ARRAY[0..STATION_COUNT] OF FastDemoStationType;
+	station : REFERENCE TO FastDemoStationType;
 END_VAR

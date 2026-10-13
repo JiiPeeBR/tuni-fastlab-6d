@@ -3,24 +3,23 @@ FUNCTION_BLOCK fdStationQueueControl
 	VAR_INPUT
 		Enable : BOOL;
 		ReleaseShuttles : BOOL;
-		ShuttleList : ARRAY[0..fdSTATION_SHUTTLE_LAST_INDEX] OF MpTrafficShuttleInfoType;
-		ShuttleCapacity : UINT; (*Count how many shuttles process station can handle*)
-		pStation : REFERENCE TO MpTrafficStationControl;
+		ShuttleList : ARRAY[0..fdMAX_STATION_SHUTTLE_COUNT] OF MpTrafficShuttleInfoType;
+		ShuttleCapacity : DINT; (*Count how many shuttles process station can handle*)
+		Station_SelectedShuttle : MpTrafficStationShInfoType;
+		Station_Info : MpTrafficStationCtrlInfoType;
+		Station_ReleaseDone : BOOL;
+		Station_ReleaseAborted : BOOL;
 	END_VAR
 	VAR_OUTPUT
 		ShuttleReleaseDone : BOOL;
-		ShuttleReleaseAborted : BOOL;
+		Error : BOOL;
 		ReleaseShuttle : BOOL;
-		NumOccypyingShuttles : UINT;
+		SelectNextShuttle : BOOL;
 	END_VAR
 	VAR
 		state : DINT;
-		lastState : DINT;
-		loop : DINT;
 		index : DINT;
-		shuttleFound : BOOL;
-		shuttleIDToRelease : UINT;
-		shuttleIDToAutoRelease : UINT;
+		shuttleIDToReleaseNext : UINT;
 	END_VAR
 END_FUNCTION_BLOCK
 
@@ -96,99 +95,3 @@ FUNCTION_BLOCK fdFindZone
 		lastZoneID : UINT;
 	END_VAR
 END_FUNCTION_BLOCK
-
-FUNCTION_BLOCK fdStation
-	VAR_INPUT
-		Assembly : REFERENCE TO Mc6DAssemblyType;
-		TrafficManager : REFERENCE TO MpTrafficManagerType;
-		Station : REFERENCE TO MpTrafficStationType;
-		NextStation : REFERENCE TO MpTrafficStationType;
-		Enable : BOOL;
-		NextState : BOOL;
-		JumpToTargetState : BOOL;
-		TargetState : UINT; (*Target state where GoToState jumps to*)
-		Parameters : fdStationParametersType;
-		Commands : fdStationCommandsType;
-		Operation : fdStationOperationType;
-		Loop : DINT;
-		StateInfo : STRING[80];
-	END_VAR
-	VAR_OUTPUT
-		State : UINT;
-		Active : BOOL;
-		NumOccupyingShuttles : UINT;
-		CommandDone : BOOL;
-		CommandAcknowledge : BOOL;
-		CommandError : BOOL;
-		ErrorID : DINT;
-		ErroredSequenceState : DINT;
-		Shuttles : fdStationShuttlesType;
-		VirtualShuttle : MpTrafficShuttleInfoType;
-		MacroShuttle : MpTrafficShuttleInfoType;
-	END_VAR
-	VAR
-		m_sequence_state : DINT;
-		m_control : fdStationMemberControlType;
-		m_move : fdStationMemberMoveType;
-		m_group : fdStationMemberGroupType;
-		m_macro : fdStationMemberMacroType;
-		m_zone : fdStationMemberZoneType;
-		m_cmd : fdStationMemberCommandType;
-		m_status : fdStationMemberStatusType;
-		m_var : fdStationMemberVarType;
-	END_VAR
-END_FUNCTION_BLOCK
-(**)
-
-FUNCTION_BLOCK fdMove6DSync
-	VAR_INPUT
-		Shuttle : REFERENCE TO Mc6DShuttleType;
-		Execute : BOOL;
-		Home : BOOL;
-		Parameters : fdMove6DSyncParametersType;
-	END_VAR
-	VAR_OUTPUT
-		Acknowledge : BOOL;
-		Done : BOOL;
-		Error : BOOL;
-		ErrorID : DINT;
-		CurrentPosition : McAcp6DShPositionType;
-	END_VAR
-	VAR
-		state : DINT;
-		i : DINT;
-		ShGetInfo : MC_BR_ShGetInfo_Acp6D;
-		Move6D : MC_BR_Move6D_Acp6D;
-		m : fdMove6DSyncMemberType;
-	END_VAR
-END_FUNCTION_BLOCK
-
-FUNCTION fdCalcTimeToTarget : REAL
-	VAR_INPUT
-		Distance : REAL;
-		MaxVelocity : REAL;
-		Acceleration : REAL;
-	END_VAR
-	VAR
-		timeToMaxVelocity : REAL;
-		distanceToMaxVelocity : REAL;
-		distanceToTarget : REAL;
-	END_VAR
-END_FUNCTION
-
-FUNCTION fdCalcTargetVelocity : REAL
-	VAR_INPUT
-		Distance : REAL;
-		TimeToTarget : REAL;
-		Acceleration : REAL;
-	END_VAR
-	VAR
-		minimumVelocity : REAL;
-		discriminant : REAL;
-		a : REAL;
-		b : REAL;
-		c : REAL;
-		x1 : REAL;
-		x2 : REAL;
-	END_VAR
-END_FUNCTION

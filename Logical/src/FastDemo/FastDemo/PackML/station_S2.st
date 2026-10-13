@@ -1,150 +1,161 @@
 
-ACTION StationSequence_S2:		
+ACTION execute_station_S2:
 	// Point station reference to this station
-	pStation ACCESS ADR(stations[2]);
-
-	// Station parameters
-//	pStation.Station := ADR(S2);
-//	pStation.NextStation := ADR(B1);
-	pStation.Parameters.ShuttleCapacity := 1;
-	pStation.Parameters.Zone.BottomLeft.X := 0.720;
-	pStation.Parameters.Zone.BottomLeft.Y := 0;
-	pStation.Parameters.Zone.TopRight.X := 0.960;
-	pStation.Parameters.Zone.TopRight.Y := 0.480;
+	station ACCESS ADR(stations[2]);
+			
+	// Station control logic and mapping
+	station.Control.Enable := TRUE;
+	station.Control.Station := ADR(S2);
+	station.Control.To := ADR(B1);
+	station.Macro.Name := 'S2';
+	station.Operation.StationQueueControl.ShuttleCapacity := 1;
 	
-	CASE pStation.State OF
-		0:
-			pStation.StateInfo := 'Activating station';
+	CASE station.State OF
+		0:	
+			station.Var.StateInfo := 'Activating station';
 			// -----------------------------------------------------------------
-			IF pStation.Active THEN
-				pStation.Loop := 0;
-				pStation.TargetState := 100;
-				pStation.JumpToTargetState := TRUE;
-			END_IF;
-				
-		100:
-			pStation.StateInfo := 'Movement settings';
+			IF station.Control.Active AND station.Control.State = mpTRAFFIC_ST_ON_OPEN THEN
+				station.State := station.State + 1;	
+			END_IF		
+		1:
+			station.Var.StateInfo := 'Check if station sequence macro exists';
 			// -----------------------------------------------------------------
-			set_movement_parameters_to_default_values;
-			
-			pStation.Operation.Shuttle := pStation.MacroShuttle;
-			pStation.Operation.Spin.Acceleration := 35.0;
-			pStation.Operation.Spin.Angle := 0;
-			pStation.Operation.Spin.Duration := 2.0;
-			
-			pStation.NextState := TRUE;
-		101:
-			pStation.StateInfo := 'Move to position 1';
+			IF station.Macro.Shuttle.controlif > 0 THEN
+				// Macro already created -> go to wait for next shuttle
+				station.State := 200;
+			ELSE
+				station.State := station.State + 1;
+			END_IF	
+		2:
+			station.Var.StateInfo := 'Create new macro';
 			// -----------------------------------------------------------------
-			pStation.Operation.MoveInPlane.Mode := mcACP6D_MOVE_ABSOLUTE;
-			pStation.Operation.MoveInPlane.Position.X := 0.840;
-			pStation.Operation.MoveInPlane.Position.Y := 0.120;
-			
-			pStation.Commands.MoveInPlane := TRUE;
-			
-			IF pStation.CommandAcknowledge THEN
-				pStation.NextState := TRUE;
-			END_IF;
-		102:
-			pStation.StateInfo := 'Spin 1';
-			// -----------------------------------------------------------------
-			pStation.Operation.Spin.Velocity := 22.0;
-			pStation.Commands.Spin := TRUE;
-			
-			IF pStation.CommandAcknowledge THEN
-				pStation.NextState := TRUE;	
-			END_IF;
-		103:
-			pStation.StateInfo := 'Move position 2';
-			// -----------------------------------------------------------------
-			pStation.Operation.MoveInPlane.Mode := mcACP6D_MOVE_ABSOLUTE;
-			pStation.Operation.MoveInPlane.Position.X := 0.840;
-			pStation.Operation.MoveInPlane.Position.Y := 0.360;
-			
-			pStation.Commands.MoveInPlane := TRUE;
-			
-			IF pStation.CommandAcknowledge THEN
-				pStation.NextState := TRUE;
+			station.Commands.Macro.Create := TRUE;
+		
+			IF station.Macro.MacroCreate.Done THEN
+				station.Macro.Shuttle := station.Macro.MacroCreate.MacroShuttle;
+				station.State := 10;
 			END_IF;	
-		104:
-			pStation.StateInfo := 'Spin 2';
+		10:
+			station.Var.StateInfo := 'Movement settings';
 			// -----------------------------------------------------------------
-			pStation.Operation.Spin.Velocity := -22.0;
-			pStation.Commands.Spin := TRUE;
+			station.Var.LoopNum := 0;
 			
-			IF pStation.CommandAcknowledge THEN
-				pStation.TargetState := 199;
-				pStation.JumpToTargetState := TRUE;
-			END_IF;	
-		199:	
-			pStation.StateInfo := 'Save macro';
+			station.Operation.MoveInPlane.Parameters.Velocity := 2;
+			station.Operation.MoveInPlane.Parameters.Acceleration := 18;
+			station.Operation.MoveInPlane.Parameters.EndVelocity := 0;
+			station.Operation.MoveInPlane.Parameters.Radius := 0;
+			station.Operation.MoveInPlane.Parameters.Path :=  mcACP6D_PATH_DIRECT;
+			station.Operation.MoveInPlane.Shuttle := ADR(station.Macro.Shuttle);
+			
+			station.Operation.Spin.Parameters.Acceleration := 35.0;
+			station.Operation.Spin.Parameters.Angle := 0;
+			station.Operation.Spin.Parameters.Duration := 2.0;
+			station.Operation.Spin.Shuttle := ADR(station.Macro.Shuttle);
+			
+			station.State := station.State + 1;
+		11:
+			station.Var.StateInfo := 'Move to position 1';
 			// -----------------------------------------------------------------
-			pStation.Commands.MacroSave := TRUE;
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.840;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.120;
 			
-			IF pStation.CommandDone THEN
-				pStation.TargetState := 200;
-				pStation.JumpToTargetState := TRUE;
-			END_IF;	
+			station.Commands.MoveInPlane := TRUE;
 			
-		200:
-			pStation.StateInfo := 'Waiting for shuttle to arrive at station';
-			// -----------------------------------------------------------------
-			pStation.Loop := 0;
-			
-			IF pStation.NumOccupyingShuttles > 0 THEN
-				pStation.NextState := TRUE;
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;
 			END_IF;
-		201:
-			pStation.StateInfo := 'Add last arrived shuttle to the station';
+		12:
+			station.Var.StateInfo := 'Spin 1';
 			// -----------------------------------------------------------------
-			pStation.Commands.AddShuttle := TRUE;
-
-			IF pStation.CommandDone THEN
-				pStation.NextState := TRUE;
+			station.Operation.Spin.Parameters.Velocity := 22.0;
+			station.Commands.Spin := TRUE;
+			
+			IF station.Operation.Spin.Acknowledge THEN
+				station.State := station.State + 1;	
 			END_IF;
-		202:
-			pStation.StateInfo := 'Run macro';
-			// -----------------------------------------------------------------
-			pStation.Operation.Shuttle := pStation.Shuttles.List[0];
-			pStation.Commands.MacroRun := TRUE;
-
-			IF pStation.CommandDone THEN
-				pStation.Loop := pStation.Loop + 1;
-				IF pStation.Loop < 0 THEN
-					pStation.Commands.MacroRun := FALSE;
-				ELSE
-					pStation.TargetState := 1000;
-					pStation.JumpToTargetState := TRUE;
-				END_IF;
+		13:
+			station.Var.StateInfo := 'Move position 2';
+			// -----------------------------------------------------------------			
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.840;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.360;
+			
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := station.State + 1;
 			END_IF;	
-			//		106:
-//			pStation.StateInfo := 'Move to last position';
-//			// -----------------------------------------------------------------
-//			pStation.Operation.MoveInPlane.Mode := mcACP6D_MOVE_ABSOLUTE;
-//			pStation.Operation.MoveInPlane.Position.X := 0.840;
-//			pStation.Operation.MoveInPlane.Position.Y := 0.360;
-//			
-//			pStation.Commands.MoveInPlane := TRUE;
-//			
-//			IF pStation.CommandAcknowledge THEN
-//				pStation.JumpToState := 199;	
-//			END_IF;		
-
+		14:
+			station.Var.StateInfo := 'Spin 2';
+			// -----------------------------------------------------------------
+			station.Operation.Spin.Parameters.Velocity := -22.0;
+			station.Commands.Spin := TRUE;
+			
+			IF station.Operation.Spin.Acknowledge THEN
+				station.State := station.State + 1;	
+			END_IF;	
+		15:
+			station.Var.StateInfo := 'Check if sequence complete';
+			// -----------------------------------------------------------------
+			station.Var.LoopNum := station.Var.LoopNum + 1;
+			
+			IF station.Var.LoopNum > 0 THEN
+				// Station sequence complete
+				station.State := station.State + 1;
+			ELSE
+				// New loop of moves
+				station.State :=  11;
+			END_IF;	
+		16:
+			station.Var.StateInfo := 'Move to last position';
+			// -----------------------------------------------------------------
+			station.Operation.MoveInPlane.Parameters.Position.X := 0.840;
+			station.Operation.MoveInPlane.Parameters.Position.Y := 0.360;
+			
+			station.Commands.MoveInPlane := TRUE;
+			
+			IF station.Operation.MoveInPlane.Acknowledge THEN
+				station.State := 100;	
+			END_IF;		
+		100:	
+			station.Var.StateInfo := 'Save macro';
+			// -----------------------------------------------------------------
+			station.Commands.Macro.Save := TRUE;
+			
+			IF station.Macro.MacroSave.Done THEN
+				station.State := 200;
+			END_IF;		
+		200:	
+			station.Var.StateInfo := 'Waiting for shuttle to arrive at station';
+			// -----------------------------------------------------------------
+			IF station.Control.Info.Occupied THEN
+				station.Shuttles[0] := station.Control.Info.LastArrivedShuttle;
+				station.Macro.MacroRun.Shuttle := ADR(station.Shuttles[0].Shuttle6D);
+				station.State := station.State + 1;	
+			END_IF;
+		201:	
+			station.Var.StateInfo := 'Wait shuttle to complete its moves';
+			// -----------------------------------------------------------------
+			station.Macro.Execute := TRUE;
+			
+			IF station.Macro.MacroRun.Done THEN
+				station.Macro.Execute := FALSE;
+				station.State := 1000;
+			END_IF;				
 		1000:
-			pStation.StateInfo := 'Release shuttle to traffic network';
-			// -----------------------------------------------------------------
-			pStation.Commands.ReleaseAllShuttles := TRUE;
-
-			IF pStation.CommandDone THEN
-				pStation.TargetState := 200;
-				pStation.JumpToTargetState := TRUE;
+			station.Var.StateInfo := 'Release shuttle to traffic network';
+			// -----------------------------------------------------------------'
+			station.Operation.StationQueueControl.ShuttleList[0] := station.Shuttles[0];
+			station.Commands.Release := TRUE;
+			
+			IF station.Operation.StationQueueControl.ShuttleReleaseDone THEN
+				station.State := 0;
 			END_IF;
 	END_CASE;
 	
-	// Add macro info for these steps
-	IF pStation.State > 100 AND pStation.State < 200 THEN
-		pStation.StateInfo := CONCAT('Writing macro - ', pStation.StateInfo);  
+	// Reset station commands when state changes
+	IF station.State <> station.Var.PreviousState THEN
+		station.Var.PreviousState := station.State;
+		brsmemset(ADR(station.Commands), 0, SIZEOF(station.Commands));
 	END_IF;
-		
+	
 END_ACTION
-
