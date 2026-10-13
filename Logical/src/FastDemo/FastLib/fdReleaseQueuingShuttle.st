@@ -60,7 +60,7 @@ FUNCTION_BLOCK fdStationQueueControl
 			// Release the shuttle
 			// -----------------------------------------------------------------
 			IF Station_ReleaseDone THEN
-				state := 190;
+				state := 100;
 			ELSIF Station_ReleaseAborted THEN
 				state := 300;	
 			END_IF;	
