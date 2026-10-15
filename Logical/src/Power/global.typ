@@ -35,6 +35,7 @@ END_TYPE
 TYPE
 	PowerOutputType : 	STRUCT 
 		TrackPowerOn : BOOL;
+		TotalPowerDraw : REAL;
 	END_STRUCT;
 END_TYPE
 

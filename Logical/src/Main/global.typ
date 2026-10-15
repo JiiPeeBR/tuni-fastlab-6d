@@ -43,6 +43,7 @@ TYPE
 		Command : MainOutputCommandType;
 		Status : MainOutputStatusType;
 		Assembly : McAcp6DAsmInfoType;
+		SelectedProgram : STRING[80];
 	END_STRUCT;
 END_TYPE
 
@@ -54,6 +55,14 @@ TYPE
 	END_STRUCT;
 END_TYPE
 
+(*========== COMMAND ALLOWED ==========*)
+
+TYPE
+	MainCommandAllowedType : 	STRUCT 
+		ProgramChange : BOOL;
+	END_STRUCT;
+END_TYPE
+
 (*========== INTERFACE ==========*)
 
 TYPE
@@ -62,5 +71,6 @@ TYPE
 		Input : MainInputType;
 		Output : MainOutputType;
 		Settings : MainSettingsType;
+		CommandAllowed : MainCommandAllowedType;
 	END_STRUCT;
 END_TYPE

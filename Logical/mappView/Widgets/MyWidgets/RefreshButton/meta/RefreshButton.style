@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StyleInformation name="widgets.MyWidgets.RefreshButton" xmlns="http://www.br-automation.com/iat2014/widgetStyles"
+									xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <StyleProperties>
+
+    <StyleProperty name="backColor" type="Color" default="#FFDEAA">
+      <StyleElement attribute="background-color" />
+    </StyleProperty>
+    <StyleProperty name="textColor" type="Color" default="#333333">
+      <StyleElement selector="span" attribute="color" />
+    </StyleProperty>
+    
+  </StyleProperties>
+  
+</StyleInformation>

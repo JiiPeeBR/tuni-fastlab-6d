@@ -1,27 +1,25 @@
-VAR
-	task : REFERENCE TO FastDemoType;
-	local : FastDemoLocalType;
-	fb : FastDemoFbType;
-	hmi : FastDemoHmiType;
-	actions_state : FastDemoActionsStateType;
-	actions_substate : FastDemoActionsSubstateType;
+(*Constants*)
+VAR CONSTANT
+	STATION_COUNT : DINT := 7;
+	LAST_INDEX_STATION_SHUTTLES : DINT := 3;
 END_VAR
-(* ----- PackML ----- *)
+(**)
 VAR
-	em : EquipmentModule;
-END_VAR
-(*----- Stations ----*)
-VAR
-	station_num : {REDUND_UNREPLICABLE} DINT := 0;
+	Task : REFERENCE TO FastDemoType;
+	Local : FastDemoLocalType;
+	Fb : FastDemoFbType;
+	StateCommands : FastDemoActionsStateType;
+	SubStateCommands : FastDemoActionsSubstateType;
 	str : STRING[80];
 	i : DINT;
 END_VAR
-VAR CONSTANT
-	STATION_COUNT : DINT := 7;
-	STATION_SHUTTLE_COUNT : DINT := 4;
-	STATION_SHUTTLE_LAST_INDEX : DINT := STATION_SHUTTLE_COUNT-1;
-END_VAR
+(* ----- PackML ----- *)
 VAR
-	stations : ARRAY[0..STATION_COUNT] OF FastDemoStationType;
-	station : REFERENCE TO FastDemoStationType;
+	Em : EquipmentModule;
+END_VAR
+(*----- Stations ----*)
+VAR
+	StationNumber : {REDUND_UNREPLICABLE} DINT := 0;
+	Stations : ARRAY[0..STATION_COUNT] OF FastDemoStationType;
+	pStation : REFERENCE TO FastDemoStationType;
 END_VAR

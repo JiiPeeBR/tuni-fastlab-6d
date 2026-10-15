@@ -1,0 +1,4 @@
+@use "ScriptRunner_base.scss" as widgets_MyWidgets_ScriptRunner;
+.widgets_MyWidgets_ScriptRunner_style_default {
+  @include widgets_MyWidgets_ScriptRunner.base
+}

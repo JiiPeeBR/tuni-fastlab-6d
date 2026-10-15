@@ -5,5 +5,6 @@
     <Object Type="Package">Main</Object>
     <Object Type="Package">Power</Object>
     <Object Type="Package">FastDemo</Object>
+    <Object Type="Package">EndToEnd</Object>
   </Objects>
 </Package>

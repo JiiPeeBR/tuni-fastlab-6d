@@ -1,31 +1,41 @@
 PROGRAM _INIT
 	
-    // Access the task interface
-    task ACCESS ADR(gFastDemo);
+    // Access the Task interface
+	Task ACCESS ADR(gFastDemo);
 
-    // Register module config interface for common setup/parametrization functionality
-    //fb.MpRecipeRegPar_settings(MpLink := ADR(gSystemSettings), Enable := TRUE , PVName := ADR('gFastDemo.settings'), Category := ADR('FastDemo'));
+	// Register module config interface for common setup/parametrization functionality
+	//Fb.MpRecipeRegPar_settings(MpLink := ADR(gSystemSettings), Enable := TRUE , PVName := ADR('gFastDemo.settings'), Category := ADR('FastDemo'));
 
-    // Check for simulator
-    //task.IsSimulated := DiagCpuIsSimulated();
-  
-    // PackML setup
-    // =================================================================================================================
-    em.Setup.Name := 'FastDemo';
-	em.Setup.ParentName := 'Main';
+	// Check for simulator
+	//Task.IsSimulated := DiagCpuIsSimulated();
+  	
+	// PackML setup
+	// =================================================================================================================
+	Em.Setup.Name := 'FastDemo';
+	Em.Setup.ParentName := 'Main';
+	Em.Setup.ActivationCondition :=  ACTIVATE_BY_PV;
+	
+	// Program list definitions
+	// =================================================================================================================
+	gPrograms[PROGRAM_FASTDEMO].Name := Em.Setup.Name;
+	gPrograms[PROGRAM_FASTDEMO].ShuttleCount := 12;
 	
 END_PROGRAM
 	
 PROGRAM _CYCLIC
 	
-    // Access task interface
+	// Task activation
     // =================================================================================================================
-    task ACCESS ADR(gFastDemo);
+	Em.Setup.Activate := (gMain.Output.SelectedProgram = Em.Setup.Name);
+	
+    // Access Task interface
+    // =================================================================================================================
+    Task ACCESS ADR(gFastDemo);
 
 
     // Inputs
     // =================================================================================================================
-    IF NOT task.Input.Force THEN
+    IF NOT Task.Input.Force THEN
 
     END_IF
       
@@ -37,181 +47,182 @@ PROGRAM _CYCLIC
 	// Detect state change events
 	// =================================================================================================================
 	// Record information which state caused abort
-	fb.R_TRIG_Abort(CLK := em.Command.Abort);
+	Fb.R_TRIG_Abort(CLK := Em.Command.Abort);
 	
-	IF fb.R_TRIG_Abort.Q THEN
-		task.Error.State := em.StateCurrent;
-		task.Error.SubState := em.SubState;
-		task.Error.Description := em.StateInfo; 
+	IF Fb.R_TRIG_Abort.Q THEN
+		Task.Error.State := Em.StateCurrent;
+		Task.Error.SubState := Em.SubState;
+		Task.Error.Description := Em.StateInfo; 
 	END_IF;
 	
 	// State change event
-	fb.rtStateComplete(CLK := em.Command.StateComplete);
+	Fb.rtStateComplete(CLK := Em.Command.StateComplete);
 	
-	IF fb.rtStateComplete.Q THEN
-		em.StateInfo := '';
-		brsmemset(ADR(actions_state), 0, SIZEOF(actions_state));
+	IF Fb.rtStateComplete.Q THEN
+		Em.StateInfo := '';
+		brsmemset(ADR(StateCommands), 0, SIZEOF(StateCommands));
+		brsmemset(ADR(SubStateCommands), 0, SIZEOF(SubStateCommands));
 		
 		// Record information which state caused abort
-		IF em.StateCurrent = STATE_ABORTING THEN
-			task.Error.State := local.lastState;
-			task.Error.SubState := local.lastSubState;
-			task.Error.Description := local.lastStateInfo;
+		IF Em.StateCurrent = STATE_ABORTING THEN
+			Task.Error.State := Local.lastState;
+			Task.Error.SubState := Local.lastSubState;
+			Task.Error.Description := Local.lastStateInfo;
 		END_IF;
 		
-		FOR station_num := 0 TO STATION_COUNT DO
+		FOR StationNumber := 0 TO STATION_COUNT DO
 			// Reset station commands when major state changes
-			stations[station_num].State := 0;
-			brsmemset(ADR(stations[station_num].Var), 0, SIZEOF(stations[station_num].Var));
-			brsmemset(ADR(stations[station_num].Commands), 0, SIZEOF(stations[station_num].Commands));
-			stations[station_num].Macro.Execute := FALSE;
+			Stations[StationNumber].State := 0;
+			brsmemset(ADR(Stations[StationNumber].Var), 0, SIZEOF(Stations[StationNumber].Var));
+			brsmemset(ADR(Stations[StationNumber].Commands), 0, SIZEOF(Stations[StationNumber].Commands));
+			Stations[StationNumber].Macro.Execute := FALSE;
 		END_FOR;
 	END_IF;
 		
 	// Substate changed event
-	IF em.SubState <> local.lastSubState THEN
-		em.StateInfo := '';
-		brsmemset(ADR(actions_substate), 0, SIZEOF(actions_substate));
-		local.lastSubState := em.SubState;
+	IF Em.SubState <> Local.lastSubState THEN
+		Em.StateInfo := '';
+		brsmemset(ADR(SubStateCommands), 0, SIZEOF(SubStateCommands));
+		Local.lastSubState := Em.SubState;
 	END_IF;
 	
 	
 	// PackML equipment module
 	// =================================================================================================================
-	em();
+	Em();
 
 	// Function calls
     // =================================================================================================================
-	fb.TrafficControl.Enable := TRUE;
-	fb.TrafficControl.MpLink := ADR(TrafficManager_x6d_1); 
-	fb.TrafficControl.ActivateRecipe := actions_substate.traffic_activate_recipe;
-	fb.TrafficControl.DeactivateRecipe := actions_substate.traffic_deactivate_recipe;
-	fb.TrafficControl.ErrorReset := actions_state.error_reset;
-	fb.TrafficControl.Halt := actions_substate.traffic_halt;
-	fb.TrafficControl.Recover := actions_substate.traffic_recover;
-	fb.TrafficControl.Resume := actions_substate.traffic_resume;
-	fb.TrafficControl.Stop := actions_substate.traffic_stop;
-	fb.TrafficControl();
+	Fb.TrafficControl.Enable := TRUE;
+	Fb.TrafficControl.MpLink := ADR(TrafficManager_x6d_1); 
+	Fb.TrafficControl.ActivateRecipe := SubStateCommands.TrafficActivateRecipe;
+	Fb.TrafficControl.DeactivateRecipe := SubStateCommands.TrafficDeactivateRecipe;
+	Fb.TrafficControl.ErrorReset := StateCommands.ErrorReset;
+	Fb.TrafficControl.Halt := SubStateCommands.TrafficHalt;
+	Fb.TrafficControl.Recover := SubStateCommands.TrafficRecover;
+	Fb.TrafficControl.Resume := SubStateCommands.TrafficResume;
+	Fb.TrafficControl.Stop := SubStateCommands.TrafficStop;
+	Fb.TrafficControl();
 	
-	fb.TON_RecoverTimeout.IN := fb.TrafficControl.RecoverBuffered;
-	fb.TON_RecoverTimeout.PT := T#5s;
-	fb.TON_RecoverTimeout();
+	Fb.TON_RecoverTimeout.IN := Fb.TrafficControl.RecoverBuffered;
+	Fb.TON_RecoverTimeout.PT := T#5s;
+	Fb.TON_RecoverTimeout();
 	
-	fb.TrafficMonitor.Enable := TRUE;
-	fb.TrafficMonitor.MpLink := ADR(TrafficManager_x6d_1);
-	fb.TrafficMonitor();
+	Fb.TrafficMonitor.Enable := TRUE;
+	Fb.TrafficMonitor.MpLink := ADR(TrafficManager_x6d_1);
+	Fb.TrafficMonitor();
 	
-	fb.MacroDelete.Assembly := ADR(gAssembly6D_Big);
-	fb.MacroDelete.Execute := actions_substate.macro_delete;
-	fb.MacroDelete.Command := mcACP6D_MACRO_DELETE_ALL;
-	fb.MacroDelete();
+	Fb.MacroDelete.Assembly := ADR(gAssembly6D_Big);
+	Fb.MacroDelete.Execute := SubStateCommands.MacroDelete;
+	Fb.MacroDelete.Command := mcACP6D_MACRO_DELETE_ALL;
+	Fb.MacroDelete();
 	
-	fb.GroupGet.Assembly := ADR(gAssembly6D_Big);
-	fb.GroupGet.Enable := actions_state.group_get_enable;
-	fb.GroupGet();
+	Fb.GroupGet.Assembly := ADR(gAssembly6D_Big);
+	Fb.GroupGet.Enable := StateCommands.GroupGetEnable;
+	Fb.GroupGet();
 	
-	fb.GroupDelete.Execute := actions_substate.group_delete;
-	fb.GroupDelete();
+	Fb.GroupDelete.Execute := SubStateCommands.GroupDelete;
+	Fb.GroupDelete();
 	
 	// Perform all common station operations
-	FOR station_num := 0 TO STATION_COUNT DO
-		station ACCESS ADR(stations[station_num]);
+	FOR StationNumber := 0 TO STATION_COUNT DO
+		pStation ACCESS ADR(Stations[StationNumber]);
 		
 		// Station control
-		station.Control.MpLink := ADR(TrafficManager_x6d_1);
-		station.Control.ErrorReset := actions_state.error_reset;
-		station.Control.Release := station.Operation.StationQueueControl.ReleaseShuttle;
-		station.Control.SelectNextShuttle := station.Operation.StationQueueControl.SelectNextShuttle;
-		station.Control();
+		pStation.Control.MpLink := ADR(TrafficManager_x6d_1);
+		pStation.Control.ErrorReset := StateCommands.ErrorReset;
+		pStation.Control.Release := pStation.Operation.StationQueueControl.ReleaseShuttle;
+		pStation.Control.SelectNextShuttle := pStation.Operation.StationQueueControl.SelectNextShuttle;
+		pStation.Control();
 		
-		station.Operation.StationQueueControl.Enable := actions_state.activate_queue_control;
-		station.Operation.StationQueueControl.ReleaseShuttles := station.Commands.Release;
-		station.Operation.StationQueueControl.Station_SelectedShuttle := station.Control.SelectedShuttle;
-		station.Operation.StationQueueControl.Station_Info := station.Control.Info;
-		station.Operation.StationQueueControl.Station_ReleaseDone := station.Control.ReleaseDone;
-		station.Operation.StationQueueControl.Station_ReleaseAborted := station.Control.ReleaseAborted;
-		station.Operation.StationQueueControl();
+		pStation.Operation.StationQueueControl.Enable := StateCommands.ActivateQueueControl;
+		pStation.Operation.StationQueueControl.ReleaseShuttles := pStation.Commands.Release;
+		pStation.Operation.StationQueueControl.Station_SelectedShuttle := pStation.Control.SelectedShuttle;
+		pStation.Operation.StationQueueControl.Station_Info := pStation.Control.Info;
+		pStation.Operation.StationQueueControl.Station_ReleaseDone := pStation.Control.ReleaseDone;
+		pStation.Operation.StationQueueControl.Station_ReleaseAborted := pStation.Control.ReleaseAborted;
+		pStation.Operation.StationQueueControl();
 		
 		// Movement 
-		station.Operation.MoveInPlane.Execute := station.Commands.MoveInPlane;
-		station.Operation.MoveInPlane();
+		pStation.Operation.MoveInPlane.Execute := pStation.Commands.MoveInPlane;
+		pStation.Operation.MoveInPlane();
 		
-		station.Operation.MoveArc.Execute := station.Commands.MoveArc;
-		station.Operation.MoveArc();
+		pStation.Operation.MoveArc.Execute := pStation.Commands.MoveArc;
+		pStation.Operation.MoveArc();
 		
-		station.Operation.Move6D.Execute := station.Commands.Move6D;
-		station.Operation.Move6D();
+		pStation.Operation.Move6D.Execute := pStation.Commands.Move6D;
+		pStation.Operation.Move6D();
 		
-		station.Operation.MoveShortAxis.Execute := station.Commands.MoveShortAxis;
-		station.Operation.MoveShortAxis();
+		pStation.Operation.MoveShortAxis.Execute := pStation.Commands.MoveShortAxis;
+		pStation.Operation.MoveShortAxis();
 		
-		station.Operation.Spin.Execute := station.Commands.Spin;
-		station.Operation.Spin();
+		pStation.Operation.Spin.Execute := pStation.Commands.Spin;
+		pStation.Operation.Spin();
 		
-		station.Operation.TiltAround.Execute := station.Commands.TiltAround;
-		station.Operation.TiltAround();
+		pStation.Operation.TiltAround.Execute := pStation.Commands.TiltAround;
+		pStation.Operation.TiltAround();
 		
-		station.Operation.SunPlanet.Execute := station.Commands.ChangePlanet;
-		station.Operation.SunPlanet();
+		pStation.Operation.SunPlanet.Execute := pStation.Commands.ChangePlanet;
+		pStation.Operation.SunPlanet();
 		
-		station.Operation.GetShuttleInfo.Execute := station.Commands.GetShuttleInfo;
-		station.Operation.GetShuttleInfo();
+		pStation.Operation.GetShuttleInfo.Execute := pStation.Commands.GetShuttleInfo;
+		pStation.Operation.GetShuttleInfo();
 		
 		// Macro		
-		station.Macro.MacroCreate.Assembly := ADR(gAssembly6D_Big);
-		station.Macro.MacroCreate.Parameters.Name := station.Macro.Name;
-		station.Macro.MacroCreate.Execute := station.Commands.Macro.Create;
-		station.Macro.MacroCreate();
+		pStation.Macro.MacroCreate.Assembly := ADR(gAssembly6D_Big);
+		pStation.Macro.MacroCreate.Parameters.Name := pStation.Macro.Name;
+		pStation.Macro.MacroCreate.Execute := pStation.Commands.Macro.Create;
+		pStation.Macro.MacroCreate();
 		
-		station.Macro.MacroSave.Shuttle := ADR(station.Macro.Shuttle);
-		station.Macro.MacroSave.Execute := station.Commands.Macro.Save;
-		station.Macro.MacroSave();
+		pStation.Macro.MacroSave.Shuttle := ADR(pStation.Macro.Shuttle);
+		pStation.Macro.MacroSave.Execute := pStation.Commands.Macro.Save;
+		pStation.Macro.MacroSave();
 		
-		station.Macro.MacroRun.Name := station.Macro.Name;
-		station.Macro.MacroRun.Execute := station.Macro.Execute;
-		station.Macro.MacroRun();
+		pStation.Macro.MacroRun.Name := pStation.Macro.Name;
+		pStation.Macro.MacroRun.Execute := pStation.Macro.Execute;
+		pStation.Macro.MacroRun();
 		
 		// Group
-		station.Group.GroupCreate.Execute := station.Commands.Group.Create;
-		station.Group.GroupCreate.Assembly := ADR(gAssembly6D_Big);
-		station.Group.GroupCreate();
+		pStation.Group.GroupCreate.Execute := pStation.Commands.Group.Create;
+		pStation.Group.GroupCreate.Assembly := ADR(gAssembly6D_Big);
+		pStation.Group.GroupCreate();
 		
-		station.Group.GroupClear.Execute := station.Commands.Group.Clear;
-		station.Group.GroupClear.ShuttleGroup := ADR(station.Group.ShuttleGroup);
-		station.Group.GroupClear();
+		pStation.Group.GroupClear.Execute := pStation.Commands.Group.Clear;
+		pStation.Group.GroupClear.ShuttleGroup := ADR(pStation.Group.ShuttleGroup);
+		pStation.Group.GroupClear();
 		
-		station.Group.GroupAddShuttle.Execute := station.Commands.Group.AddShuttle;
-		station.Group.GroupAddShuttle.ShuttleGroup := ADR(station.Group.ShuttleGroup);
-		station.Group.GroupAddShuttle();
+		pStation.Group.GroupAddShuttle.Execute := pStation.Commands.Group.AddShuttle;
+		pStation.Group.GroupAddShuttle.ShuttleGroup := ADR(pStation.Group.ShuttleGroup);
+		pStation.Group.GroupAddShuttle();
 		
-		station.Group.GroupCoupleCtrl.Execute := station.Commands.Group.ChangeCoupling;
-		station.Group.GroupCoupleCtrl.ShuttleGroup := ADR(station.Group.ShuttleGroup);
-		station.Group.GroupCoupleCtrl();
+		pStation.Group.GroupCoupleCtrl.Execute := pStation.Commands.Group.ChangeCoupling;
+		pStation.Group.GroupCoupleCtrl.ShuttleGroup := ADR(pStation.Group.ShuttleGroup);
+		pStation.Group.GroupCoupleCtrl();
 		
 		// Zone
-		station.Zone.ZoneCreate.Execute := station.Commands.Zone.Create;
-		station.Zone.ZoneCreate.Assembly := ADR(gAssembly6D_Big);
-		station.Zone.ZoneCreate();
+		pStation.Zone.ZoneCreate.Execute := pStation.Commands.Zone.Create;
+		pStation.Zone.ZoneCreate.Assembly := ADR(gAssembly6D_Big);
+		pStation.Zone.ZoneCreate();
 		
-		station.Zone.ZoneGetBarrierInfo.Execute := station.Commands.Zone.GetBarrierInfo;
-		station.Zone.ZoneGetBarrierInfo.Zone := ADR(station.Zone.Zone);
-		station.Zone.ZoneGetBarrierInfo();
+		pStation.Zone.ZoneGetBarrierInfo.Execute := pStation.Commands.Zone.GetBarrierInfo;
+		pStation.Zone.ZoneGetBarrierInfo.Zone := ADR(pStation.Zone.Zone);
+		pStation.Zone.ZoneGetBarrierInfo();
 		
-		station.Zone.FindZone.Execute := station.Commands.Zone.Find;
-		station.Zone.FindZone.Assembly := ADR(gAssembly6D_Big);
-		station.Zone.FindZone();
+		pStation.Zone.FindZone.Execute := pStation.Commands.Zone.Find;
+		pStation.Zone.FindZone.Assembly := ADR(gAssembly6D_Big);
+		pStation.Zone.FindZone();
 		
 		// Virtual
-		station.Virtual.VirtualShCreate.Execute := station.Commands.CreateVirtualShuttle;
-		station.Virtual.VirtualShCreate.Assembly := ADR(gAssembly6D_Big);
-		station.Virtual.VirtualShCreate();	
+		pStation.Virtual.VirtualShCreate.Execute := pStation.Commands.CreateVirtualShuttle;
+		pStation.Virtual.VirtualShCreate.Assembly := ADR(gAssembly6D_Big);
+		pStation.Virtual.VirtualShCreate();	
 		
 		// Wait
-		station.Operation.WaitCommandLabel.Execute := station.Commands.WaitCommandLabel;
-		station.Operation.WaitCommandLabel();
+		pStation.Operation.WaitCommandLabel.Execute := pStation.Commands.WaitCommandLabel;
+		pStation.Operation.WaitCommandLabel();
 		
-		station.Operation.WaitUntilAllDone.Execute := station.Commands.WaitUntilAllDone;
-		station.Operation.WaitUntilAllDone();
+		pStation.Operation.WaitUntilAllDone.Execute := pStation.Commands.WaitUntilAllDone;
+		pStation.Operation.WaitUntilAllDone();
 	END_FOR;
 
 
@@ -221,13 +232,13 @@ PROGRAM _CYCLIC
 	
 	// Task diagnostics
 	// =================================================================================================================
-	gTasks.FastDemo.State := em.StateCurrent;
-	gTasks.FastDemo.SubState := em.SubState;
-	gTasks.FastDemo.Mode := em.ModeID;
-	gTasks.FastDemo.StateComplete := em.Command.StateComplete;
-	gTasks.FastDemo.StateInfo := em.StateInfo;
-	gTasks.FastDemo.WaitingForTask := em.Info.WaitingFor.Name;
-	gTasks.FastDemo.Error := task.Error;
+	gTasks.FastDemo.State := Em.StateCurrent;
+	gTasks.FastDemo.SubState := Em.SubState;
+	gTasks.FastDemo.Mode := Em.ModeID;
+	gTasks.FastDemo.StateComplete := Em.Command.StateComplete;
+	gTasks.FastDemo.StateInfo := Em.StateInfo;
+	gTasks.FastDemo.WaitingForTask := Em.Info.WaitingFor.Name;
+	gTasks.FastDemo.Error := Task.Error;
 
 END_PROGRAM
 	

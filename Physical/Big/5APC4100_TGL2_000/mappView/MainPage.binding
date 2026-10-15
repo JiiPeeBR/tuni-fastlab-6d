@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BindingsSet id="MainPage" xmlns="http://www.br-automation.com/iat2015/binding/engineering/v2" xmlns:bt="http://www.br-automation.com/iat2015/bindingListTypes/engineering/v2" xmlns:be="http://www.br-automation.com/iat2015/bindingListEmbedded/engineering/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Bindings>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:gTasks.Main.StateInfo" attribute="value" />
+<Target xsi:type="brease" contentRefId="MainPage" widgetRefId="TextOutput4" attribute="value" />
+</Binding>
+
+
+
+
+
+
+
+
+
+
+
+
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::Main:Hmi.AlarmButtonStyle" attribute="value" />
+<Target xsi:type="brease" contentRefId="MainPage" widgetRefId="NavigationButton1" attribute="style" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::Main:Hmi.ProgramSelectList" attribute="value" samplingRate="slow" />
+<Target xsi:type="brease" contentRefId="MainPage" widgetRefId="DropDownBox1" attribute="dataProvider" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::Main:Hmi.SelectedProgramIndex" attribute="value" />
+<Target xsi:type="brease" contentRefId="MainPage" widgetRefId="DropDownBox1" attribute="selectedIndex" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:gMain.CommandAllowed.ProgramChange" attribute="value" />
+<Target xsi:type="brease" contentRefId="MainPage" widgetRefId="DropDownBox1" attribute="enable" />
+</Binding>
+</Bindings>
+</BindingsSet>

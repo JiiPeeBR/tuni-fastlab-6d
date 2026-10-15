@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mappings>
+  <Mapping parameter="widgets.MyWidgets.FileBrowser.Action.SetEnable.value" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.FileBrowser.Action.SetMaxFileSize.maxFileSize" type="ANY_INT" oType="Integer" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.FileBrowser.Action.SetOverwriteCancelText.text" type="ANY_STRING" oType="String" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.FileBrowser.Action.SetOverwriteConfirmText.text" type="ANY_STRING" oType="String" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.FileBrowser.Action.SetOverwritePrompt.text" type="ANY_STRING" oType="String" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.FileBrowser.Action.SetPath.path" type="ANY_STRING" oType="String" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.FileBrowser.Action.SetStyle.value" type="ANY_STRING" oType="StyleReference" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.FileBrowser.Action.SetVisible.value" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.RefreshButton.Action.SetEnable.value" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.RefreshButton.Action.SetImage.image" type="ANY_STRING" oType="ImagePath" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.RefreshButton.Action.SetMouseDownImage.mouseDownImage" type="ANY_STRING" oType="ImagePath" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.RefreshButton.Action.SetMouseDownText.text" type="ANY_STRING" oType="String" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.RefreshButton.Action.SetMouseDownText.keepKey" type="BOOL" oType="Boolean" index="1"/>
+  <Mapping parameter="widgets.MyWidgets.RefreshButton.Action.SetStyle.value" type="ANY_STRING" oType="StyleReference" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.RefreshButton.Action.SetText.text" type="ANY_STRING" oType="String" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.RefreshButton.Action.SetText.keepKey" type="BOOL" oType="Boolean" index="1"/>
+  <Mapping parameter="widgets.MyWidgets.RefreshButton.Action.SetVisible.value" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.ScriptRunner.Action.SetEnable.value" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.ScriptRunner.Action.SetScripts.scripts" type="ANY_STRING" oType="String" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.ScriptRunner.Action.SetStyle.value" type="ANY_STRING" oType="StyleReference" index="0"/>
+  <Mapping parameter="widgets.MyWidgets.ScriptRunner.Action.SetVisible.value" type="BOOL" oType="Boolean" index="0"/>
+</Mappings>

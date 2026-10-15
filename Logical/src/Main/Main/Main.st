@@ -3,20 +3,38 @@ PROGRAM _INIT
 	gCommInput;
 	gCommOutput;
 	
-    // Access the task interface
+	// Access the task interface
 	task ACCESS ADR(gMain);
 
-	// Calculate home positions for shuttles
+	// Shuttle parking positions
+	// =================================================================================================================
 	FOR i := 0 TO gMAX_INDEX_SHUTTLE DO
-		local.homePosition[i].x := DINT_TO_REAL(420 + (i MOD 2) * 120) / 1000;
-		local.homePosition[i].y := DINT_TO_REAL(540 + (i / 2) * 120) / 1000;
+		local.HomePosition[i].X:= DINT_TO_REAL(420 + (i MOD 2) * 120) / 1000;
+		local.HomePosition[i].Y := DINT_TO_REAL(540 + (i / 2) * 120) / 1000;
 	END_FOR;
+	
+	X := 0.060;
+	Y := 4.740;
+	FOR i := 0 TO gMAX_INDEX_SHUTTLE DO		
+		local.ServicePosition[i].X := X;
+		local.ServicePosition[i].Y := Y;
+		
+		X := X + 0.120;
+		IF (i > 0) AND (i MOD 7) = 0 THEN
+			X := 0.060;
+			Y := Y - 0.120;
+		END_IF;
+	END_FOR;
+	
+	// Program definitions
+	// =================================================================================================================
+	
 	
 	// PackML setup
 	// =================================================================================================================
 	em.Setup.Name := 'Main';
 	em.Setup.ParentName := '';
-		
+	
 END_PROGRAM
 	
 PROGRAM _CYCLIC
@@ -31,18 +49,37 @@ PROGRAM _CYCLIC
 	IF NOT task.Input.Force THEN
 
 	END_IF
-
+	
+	// Automatic cyclic reset of constantly evaluated states
+	// =================================================================================================================
+	// Button labels are reset every cycle so that by default all buttons are off. State logic sets them accordingly
+	Buttons.Button1.Label := '';
+	Buttons.Button2.Label := '';
+	Buttons.Button3.Label := '';
+	brsmemset(ADR(task.CommandAllowed), 0, SIZEOF(task.CommandAllowed));
+	
 	// Task state machine
 	// =================================================================================================================
 	// PackML state machine execution  
 	PackML_state_machine;
-      
+    
+	// Global error handling
+	// =================================================================================================================
+	fb.rShuttlesInAccident(CLK := (task.Output.Assembly.ShuttlesInAccidentCount > 0));
+
+	IF fb.rShuttlesInAccident.Q THEN
+		em.Command.Abort := TRUE;
+		task.Error.Active := TRUE;
+		task.Error.AdditionalInfo := 'Shuttle accident detected';
+	END_IF;
+	
 	// Detect state change events
 	// =================================================================================================================
 	// Record information which state caused abort
-	fb.R_TRIG_Abort(CLK := em.Command.Abort);
+	fb.rAbort(CLK := em.Command.Abort);
+	fb.rError(CLK := task.Error.Active);
 	
-	IF fb.R_TRIG_Abort.Q THEN
+	IF fb.rAbort.Q OR fb.rError.Q THEN
 		task.Error.State := em.StateCurrent;
 		task.Error.SubState := em.SubState;
 		task.Error.Description := em.StateInfo; 
@@ -62,17 +99,18 @@ PROGRAM _CYCLIC
 		em.StateInfo := '';
 		brsmemset(ADR(actions_substate), 0, SIZEOF(actions_substate));
 		local.lastSubState := em.SubState;
+		// Reset button
 	END_IF;
 	
 	// Command rising edge detection
 	// =================================================================================================================
-	commands.Abort(CLK := (task.Input.Command.Abort OR gDI.Button3));
-	commands.Clear(CLK := (task.Input.Command.Clear OR gDI.Button3));
+	commands.Abort(CLK := task.Input.Command.Abort);
+	commands.Clear(CLK := task.Input.Command.Clear);
 	commands.Complete(CLK := task.Input.Command.Complete);
 	commands.Hold(CLK := task.Input.Command.Hold);
-	commands.Reset(CLK := (task.Input.Command.Reset OR gDI.Button1));
-	commands.Start(CLK := (task.Input.Command.Start OR gDI.Button1));
-	commands.Stop(CLK := (task.Input.Command.Stop OR gDI.Button2));
+	commands.Reset(CLK := task.Input.Command.Reset);
+	commands.Start(CLK := task.Input.Command.Start);
+	commands.Stop(CLK := task.Input.Command.Stop);
 	commands.Suspend(CLK := task.Input.Command.Suspend);
 	commands.Unhold(CLK := task.Input.Command.Unhold);
 	commands.Unsuspend(CLK := task.Input.Command.Unsuspend);
@@ -134,46 +172,50 @@ PROGRAM _CYCLIC
 	fb.AssemblyGetShuttle.Next := actions_substate.getNextShuttle;
 	fb.AssemblyGetShuttle();
 	
+	// Alarm system
+	// =================================================================================================================
+	fb.MpAlarmXCore_0.Enable := TRUE;
+	fb.MpAlarmXCore_0.MpLink := ADR(gAlarmXCore);
+	fb.MpAlarmXCore_0();
+	
+	fb.AlarmPulse(Execute := fb.MpAlarmXCore_0.ActiveAlarms > 0, T_on := T#500ms, T_off := T#500ms);
+	
 	// Task output
 	// =================================================================================================================
 	task.Output.Assembly := fb.AssemblyReadInfo.AssemblyInfo;
 	
-	// IO
+	// Button logic
 	// =================================================================================================================
-	gDO.Button1_Led := FALSE;
-	gDO.Button2_Led := FALSE;
-	gDO.Button3_Led := FALSE;
+	// Detect rising edges
+	Buttons.Button1.rClick(CLK := Buttons.Button1.State);
+	Buttons.Button2.rClick(CLK := Buttons.Button2.State);
+	Buttons.Button3.rClick(CLK := Buttons.Button3.State);
 	
-	CASE em.StateCurrent OF
-		STATE_ACTIVATING:
-			gDO.Button1_Led := TRUE;
-			gDO.Button2_Led := TRUE;
-			gDO.Button3_Led := TRUE;
-			
-		STATE_EXECUTE:
-			gDO.Button1_Led := TRUE;
-		STATE_IDLE:
-			gDO.Button1_Led := fb.Pulse_slow.Q;
-		STATE_STARTING, STATE_RESETTING:
-			gDO.Button1_Led := TRUE;
-			
-		STATE_STOPPING:
-			gDO.Button2_Led := TRUE;
-		STATE_STOPPED:
-			gDO.Button1_Led := fb.Pulse_slow.Q;
-			gDO.Button2_Led := TRUE;
-		
-		STATE_ABORTING:
-			gDO.Button3_Led := TRUE;
-		STATE_ABORTED:
-			gDO.Button3_Led := fb.Pulse_slow.Q;
-		STATE_CLEARING:
-			gDO.Button3_Led := TRUE;	
-	END_CASE;
+	// Labels
+	Buttons.Button1.Active := brsstrlen(ADR(Buttons.Button1.Label)) > 0;
+	Buttons.Button2.Active := brsstrlen(ADR(Buttons.Button2.Label)) > 0;
+	Buttons.Button3.Active := brsstrlen(ADR(Buttons.Button3.Label)) > 0;
 	
-	fb.Pulse_slow.T_on := T#500ms;
-	fb.Pulse_slow.T_off := T#500ms;
-	fb.Pulse_slow(Execute := TRUE);
+	// Lamps
+	Buttons.Button1.LampOn := Buttons.Button1.Active;
+	Buttons.Button2.LampOn := Buttons.Button2.Active;
+	Buttons.Button3.LampOn := Buttons.Button3.Active;
+	
+	// Hmi
+	// =================================================================================================================
+	Hmi.AlarmButtonStyle := SEL(fb.AlarmPulse.Q, 'AlarmOff', 'AlarmOn');
+	
+	// Fill the program selector list
+	brsmemset(ADR(Hmi.ProgramSelectList), 0, SIZEOF(Hmi.ProgramSelectList));
+	FOR i := 0 TO gMAX_INDEX_PROGRAMS DO
+		IF brsstrlen(ADR(gPrograms[i].Name)) > 0 THEN
+			Hmi.ProgramSelectList[i] := '{$'value$':$'0$',$'text$':$'#1$'}';
+			str := CONCAT(gPrograms[i].Name, ' - Shuttle count: #2');
+			str2 := UINT_TO_STRING(gPrograms[i].ShuttleCount);
+			brdkStrReplace(ADR(Hmi.ProgramSelectList[i]), ADR('#1'), ADR(str));
+			brdkStrReplace(ADR(Hmi.ProgramSelectList[i]), ADR('#2'), ADR(str2));
+		END_IF;
+	END_FOR;
 	
 	// Task diagnostics
 	// =================================================================================================================

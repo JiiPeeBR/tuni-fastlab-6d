@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WidgetLibrary xmlns="http://www.br-automation.com/iat2014/widget">
+	<Widget name="widgets.mapp6D.Assembly6D">
+		<ASEngineeringInfo>
+			<IsProjectable>true</IsProjectable>
+			<LicenseInfo>unlicensed</LicenseInfo>
+		</ASEngineeringInfo>
+		<Dependencies>
+			<Files>
+				<File>brease.js</File>
+				<File>widgets/mapp6D/Assembly6D/libs/assembly6D.js</File>
+				<File>widgets/mapp6D/Assembly6D/libs/trafficManager.js</File>
+				<File>widgets/mapp6D/Assembly6D/libs/FileLoader.js</File>
+				<File>widgets/mapp6D/Assembly6D/libs/collections/ProductLabel.js</File>
+				<File>widgets/mapp6D/common/libs/mapp6DShared.js</File>
+				<File>widgets/mapp6D/OpcUaNodeBindingEventManager/libs/Constants.js</File>
+			</Files>
+			<Folders>
+				<Folder>widgets/mapp6D/Assembly6D/assets</Folder>
+			</Folders>
+			<Widgets>
+				<Widget>widgets.mapp6D.Assembly6D</Widget>
+				<Widget>widgets.mapp6D.OpcUaNodeBindingEventManager</Widget>
+			</Widgets>
+		</Dependencies>
+		<Categories>
+			<Category name="Category">Assembly</Category>
+		</Categories>
+		<Descriptions>
+			<Description name="de">Widget für ein mapp6D Assembly</Description>
+			<Description name="en">Widget for a mapp6D assembly</Description>
+		</Descriptions>
+		<Inheritance>
+			<Class level="0">widgets.mapp6D.Assembly6D</Class>
+			<Class level="1">brease.core.BaseWidget</Class>
+		</Inheritance>
+		<Parents>
+			<Parent>*</Parent>
+		</Parents>
+		<Children></Children>
+		<Methods>
+			<Method name="Focus" read="false">
+				<Description>Sets focus on the widget element, if it can be focused and keyboardOperation=true</Description>
+			</Method>
+			<Method name="SetEnable" read="false">
+				<Description>Sets the state of property &quot;enable&quot;</Description>
+				<Arguments>
+					<Argument name="value" type="Boolean" index="0" required="true"/>
+				</Arguments>
+			</Method>
+			<Method name="SetShowAdditionalShuttleInfo" read="false">
+				<Arguments>
+					<Argument name="showAdditionalShuttleInfo" type="Boolean" index="0" required="true">
+						<Description>Sets the flag to show the additional shuttle information.</Description>
+					</Argument>
+				</Arguments>
+			</Method>
+			<Method name="SetShowAdditionalTrafficManagerInfo" read="false">
+				<Arguments>
+					<Argument name="showAdditionalTrafficManagerInfo" type="Boolean" index="0" required="true">
+						<Description>Sets the flag to show the additional traffic manager information.</Description>
+					</Argument>
+				</Arguments>
+			</Method>
+			<Method name="SetShowCoordinateSystem" read="false">
+				<Arguments>
+					<Argument name="showCoordinateSystem" type="Boolean" index="0" required="true">
+						<Description>Sets the flag to show the coordinate system.</Description>
+					</Argument>
+				</Arguments>
+			</Method>
+			<Method name="SetShowPowerSectors" read="false">
+				<Arguments>
+					<Argument name="showPowerSectors" type="Boolean" index="0" required="true">
+						<Description>Sets the flag to show the power sectors.</Description>
+					</Argument>
+				</Arguments>
+			</Method>
+			<Method name="SetShowRxAxisShuttleInfo" read="false">
+				<Arguments>
+					<Argument name="showRxAxisShuttleInfo" type="Boolean" index="0" required="true">
+						<Description>Sets the flag to show the additional shuttle information for the x axis.</Description>
+					</Argument>
+				</Arguments>
+			</Method>
+			<Method name="SetShowRyAxisShuttleInfo" read="false">
+				<Arguments>
+					<Argument name="showRyAxisShuttleInfo" type="Boolean" index="0" required="true">
+						<Description>Sets the flag to show the additional shuttle information for the x axis.</Description>
+					</Argument>
+				</Arguments>
+			</Method>
+			<Method name="SetShowRzAxisShuttleInfo" read="false">
+				<Arguments>
+					<Argument name="showRzAxisShuttleInfo" type="Boolean" index="0" required="true">
+						<Description>Sets the flag to show the additional shuttle information for the x axis.</Description>
+					</Argument>
+				</Arguments>
+			</Method>
+			<Method name="SetShowStateShuttleInfo" read="false">
+				<Arguments>
+					<Argument name="showStateShuttleInfo" type="Boolean" index="0" required="true">
+						<Description>Sets the flag to show the additional shuttle information for the state.</Description>
+					</Argument>
+				</Arguments>
+			</Method>
+			<Method name="SetShowStereotypes" read="false">
+				<Arguments>
+					<Argument name="showStereotypes" type="Boolean" index="0" required="true">
+						<Description>Sets the flag to show the stereotypes.</Description>
+					</Argument>
+				</Arguments>
+			</Method>
+			<Method name="SetShowTrafficManager" read="false">
+				<Arguments>
+					<Argument name="showTrafficManager" type="Boolean" index="0" required="true">
+						<Description>Sets the flag to show the traffic manager.</Description>
+					</Argument>
+				</Arguments>
+			</Method>
+			<Method name="SetShowXAxisShuttleInfo" read="false">
+				<Arguments>
+					<Argument name="showXAxisShuttleInfo" type="Boolean" index="0" required="true">
+						<Description>Sets the flag to show the additional shuttle information for the x axis.</Description>
+					</Argument>
+				</Arguments>
+			</Method>
+			<Method name="SetShowYAxisShuttleInfo" read="false">
+				<Arguments>
+					<Argument name="showYAxisShuttleInfo" type="Boolean" index="0" required="true">
+						<Description>Sets the flag to show the additional shuttle information for the x axis.</Description>
+					</Argument>
+				</Arguments>
+			</Method>
+			<Method name="SetShowZAxisShuttleInfo" read="false">
+				<Arguments>
+					<Argument name="showZAxisShuttleInfo" type="Boolean" index="0" required="true">
+						<Description>Sets the flag to show the additional shuttle information for the x axis.</Description>
+					</Argument>
+				</Arguments>
+			</Method>
+			<Method name="SetShowZones" read="false">
+				<Arguments>
+					<Argument name="showZones" type="Boolean" index="0" required="true">
+						<Description>Sets the flag to show the zones.</Description>
+					</Argument>
+				</Arguments>
+			</Method>
+			<Method name="SetStyle" read="false">
+				<Arguments>
+					<Argument name="value" type="StyleReference" index="0" required="true"/>
+				</Arguments>
+			</Method>
+			<Method name="SetVisible" read="false">
+				<Description>Sets the state of property &quot;visible&quot;</Description>
+				<Arguments>
+					<Argument name="value" type="Boolean" index="0" required="true"/>
+				</Arguments>
+			</Method>
+			<Method name="ShowTooltip" read="false"/>
+		</Methods>
+		<Events>
+			<Event name="Click">
+				<Description>Fired when element is clicked on.</Description>
+				<Arguments>
+					<Argument name="origin" type="String" index="0" required="true">
+						<Description>id of widget that triggered this event</Description>
+					</Argument>
+					<Argument name="horizontalPos" type="String" index="1" required="true">
+						<Description>horizontal position of click in pixel i.e &apos;10px&apos;</Description>
+					</Argument>
+					<Argument name="verticalPos" type="String" index="2" required="true">
+						<Description>vertical position of click in pixel i.e &apos;10px&apos;</Description>
+					</Argument>
+				</Arguments>
+			</Event>
+			<Event name="DisabledClick">
+				<Description>Fired when disabled element is clicked on.</Description>
+				<Arguments>
+					<Argument name="origin" type="String" index="0" required="true">
+						<Description>id of widget that triggered this event</Description>
+					</Argument>
+					<Argument name="hasPermission" type="Boolean" index="1" required="true">
+						<Description>defines if the state is caused due to missing roles of the current user</Description>
+					</Argument>
+					<Argument name="horizontalPos" type="String" index="2" required="true">
+						<Description>horizontal position of click in pixel i.e &apos;10px&apos;</Description>
+					</Argument>
+					<Argument name="verticalPos" type="String" index="3" required="true">
+						<Description>vertical position of click in pixel i.e &apos;10px&apos;</Description>
+					</Argument>
+				</Arguments>
+			</Event>
+			<Event name="EnableChanged">
+				<Description>Fired when operability of the widget changes.</Description>
+				<Arguments>
+					<Argument name="value" type="Boolean" index="0" required="true">
+						<Description>operability</Description>
+					</Argument>
+				</Arguments>
+			</Event>
+			<Event name="FocusIn">
+				<Description>Fired when the widgets gets focus</Description>
+			</Event>
+			<Event name="FocusOut">
+				<Description>Fired when the widgets lost focus</Description>
+			</Event>
+			<Event name="VisibleChanged">
+				<Description>Fired when the visibility of the widget changes.</Description>
+				<Arguments>
+					<Argument name="value" type="Boolean" index="0" required="true">
+						<Description>visibility</Description>
+					</Argument>
+				</Arguments>
+			</Event>
+		</Events>
+		<Properties>
+			<Property name="enable" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Behavior" defaultValue="true">
+				<Description>Initial option to enable widget.</Description>
+			</Property>
+			<Property name="mpLink" type="MpComIdentReference" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" subtype="Assembly6D" defaultValue="{}">
+				<Description>Link to the Assembly6D</Description>
+			</Property>
+			<Property name="mpLinkTrafficManager" type="MpComIdentReference" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" subtype="TrafficManager" defaultValue="{}">
+				<Description>Link to the TrafficManager</Description>
+			</Property>
+			<Property name="permissionOperate" type="RoleCollection" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Accessibility">
+				<Description>restricts operability to users, which have given roles</Description>
+			</Property>
+			<Property name="permissionView" type="RoleCollection" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Accessibility">
+				<Description>restricts visibility to users, which have given roles</Description>
+			</Property>
+			<Property name="showAdditionalShuttleInfo" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" defaultValue="true">
+				<Description>Specifies whether the additional information of the shuttles should be displayed</Description>
+			</Property>
+			<Property name="showAdditionalTrafficManagerInfo" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" defaultValue="false">
+				<Description>Specifies whether the additional information of the traffic manager should be displayed</Description>
+			</Property>
+			<Property name="showCoordinateSystem" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" defaultValue="true">
+				<Description>Specifies whether the coordinate system should be displayed</Description>
+			</Property>
+			<Property name="showPowerSectors" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" defaultValue="true">
+				<Description>Specifies whether the power sectors should be displayed</Description>
+			</Property>
+			<Property name="showRxAxisShuttleInfo" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" defaultValue="true">
+				<Description>Specifies whether the Rx axis information of the shuttles should be displayed</Description>
+			</Property>
+			<Property name="showRyAxisShuttleInfo" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" defaultValue="true">
+				<Description>Specifies whether the Ry axis information of the shuttles should be displayed</Description>
+			</Property>
+			<Property name="showRzAxisShuttleInfo" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" defaultValue="true">
+				<Description>Specifies whether the Rz axis information of the shuttles should be displayed</Description>
+			</Property>
+			<Property name="showStateShuttleInfo" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" defaultValue="true">
+				<Description>Specifies whether the state information of the shuttles should be displayed</Description>
+			</Property>
+			<Property name="showStereotypes" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" defaultValue="true">
+				<Description>Specifies whether the stereotypes should be displayed</Description>
+			</Property>
+			<Property name="showTrafficManager" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" defaultValue="true">
+				<Description>Specifies whether the traffic manager should be displayed</Description>
+			</Property>
+			<Property name="showXAxisShuttleInfo" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" defaultValue="true">
+				<Description>Specifies whether the x axis information of the shuttles should be displayed</Description>
+			</Property>
+			<Property name="showYAxisShuttleInfo" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" defaultValue="true">
+				<Description>Specifies whether the y axis information of the shuttles should be displayed</Description>
+			</Property>
+			<Property name="showZAxisShuttleInfo" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" defaultValue="true">
+				<Description>Specifies whether the z axis information of the shuttles should be displayed</Description>
+			</Property>
+			<Property name="showZones" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" defaultValue="true">
+				<Description>Specifies whether the zones should be displayed</Description>
+			</Property>
+			<Property name="style" type="StyleReference" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Appearance" defaultValue="default">
+				<Description>reference to a style for this widget type</Description>
+			</Property>
+			<Property name="tabIndex" type="Integer" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Behavior" defaultValue="-1">
+				<Description>sets if a widget should have autofocus enabled (0), the order of the focus (&gt;0),
+or if autofocus should be disabled (-1)				</Description>
+			</Property>
+			<Property name="tooltip" type="String" initOnly="true" localizable="true" editableBinding="false" readOnly="false" required="false" projectable="true" category="Appearance" defaultValue="">
+				<Description>reference to a tooltip for a widget</Description>
+			</Property>
+			<Property name="visible" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Behavior" defaultValue="true">
+				<Description>change visibility</Description>
+			</Property>
+		</Properties>
+		<StructuredProperties>
+			<StructuredProperty name="productLabel" category="Collections" type="widgets.mapp6D.Assembly6D.ProductLabel" maxSize="500" minSize="0">
+				<Description>Specifies the shuttle appearance based on its product label</Description>
+				<Properties>
+					<Property name="color" type="Color" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Appearance" defaultValue="#FFFFFF">
+						<Description>Color of the product label</Description>
+					</Property>
+					<Property name="image" type="ImagePath" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Appearance" defaultValue="">
+						<Description>Image of the product label</Description>
+					</Property>
+				</Properties>
+				<StyleProperties>
+					<StyleProperty name="width" type="Size" not_styleable="true" hide="true" default="0"/>
+					<StyleProperty name="height" type="Size" not_styleable="true" hide="true" default="0"/>
+					<StyleProperty name="top" type="Integer" not_styleable="true" hide="true" default="0"/>
+					<StyleProperty name="left" type="Integer" not_styleable="true" hide="true" default="0"/>
+				</StyleProperties>
+			</StructuredProperty>
+		</StructuredProperties>
+		<StyleProperties>
+			<StyleProperty name="width" type="AutoSize" not_styleable="true" owner="widgets.mapp6D.Assembly6D" category="Layout" groupRefId="Size" groupOrder="1" default="140">
+				<StyleElement attribute="@include elemAutoWidth($value)"/>
+				<Description>outer width of widget</Description>
+			</StyleProperty>
+			<StyleProperty name="height" type="AutoSize" not_styleable="true" owner="widgets.mapp6D.Assembly6D" category="Layout" groupRefId="Size" groupOrder="2" default="140">
+				<StyleElement attribute="@include elemAutoHeight($value)"/>
+				<Description>outer height of widget</Description>
+			</StyleProperty>
+			<StyleProperty name="top" type="Integer" not_styleable="true" owner="brease.core.BaseWidget" category="Layout" groupRefId="Position" groupOrder="1">
+				<StyleElement attribute="@include mixins.elemTop($value)"/>
+				<Description>absolute position measured from top boundary of parent container</Description>
+			</StyleProperty>
+			<StyleProperty name="left" type="Integer" not_styleable="true" owner="brease.core.BaseWidget" category="Layout" groupRefId="Position" groupOrder="2">
+				<StyleElement attribute="@include mixins.elemLeft($value)"/>
+				<Description>absolute position measured from left boundary of parent container</Description>
+			</StyleProperty>
+			<StyleProperty name="zIndex" type="UInteger" not_styleable="true" owner="brease.core.BaseWidget" category="Layout" required="true">
+				<StyleElement attribute="z-index"/>
+				<Description>The zIndex property specifies the z-order of a widget and its childs.&lt;br/&gt;
+        When widgets overlap, z-order determines which one covers the other. A widget with a larger zIndex generally covers a widget with a lower one.&lt;br/&gt;
+        The zIndex must be unique within a content.&lt;br/&gt;				</Description>
+			</StyleProperty>
+			<StyleProperty name="minWidth" type="Size" not_styleable="true" default="0" category="Layout" groupRefId="Size" groupOrder="3" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement attribute="@include elemMinWidth($value)"/>
+				<Description>minimum outer width of widget</Description>
+			</StyleProperty>
+			<StyleProperty name="maxWidth" type="Size" not_styleable="true" default="0" category="Layout" groupRefId="Size" groupOrder="4" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement attribute="@include elemMaxWidth($value)"/>
+				<Description>maximum outer width of widget</Description>
+			</StyleProperty>
+			<StyleProperty name="minHeight" type="Size" not_styleable="true" default="0" category="Layout" groupRefId="Size" groupOrder="5" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement attribute="@include elemMinHeight($value)"/>
+				<Description>minimum outer height of widget</Description>
+			</StyleProperty>
+			<StyleProperty name="maxHeight" type="Size" not_styleable="true" default="0" category="Layout" groupRefId="Size" groupOrder="6" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement attribute="@include elemMaxHeight($value)"/>
+				<Description>maximum outer height of widget</Description>
+			</StyleProperty>
+			<StyleProperty name="textColor" category="Appearance" type="Color" default="#020202" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector="text" attribute="fill"/>
+				<Description>Text color for the labels&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="segmentPowerOffColor" category="Appearance" type="Color" default="#555555" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".segment.power-off" attribute="fill"/>
+				<Description>Segment color for the state &quot;Power Off&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="segmentPowerOnColor" category="Appearance" type="Color" default="#7b7b7b" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".segment.power-on" attribute="fill"/>
+				<Description>Segment color for the state &quot;Power On&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="segmentErrorColor" category="Appearance" type="Color" default="#cb0000" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".segment.error" attribute="fill"/>
+				<Description>Segment color for the state &quot;Error&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="segmentHomingColor" category="Appearance" type="Color" default="#c8c8c8" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".segment.homing" attribute="fill"/>
+				<Description>Segment color for the state &quot;Homing&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="segmentStoppingColor" category="Appearance" type="Color" default="#666666" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".segment.stopping" attribute="fill"/>
+				<Description>Segment color for the state &quot;Stopping&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="shuttlePowerOffColor" category="Appearance" type="Color" default="#85857e" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".shuttle.power-off" attribute="fill"/>
+				<Description>Shuttle color for the state &quot;Power Off&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="shuttlePowerOnColor" category="Appearance" type="Color" default="#ffffff" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".shuttle.power-on" attribute="fill"/>
+				<Description>Shuttle color for the state &quot;Power On&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="shuttleErrorColor" category="Appearance" type="Color" default="#cb0000" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".shuttle.error" attribute="fill"/>
+				<Description>Shuttle color for the state &quot;Error&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="shuttleStoppingColor" category="Appearance" type="Color" default="#ff8800" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".shuttle.stopping" attribute="fill"/>
+				<Description>Shuttle color for the state &quot;Stopping&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="shuttleIdlingColor" category="Appearance" type="Color" default="#ffffff" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".shuttle.idling" attribute="fill"/>
+				<Description>Shuttle color for the state &quot;Idling&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="shuttleLandedColor" category="Appearance" type="Color" default="#b0b0b0" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".shuttle.landed" attribute="fill"/>
+				<Description>Shuttle color for the state &quot;Landed&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="shuttleMotionColor" category="Appearance" type="Color" default="#e0e0e0" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".shuttle.motion" attribute="fill"/>
+				<Description>Shuttle color for the state &quot;Motion&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="shuttleObstacleColor" category="Appearance" type="Color" default="#b0b0b0" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".shuttle.obstacle" attribute="fill"/>
+				<Description>Shuttle color for the state &quot;Obstacle&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="shuttleStereotypeColor" category="Appearance" type="Color" default="#008000" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".stereotype-circle-pattern" attribute="fill"/>
+				<StyleElement selector=".stereotype-circle" attribute="stroke"/>
+				<StyleElement selector=".stereotype-rect-pattern" attribute="stroke"/>
+				<StyleElement selector=".stereotype-rect" attribute="stroke"/>
+				<Description>Stereotype color for the shuttle</Description>
+			</StyleProperty>
+			<StyleProperty name="zoneActiveClosedColor" category="Appearance" type="Color" default="#ff8800" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".zone.active-closed" attribute="stroke"/>
+				<Description>Zone color for the state &quot;Active Closed&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="zoneNotActiveColor" category="Appearance" type="Color" default="#ff8800" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".zone.not-active" attribute="stroke"/>
+				<StyleElement selector=".zone.not-active" attribute="fill"/>
+				<Description>Zone color for the state &quot;Not Active&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="zoneErrorColor" category="Appearance" type="Color" default="#cb0000" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".zone.error" attribute="stroke"/>
+				<Description>Zone color for the state &quot;Error&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="powerSectorActiveClosedColor" category="Appearance" type="Color" default="#8e50d0" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".power-sector.active-closed" attribute="stroke"/>
+				<Description>Power sector color for the state &quot;Active Closed&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="powerSectorNotActiveColor" category="Appearance" type="Color" default="#8e50d0" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".power-sector.not-active" attribute="stroke"/>
+				<StyleElement selector=".power-sector.not-active" attribute="fill"/>
+				<Description>Power sector color for the state &quot;Not Active&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="powerSectorErrorColor" category="Appearance" type="Color" default="#cb0000" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".power-sector.error" attribute="stroke"/>
+				<Description>Power sector color for the state &quot;Error&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="stationActiveOpenColor" category="Appearance" type="Color" default="#12b8ff" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".station.active-open" attribute="fill"/>
+				<Description>Station color for the state &quot;Active Open&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="waypointActiveOpenColor" category="Appearance" type="Color" default="#b266ff" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".waypoint.active-open" attribute="fill"/>
+				<Description>Waypoint color for the state &quot;Active Open&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="branchingWaypointActiveOpenColor" category="Appearance" type="Color" default="#ffffff" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".branching_waypoint.active-open" attribute="fill"/>
+				<StyleElement selector=".branching_waypoint.active-open" attribute="stroke"/>
+				<Description>Branching waypoint color for the state &quot;Active Open&quot;</Description>
+			</StyleProperty>
+			<StyleProperty name="trafficManagerLinkColor" category="Appearance" type="Color" default="#d3d1d1" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement selector=".arrow.gray" attribute="fill"/>
+				<StyleElement selector=".link.gray-one-way" attribute="stroke"/>
+				<StyleElement selector=".link.gray-two-way" attribute="stroke"/>
+				<Description>Traffic manager link color</Description>
+			</StyleProperty>
+			<StyleProperty name="padding" category="Layout" type="Padding" default="0px 10px" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement attribute="padding"/>
+				<Description>Padding of the Widget</Description>
+			</StyleProperty>
+			<StyleProperty name="margin" category="Layout" type="Margin" default="0px" owner="widgets.mapp6D.Assembly6D">
+				<StyleElement attribute="margin"/>
+				<Description>Margin of the Widget</Description>
+			</StyleProperty>
+		</StyleProperties>
+		<PropertyGroups>
+			<PropertyGroup name="Size" type="String" category="Layout">
+				<Description>outer height and width of widget</Description>
+			</PropertyGroup>
+			<PropertyGroup name="Position" type="String" category="Layout">
+				<Description>top and left of widget</Description>
+			</PropertyGroup>
+		</PropertyGroups>
+	</Widget>
+</WidgetLibrary>

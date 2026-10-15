@@ -1,0 +1,4 @@
+@use "RefreshButton_base.scss" as widgets_MyWidgets_RefreshButton;
+.widgets_MyWidgets_RefreshButton_style_default {
+  @include widgets_MyWidgets_RefreshButton.base
+}

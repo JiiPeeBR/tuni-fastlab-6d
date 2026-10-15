@@ -1,18 +1,18 @@
 // Move In Plane
 // -------------------------------------------------------------------------------------------------------------------
 ACTION MoveInPlane_WaitDone:
-	station.Commands.MoveInPlane := TRUE;
+	pStation.Commands.MoveInPlane := TRUE;
 			
-	IF station.Operation.MoveInPlane.Done THEN
-		station.State := station.State + 1;
+	IF pStation.Operation.MoveInPlane.Done THEN
+		pStation.State := pStation.State + 1;
 	END_IF;	
 END_ACTION
 
 ACTION MoveInPlane_AddToBuffer:
-	station.Commands.MoveInPlane := TRUE;
+	pStation.Commands.MoveInPlane := TRUE;
 	
-	IF station.Operation.MoveInPlane.Acknowledge THEN
-		station.State := station.State + 1;
+	IF pStation.Operation.MoveInPlane.Acknowledge THEN
+		pStation.State := pStation.State + 1;
 	END_IF;
 END_ACTION
 

@@ -2,7 +2,7 @@
 // PackML state machine. Split into different sections that handle 
 // different logical sequences of PackML stadards' steps
 // INFO: Add mode specific code into states by adding CASE structure
-// 	CASE em.ModeID OF
+// 	CASE Em.ModeID OF
 //		MODE_PRODUCTION:
 //			*CODE*;
 //		MODE_MAINTENANCE:
@@ -21,126 +21,126 @@ ACTION PackML_state_machine:
     // =================================================================================================================	
     // Normal work sequence
     // =================================================================================================================
-    CASE em.StateCurrent OF
+    CASE Em.StateCurrent OF
         STATE_STOPPED:
-            em.StateInfo := '';
+            Em.StateInfo := '';
             // -----------------------------------------------------------------
-            em.Command.StateComplete := TRUE;
+            Em.Command.StateComplete := TRUE;
 
         STATE_RESETTING:
-			CASE em.SubState OF
+			CASE Em.SubState OF
 				0:
-					em.StateInfo := 'Reset traffic control errors';
+					Em.StateInfo := 'Reset traffic control errors';
 					// -----------------------------------------------------------------
-					actions_state.error_reset := TRUE;
-					IF NOT fb.TrafficControl.Error THEN
-	  					em.SubState := 10;
+					StateCommands.ErrorReset := TRUE;
+					IF NOT Fb.TrafficControl.Error THEN
+	  					Em.SubState := 10;
 					END_IF;
 				10:
-					em.StateInfo := 'Delete all macros';
+					Em.StateInfo := 'Delete all macros';
 					// -----------------------------------------------------------------
-					actions_substate.macro_delete := TRUE;
-					IF fb.MacroDelete.Done THEN
-						FOR station_num := 0 TO STATION_COUNT DO
-							brsmemset(ADR(stations[station_num].Macro.Shuttle), 0, SIZEOF(stations[station_num].Macro.Shuttle));
+					SubStateCommands.MacroDelete := TRUE;
+					IF Fb.MacroDelete.Done THEN
+						FOR StationNumber := 0 TO STATION_COUNT DO
+							brsmemset(ADR(Stations[StationNumber].Macro.Shuttle), 0, SIZEOF(Stations[StationNumber].Macro.Shuttle));
 						END_FOR;
-						em.SubState := 20;
+						Em.SubState := 20;
 					END_IF;
 				20:
-					em.StateInfo := 'Delete all groups';
+					Em.StateInfo := 'Delete all groups';
 					// -----------------------------------------------------------------
-					actions_state.group_get_enable := TRUE;
+					StateCommands.GroupGetEnable := TRUE;
 					
-					IF fb.GroupGet.Valid THEN
-						IF fb.GroupGet.TotalCount = 0 THEN
+					IF Fb.GroupGet.Valid THEN
+						IF Fb.GroupGet.TotalCount = 0 THEN
 							// Clear all shuttle group references
-							FOR station_num := 0 TO STATION_COUNT DO
-	  							brsmemset(ADR(stations[station_num].Group.ShuttleGroup), 0, SIZEOF(stations[station_num].Group.ShuttleGroup));
+							FOR StationNumber := 0 TO STATION_COUNT DO
+	  							brsmemset(ADR(Stations[StationNumber].Group.ShuttleGroup), 0, SIZEOF(Stations[StationNumber].Group.ShuttleGroup));
 							END_FOR;
-	  						em.SubState := 100;
+	  						Em.SubState := 100;
 						ELSE
-							fb.GroupDelete.ShuttleGroup := ADR(fb.GroupGet.ShuttleGroup);
-							actions_substate.group_delete := TRUE;
-							IF fb.GroupDelete.Done THEN
+							Fb.GroupDelete.ShuttleGroup := ADR(Fb.GroupGet.ShuttleGroup);
+							SubStateCommands.GroupDelete := TRUE;
+							IF Fb.GroupDelete.Done THEN
 								// Get next group in the assembly
-								fb.GroupGet(Next := TRUE);
-								fb.GroupGet(Next := FALSE);
-								actions_substate.group_delete := FALSE;
+								Fb.GroupGet(Next := TRUE);
+								Fb.GroupGet(Next := FALSE);
+								SubStateCommands.GroupDelete := FALSE;
 							END_IF;
 						END_IF;
 					END_IF;		
 				100:
-					em.StateInfo := 'Reset complete';
+					Em.StateInfo := 'Reset complete';
 					// -----------------------------------------------------------------	
-					em.Command.StateComplete := TRUE;
+					Em.Command.StateComplete := TRUE;
 			END_CASE;
 			
 		STATE_IDLE:
-			em.StateInfo := '';
+			Em.StateInfo := '';
 			// -----------------------------------------------------------------
-			em.Command.StateComplete := TRUE;
+			Em.Command.StateComplete := TRUE;
 
 		STATE_STARTING:
-			CASE em.SubState OF
+			CASE Em.SubState OF
 				0:
-					em.StateInfo := 'Move shuttles to recovery points';
+					Em.StateInfo := 'Move shuttles to recovery points';
 					// -----------------------------------------------------------------
-					fb.TrafficControl.Velocity := 1.8;
-					fb.TrafficControl.Acceleration := 8.0; 
-					actions_substate.traffic_recover := TRUE;
+					Fb.TrafficControl.Velocity := 1.8;
+					Fb.TrafficControl.Acceleration := 8.0; 
+					SubStateCommands.TrafficRecover := TRUE;
 					
-					IF fb.TrafficControl.RecoverDone OR fb.TON_RecoverTimeout.Q THEN
-						em.SubState := 10;
+					IF Fb.TrafficControl.RecoverDone OR Fb.TON_RecoverTimeout.Q THEN
+						Em.SubState := 10;
 					END_IF;		
 				10:
-					em.StateInfo := 'Activating traffic recipe';
+					Em.StateInfo := 'Activating traffic recipe';
 					// -----------------------------------------------------------------
-					actions_substate.traffic_activate_recipe := TRUE;
+					SubStateCommands.TrafficActivateRecipe := TRUE;
 					
-					IF fb.TrafficControl.ActivateRecipeDone THEN
-						em.SubState := 100;
+					IF Fb.TrafficControl.ActivateRecipeDone THEN
+						Em.SubState := 100;
 					END_IF;
 				100:
-					em.StateInfo := 'Traffic manager started';
+					Em.StateInfo := 'Traffic manager started';
 					// -----------------------------------------------------------------
-					IF fb.TrafficControl.Error THEN
-	  					em.SubState := 200;
+					IF Fb.TrafficControl.Error THEN
+	  					Em.SubState := 200;
 					ELSE
-						em.Command.StateComplete := TRUE;			
+						Em.Command.StateComplete := TRUE;			
 					END_IF;
 			END_CASE;
 			
         STATE_EXECUTE:
-            em.StateInfo := 'Running feature demo';
+            Em.StateInfo := 'Running feature demo';
             // -----------------------------------------------------------------
-			em.Command.StateComplete := TRUE;
+			Em.Command.StateComplete := TRUE;
 			
-			actions_state.activate_queue_control := TRUE;
+			StateCommands.ActivateQueueControl := TRUE;
 			
-			Execute_Station_S1;
-			execute_station_S2;
-			execute_station_S3;
-			execute_station_S4;
-			execute_station_S5;
-			execute_station_S6;
-			//execute_station_S7;
+			Station_Sequence_S1;
+			Station_Sequence_S2;
+			Station_Sequence_S3;
+			Station_Sequence_S4;
+			Station_Sequence_S5;
+			Station_Sequence_S6;
+			//Station_Sequence_S7;
           
         STATE_COMPLETING:
-            em.StateInfo := '';
+            Em.StateInfo := '';
             // -----------------------------------------------------------------
-            em.Command.StateComplete := TRUE;
+            Em.Command.StateComplete := TRUE;
           
         STATE_COMPLETED:
-            em.StateInfo := '';
+            Em.StateInfo := '';
             // -----------------------------------------------------------------
-            em.Command.StateComplete := TRUE;
+            Em.Command.StateComplete := TRUE;
 
         STATE_STOPPING:
-            em.StateInfo := 'Stop traffic manager';
+            Em.StateInfo := 'Stop traffic manager';
 			// -----------------------------------------------------------------
-			actions_substate.traffic_stop := TRUE;
-			IF fb.TrafficControl.StopDone THEN
-	  			em.Command.StateComplete := TRUE;   
+			SubStateCommands.TrafficStop := TRUE;
+			IF Fb.TrafficControl.StopDone THEN
+	  			Em.Command.StateComplete := TRUE;   
 			END_IF;
 	END_CASE
         
@@ -148,21 +148,21 @@ ACTION PackML_state_machine:
     // =================================================================================================================	
     // Module activation sequence
     // =================================================================================================================
-    CASE em.StateCurrent OF
+    CASE Em.StateCurrent OF
         STATE_DEACTIVATING:
-            em.StateInfo := '';
+            Em.StateInfo := '';
             // -----------------------------------------------------------------
-            em.Command.StateComplete := TRUE;
+            Em.Command.StateComplete := TRUE;
                 
         STATE_DEACTIVATED:
-            em.StateInfo := '';
+            Em.StateInfo := '';
             // -----------------------------------------------------------------
-            em.Command.StateComplete := TRUE;
+            Em.Command.StateComplete := TRUE;
 
         STATE_ACTIVATING:
-            em.StateInfo := '';
+            Em.StateInfo := '';
             // -----------------------------------------------------------------
-            em.Command.StateComplete := TRUE;
+            Em.Command.StateComplete := TRUE;
 
     END_CASE    
 
@@ -170,63 +170,63 @@ ACTION PackML_state_machine:
     // =================================================================================================================	
     // Abort sequence
     // =================================================================================================================
-    CASE em.StateCurrent OF
+    CASE Em.StateCurrent OF
         STATE_ABORTING:
-            em.StateInfo := '';
+            Em.StateInfo := '';
             // -----------------------------------------------------------------
-            em.Command.StateComplete := TRUE;
+            Em.Command.StateComplete := TRUE;
                 
         STATE_ABORTED:
-            em.StateInfo := '';
+            Em.StateInfo := '';
             // -----------------------------------------------------------------
-            em.Command.StateComplete := TRUE;
+            Em.Command.StateComplete := TRUE;
 
         STATE_CLEARING:
-            em.StateInfo := '';
+            Em.StateInfo := '';
             // -----------------------------------------------------------------
-            em.Command.StateComplete := TRUE;
+            Em.Command.StateComplete := TRUE;
     END_CASE    
 
     
     // =================================================================================================================	
     // Hold sequence
     // =================================================================================================================
-    CASE em.StateCurrent OF
+    CASE Em.StateCurrent OF
         STATE_HOLDING:
-            em.StateInfo := '';
+            Em.StateInfo := '';
             // -----------------------------------------------------------------
-            em.Command.StateComplete := TRUE;
+            Em.Command.StateComplete := TRUE;
                 
         STATE_HELD:
-            em.StateInfo := '';
+            Em.StateInfo := '';
             // -----------------------------------------------------------------
-            em.Command.StateComplete := TRUE;
+            Em.Command.StateComplete := TRUE;
 
         STATE_UNHOLDING:
-            em.StateInfo := '';
+            Em.StateInfo := '';
             // -----------------------------------------------------------------
-            em.Command.StateComplete := TRUE;
+            Em.Command.StateComplete := TRUE;
     END_CASE 
 
 
     // =================================================================================================================	       
     // Suspend sequence
     // =================================================================================================================
-    CASE em.StateCurrent OF
+    CASE Em.StateCurrent OF
         STATE_SUSPENDING:
-            em.StateInfo := '';
+            Em.StateInfo := '';
             // -----------------------------------------------------------------
-            em.Command.StateComplete := TRUE;
+            Em.Command.StateComplete := TRUE;
                 
         STATE_SUSPENDED:
-            em.StateInfo := '';
+            Em.StateInfo := '';
             // -----------------------------------------------------------------
-            em.Command.StateComplete := TRUE;
+            Em.Command.StateComplete := TRUE;
 
         STATE_UNSUSPENDING:
-            em.StateInfo := '';
+            Em.StateInfo := '';
             // -----------------------------------------------------------------
-            em.Command.StateComplete := TRUE;
+            Em.Command.StateComplete := TRUE;
 
     END_CASE
 

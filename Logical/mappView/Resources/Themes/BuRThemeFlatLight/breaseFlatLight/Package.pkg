@@ -3,6 +3,7 @@
 <Package SubType="StylesSetPackage" PackageType="StylesSetPackage" xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
     <Object Type="File" Description="Styles Set" TransferedForTargetSourceCompare="true">breaseFlatLight.stylesset</Object>
+    <Object Type="File" TransferedForTargetSourceCompare="true">FlatCustom.styles</Object>
     <Object Type="File" TransferedForTargetSourceCompare="true">BuRThemeFlatLightDefaultStyles.styles</Object>
     <Object Type="File" TransferedForTargetSourceCompare="true">BuRThemeFlatLightSystemStyles.styles</Object>
     <Object Type="File" TransferedForTargetSourceCompare="true">BuRThemeFlatLightButtonsStyles.styles</Object>

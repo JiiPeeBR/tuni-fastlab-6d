@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:iat="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:types="http://www.br-automation.com/iat2015/widgetTypes/v2" elementFormDefault="qualified">
+<xs:complexType name="widgets.MyWidgets.ScriptRunnerRestrict" abstract="true">
+	<xs:complexContent>
+		<xs:restriction base="iat:brease.core.BaseContentWidget">
+			
+			<xs:attribute name="tabIndex" use="optional" type="types:Integer" default="-1" />
+			
+			<xs:attribute name="height" use="optional" type="types:AutoSize" default="30" />
+			
+			<xs:attribute name="width" use="optional" type="types:AutoSize" default="50" />
+			
+		</xs:restriction>
+	</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="widgets.MyWidgets.ScriptRunner">
+	<xs:complexContent>
+		<xs:extension base="iat:widgets.MyWidgets.ScriptRunnerRestrict">
+			
+			<xs:attribute name="autoRun" use="optional" type="types:Boolean" default="true" />
+			
+			<xs:attribute name="hookName" use="optional" type="types:String" default="onMyLibScript" />
+			
+			<xs:attribute name="scripts" use="optional" type="types:String" default="" />
+			
+			<xs:attribute name="opacity" use="optional" type="types:Opacity" default="1" />
+			
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+</xs:schema>

@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Styles
+  id="FlatCustom" xmlns="http://www.br-automation.com/iat2015/styles/engineering/v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<Style
+		id="AlarmOff"
+		xsi:type="widgets.brease.NavigationButton"
+		
+		bold="false"
+		mouseDownBorderWidth="3px"
+		mouseDownBorderColor="rgba(255, 136, 0, 1)"
+		backColor="#FFF"
+		checkedBackColor="#FFF"
+		checkedBorderColor="#ff8800"
+		disabledBackColor="#d1d1d1" 
+		
+		borderWidth="3px"
+		borderStyle="solid"
+		borderColor="rgba(255, 136, 0, 1)"
+		cornerRadius="100px"
+		mouseDownBackColor="rgba(255, 136, 0, 1)"
+		mouseDownTextColor="#ffffff"
+		textColor="rgba(255, 136, 0, 1)"
+		fontSize="20px"
+		margin="0px"
+		padding="0px"
+		
+	/>
+	
+	<Style
+		id="AlarmOn"
+		xsi:type="widgets.brease.NavigationButton"
+		
+		bold="false"
+		mouseDownBorderWidth="3px"
+		mouseDownBorderColor="rgba(255, 136, 0, 1)"
+		backColor="rgba(255, 136, 0, 1)"
+		checkedBackColor="#FFF"
+		checkedBorderColor="#ff8800"
+		disabledBackColor="#d1d1d1" 
+		
+		borderWidth="3px"
+		borderStyle="solid"
+		borderColor="rgba(255, 136, 0, 1)"
+		cornerRadius="100px"
+		mouseDownBackColor="rgba(255, 136, 0, 1)"
+		mouseDownTextColor="#ffffff"
+		textColor="#ffffff"
+		fontSize="20px"
+		margin="0px"
+		padding="0px"
+		
+	/>
+	
+</Styles>

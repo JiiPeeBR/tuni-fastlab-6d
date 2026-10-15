@@ -11,18 +11,22 @@ TYPE
 		AssemblyReadShIDTable : MC_BR_AsmReadShIDTable_Acp6D;
 		MoveInPlaneAsync : MC_BR_MoveInPlaneAsync_Acp6D;
 		WaitUntilAllDone : fdWaitUntilAllDone;
-		R_TRIG_Abort : R_TRIG;
+		rAbort : R_TRIG;
+		rError : R_TRIG;
 		TON_ShuttleScan : TON;
 		MoveShortAxis : MC_BR_MoveShortAxis_Acp6D;
 		rtStateComplete : R_TRIG;
-		Pulse_slow : fdPulse;
+		rShuttlesInAccident : R_TRIG;
+		MpAlarmXCore_0 : MpAlarmXCore;
+		AlarmPulse : fdPulse;
 	END_STRUCT;
 	MainLocalType : 	STRUCT 
 		lastSubState : DINT;
 		shuttleIndex : DINT;
-		homePosition : ARRAY[0..gMAX_INDEX_SHUTTLE]OF MainHomePositionType;
 		shuttlesCount : USINT;
 		lastReadShuttleID : UINT;
+		HomePosition : ARRAY[0..gMAX_INDEX_SHUTTLE]OF McAcp6DInPlaneAxesType;
+		ServicePosition : ARRAY[0..gMAX_INDEX_SHUTTLE]OF McAcp6DInPlaneAxesType;
 	END_STRUCT;
 	MainActionsStateType : 	STRUCT 
 		getShuttles : BOOL; (*Task actions are not automatically reset*)
@@ -39,11 +43,9 @@ TYPE
 		moveShortAxis : BOOL;
 	END_STRUCT;
 	MainHmiType : 	STRUCT 
-		isRunning : BOOL;
-	END_STRUCT;
-	MainHomePositionType : 	STRUCT 
-		x : REAL;
-		y : REAL;
+		AlarmButtonStyle : STRING[80];
+		ProgramSelectList : ARRAY[0..gMAX_INDEX_PROGRAMS]OF STRING[80];
+		SelectedProgramIndex : UINT;
 	END_STRUCT;
 	MainCommandsType : 	STRUCT 
 		Abort : R_TRIG; (*Go to state Aborting - Can be set in all states except Aborting and Aborted.*)
@@ -56,5 +58,22 @@ TYPE
 		Suspend : R_TRIG; (*Go to state Suspending. Can only be set in state Execute.*)
 		Unsuspend : R_TRIG; (*Go to state Unsuspending. Can only be set in state Suspended.*)
 		Complete : R_TRIG; (*Go to state Completing. Can only be set in state Execute*)
+	END_STRUCT;
+END_TYPE
+
+(*========== Buttons ==========*)
+
+TYPE
+	MainButtonType : 	STRUCT 
+		State : BOOL;
+		rClick : R_TRIG;
+		Active : BOOL;
+		LampOn : BOOL;
+		Label : STRING[80];
+	END_STRUCT;
+	MainButtonsType : 	STRUCT 
+		Button1 : MainButtonType;
+		Button2 : MainButtonType;
+		Button3 : MainButtonType;
 	END_STRUCT;
 END_TYPE

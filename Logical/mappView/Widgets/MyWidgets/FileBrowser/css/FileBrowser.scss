@@ -1,0 +1,279 @@
+.MyWidgetsFileBrowser {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #C8C8C8;
+    background-color: #FFFFFF;
+    font-family: Arial;
+    font-size: 12px;
+    color: #333333;
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .fb-toolbar {
+        display: flex;
+        align-items: center;
+        flex: 0 0 auto;
+        padding: 4px;
+        gap: 4px;
+        background-color: #F1F1F1;
+        border-bottom: 1px solid #C8C8C8;
+    }
+
+    .fb-btn {
+        padding: 4px 10px;
+        border: 1px solid #5B7C70;
+        border-radius: 2px;
+        background-color: #FFDEAA;
+        color: #333333;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+    .fb-btn:active {
+        background-color: #DBDBDB;
+    }
+
+    .fb-path {
+        margin-left: auto;
+        padding-left: 8px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        color: #666666;
+    }
+
+    .fb-list {
+        flex: 1 1 auto;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        overflow-y: auto;
+    }
+
+    .fb-item {
+        display: flex;
+        align-items: center;
+        padding: 4px 8px;
+        border-bottom: 1px solid #EEEEEE;
+        cursor: pointer;
+    }
+
+    .fb-item:hover {
+        background-color: #F5F5F5;
+    }
+
+    .fb-item.selected {
+        background-color: #CDE6FF;
+    }
+
+    .fb-icon {
+        flex: 0 0 auto;
+        margin-right: 6px;
+    }
+
+    .fb-name {
+        flex: 1 1 auto;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .fb-size {
+        flex: 0 0 auto;
+        width: 70px;
+        text-align: right;
+        color: #666666;
+    }
+
+    .fb-date {
+        flex: 0 0 auto;
+        width: 150px;
+        text-align: right;
+        color: #666666;
+    }
+}
+
+// Overwrite confirmation dialog. Rendered on <body> (not inside the widget) so
+// it is centered on the whole screen and not clipped by the widget bounds.
+// Sizes use em so they scale with the dialog font size set on the overlay.
+.MyWidgetsFileBrowserModal {
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+    background-color: rgba(0, 0, 0, 0.4);
+    font-family: Arial;
+    font-size: 16px;
+    color: #333333;
+    z-index: 100000;
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .fb-modal-box {
+        max-width: 90vw;
+        min-width: 12em;
+        padding: 1em;
+        border: 1px solid #C8C8C8;
+        border-radius: 3px;
+        background-color: #FFFFFF;
+        box-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.4);
+    }
+
+    .fb-modal-msg {
+        margin-bottom: 0.5em;
+    }
+
+    .fb-modal-file {
+        margin-bottom: 1em;
+        font-weight: bold;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .fb-modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5em;
+    }
+
+    .fb-modal-btn {
+        padding: 0.4em 1em;
+        border: 1px solid #5B7C70;
+        border-radius: 2px;
+        background-color: #FFDEAA;
+        color: #333333;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+    .fb-modal-btn:active {
+        background-color: #DBDBDB;
+    }
+
+    .fb-modal-confirm {
+        font-weight: bold;
+    }
+}
+
+// Editor-only inline preview of the dialog: contained within the widget instead
+// of covering the whole viewport, never wider than the widget, and with a
+// lighter backdrop so the sample list stays readable behind it.
+.MyWidgetsFileBrowserModal.MyWidgetsFileBrowserModal--preview {
+    position: absolute;
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.15);
+    // Purely visual in the editor: let clicks through so the widget stays selectable.
+    pointer-events: none;
+
+    .fb-modal-box {
+        max-width: 90%;
+    }
+}
+
+// Full screen image preview (double click an image file). Rendered on <body>.
+.MyWidgetsFileBrowserImagePreview {
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+    background-color: rgba(0, 0, 0, 0.6);
+    font-family: Arial;
+    font-size: 14px;
+    color: #333333;
+    z-index: 100001;
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .fb-imgpreview-box {
+        display: flex;
+        flex-direction: column;
+        max-width: 94vw;
+        max-height: 94vh;
+        padding: 8px;
+        border: 1px solid #C8C8C8;
+        border-radius: 3px;
+        background-color: #FFFFFF;
+        box-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.5);
+    }
+
+    .fb-imgpreview-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 6px;
+    }
+
+    .fb-imgpreview-title {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-weight: bold;
+    }
+
+    .fb-imgpreview-close {
+        flex: 0 0 auto;
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        border: 1px solid #5B7C70;
+        border-radius: 2px;
+        background-color: #FFDEAA;
+        color: #333333;
+        cursor: pointer;
+        font-size: 18px;
+        line-height: 1;
+    }
+
+    .fb-imgpreview-close:active {
+        background-color: #DBDBDB;
+    }
+
+    // The stage shrink-wraps the image; the overlay is stretched over it.
+    .fb-imgpreview-stage {
+        position: relative;
+        display: inline-block;
+        line-height: 0;
+        overflow: hidden;
+    }
+
+    .fb-imgpreview-img {
+        display: block;
+        max-width: 90vw;
+        max-height: 82vh;
+        width: auto;
+        height: auto;
+    }
+
+    .fb-imgpreview-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+}

@@ -21,6 +21,7 @@ TYPE
 		Error : GeneralErrorInfoType;
 	END_STRUCT;
 	GeneralErrorInfoType : 	STRUCT 
+		Active : BOOL;
 		Code : DINT;
 		Description : STRING[80];
 		AdditionalInfo : STRING[80];
@@ -51,16 +52,16 @@ TYPE
 END_TYPE
 
 (**)
+(*Insert your comment here.*)
 
 TYPE
-	DigitalInputs : 	STRUCT 
-		Button1 : BOOL;
-		Button2 : BOOL;
-		Button3 : BOOL;
-	END_STRUCT;
-	DigitalOutputs : 	STRUCT 
-		Button1_Led : BOOL;
-		Button2_Led : BOOL;
-		Button3_Led : BOOL;
+	ProgramEnum : 
+		(
+		PROGRAM_FASTDEMO,
+		PROGRAM_END_TO_END
+		);
+	ProgramType : 	STRUCT 
+		Name : STRING[32];
+		ShuttleCount : UINT;
 	END_STRUCT;
 END_TYPE

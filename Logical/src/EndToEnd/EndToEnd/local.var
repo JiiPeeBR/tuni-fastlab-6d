@@ -1,0 +1,17 @@
+(*Constants*)
+(**)
+VAR
+	Task : REFERENCE TO EndToEndType;
+	Local : EndToEndLocalType;
+	Fb : EndToEndFbType;
+	StateCommands : EndToEndActionsStateType;
+	SubStateCommands : EndToEndActionsSubstateType;
+	str : STRING[80];
+	i : DINT;
+	X : REAL;
+	Y : REAL;
+END_VAR
+(* ----- PackML ----- *)
+VAR
+	Em : EquipmentModule;
+END_VAR

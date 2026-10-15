@@ -1,0 +1,4 @@
+@use "Assembly6D_base.scss" as widgets_mapp6D_Assembly6D;
+.widgets_mapp6D_Assembly6D_style_default {
+  @include widgets_mapp6D_Assembly6D.base
+}

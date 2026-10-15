@@ -1,9 +1,20 @@
 
 ACTION sequence_initialize: 
 	CASE em.SubState OF
-		0:		
-			em.StateInfo := 'Wait assembly to boot up';
+		-1:
+			em.StateInfo := 'Flyway boot failure';
 			// ---------------------------------------------------------------------------------
+			Buttons.Button3.Label := 'Power On';
+			IF Buttons.Button3.rClick.Q THEN
+	  			em.SubState := 0;
+			END_IF;
+		0:		
+			em.StateInfo := 'Flyway booting up';
+			// ---------------------------------------------------------------------------------
+			IF em.Info.OnStateEntry THEN
+				brsmemset(ADR(task.Error), 0, SIZEOF(task.Error));
+			END_IF
+			
 			IF em.Info.OnSubStateEntry THEN
 				// Clear old shuttle data
 				brsmemset(ADR(gShuttles), 0, SIZEOF(gShuttles));
@@ -29,7 +40,7 @@ ACTION sequence_initialize:
 			END_IF
 			
 		1:
-			em.StateInfo := 'Wait assembly to boot up';
+			em.StateInfo := 'Flyway booting up';
 			// ---------------------------------------------------------------------------------
 			IF em.Info.OnSubStateEntry THEN
 				// Zero the found shuttle count
@@ -55,7 +66,7 @@ ACTION sequence_initialize:
 					END_IF;
 			END_CASE;
 		10:
-			em.StateInfo := 'Clear assembly errors';
+			em.StateInfo := 'Resetting the flyway errors';
 			// ---------------------------------------------------------------------------------
 			actions_substate.assemblyReset := TRUE;
 			
@@ -63,11 +74,11 @@ ACTION sequence_initialize:
 				em.SubState := 0;
 			ELSIF fb.AssemblyReset.Error THEN
 				task.Error.Code := fb.AssemblyReset.ErrorID;
-				em.Command.Abort := TRUE;
+				em.SubState := -1;
 			END_IF
 			
 		100:
-			em.StateInfo := 'Assembly power sequence';
+			em.StateInfo := 'Flyway power up sequence';
 			// ---------------------------------------------------------------------------------
 			CASE fb.AssemblyReadInfo.AssemblyInfo.AssemblyState OF
 				mcACP6D_READY:
@@ -78,7 +89,7 @@ ACTION sequence_initialize:
   					em.SubState := 102;	
 			END_CASE;					
 		101:
-			em.StateInfo := 'Power off assembly';
+			em.StateInfo := 'Powering off the flyway';
 			// ---------------------------------------------------------------------------------		
 			actions_substate.assemblyPowerOff := TRUE;
 					
@@ -86,10 +97,10 @@ ACTION sequence_initialize:
 				em.SubState := 102;
 			ELSIF fb.AssemblyPowerOff.Error THEN
 				task.Error.Code := fb.AssemblyPowerOff.ErrorID;
-				em.Command.Abort := TRUE;
+				em.SubState := -1;
 			END_IF
 		102:
-			em.StateInfo := 'Power on assembly';
+			em.StateInfo := 'Powering on the flyway';
 			// ---------------------------------------------------------------------------------	
 			actions_substate.assemblyPowerOn := TRUE;
 					
@@ -97,11 +108,13 @@ ACTION sequence_initialize:
 				em.SubState := 200;
 			ELSIF fb.AssemblyPowerOn.Error THEN
 				task.Error.Code := fb.AssemblyPowerOn.ErrorID;
-				em.Command.Abort := TRUE;
+				task.Error.Active := TRUE;
+				task.Error.AdditionalInfo := 'Power on failed (check shuttle orientation)';
+				em.SubState := -1;
 			END_IF
 				
 		200:
-			em.StateInfo := 'Get all shuttles in the assembly';
+			em.StateInfo := 'Scanning shuttles';
 			// ---------------------------------------------------------------------------------
 			actions_state.getShuttles := TRUE;
 						
@@ -113,7 +126,7 @@ ACTION sequence_initialize:
 				END_IF;
 			END_IF		
 		201:
-			em.StateInfo := 'Get all shuttles in the assembly';
+			em.StateInfo := 'Scanning shuttles';
 			// ---------------------------------------------------------------------------------
 			IF em.Info.OnSubStateEntry THEN
 				// Clear old shuttle data
@@ -137,20 +150,24 @@ ACTION sequence_initialize:
 				em.SubState := 300;	
 			END_IF;
 		210:
-			em.StateInfo := 'No shuttles found';
+			em.StateInfo := 'Error - No shuttles found';
 			// ---------------------------------------------------------------------------------
+			Buttons.Button3.Label := 'Rescan shuttles';
+			IF Buttons.Button3.rClick.Q THEN
+				em.SubState := 0;
+			END_IF
 					
 		300:
-			em.StateInfo := 'Read shuttle IDs';
+			em.StateInfo := 'Reading shuttle IDs';
 			// ---------------------------------------------------------------------------------
 			actions_substate.readShuttleIDs := TRUE;
 			
 			IF fb.AssemblyReadShIDTable.Done THEN
 				FOR i := 0 TO gShuttles.Count - 1 DO
-					FOR x := 0 TO gShuttles.Count - 1 DO
-						IF fb.AssemblyReadShIDTable.ShIDTable.ShuttleIDs[x] = gShuttles.Shuttle[i].ID THEN
-							gShuttles.Shuttle[i].UID.Low := fb.AssemblyReadShIDTable.ShIDTable.UIDLow[x];
-							gShuttles.Shuttle[i].UID.High := fb.AssemblyReadShIDTable.ShIDTable.UIDHigh[x];
+					FOR j := 0 TO gShuttles.Count - 1 DO
+						IF fb.AssemblyReadShIDTable.ShIDTable.ShuttleIDs[j] = gShuttles.Shuttle[i].ID THEN
+							gShuttles.Shuttle[i].UID.Low := fb.AssemblyReadShIDTable.ShIDTable.UIDLow[j];
+							gShuttles.Shuttle[i].UID.High := fb.AssemblyReadShIDTable.ShIDTable.UIDHigh[j];
 							EXIT;
 						END_IF;
 					END_FOR;
@@ -160,11 +177,11 @@ ACTION sequence_initialize:
 				
 			ELSIF fb.AssemblyReadShIDTable.Error THEN
 				task.Error.Code := fb.AssemblyReadShIDTable.ErrorID;
-				em.Command.Abort := TRUE;
+				em.SubState := -1;
 			END_IF;
 	
 		1000:
-			em.StateInfo := 'Done';
+			em.StateInfo := 'Flyway initialization complete';
 			// ---------------------------------------------------------------------------------
 			em.Command.StateComplete := TRUE;
 	END_CASE;	

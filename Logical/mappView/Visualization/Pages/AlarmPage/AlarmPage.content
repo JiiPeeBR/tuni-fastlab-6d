@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Content id="AlarmPage" guid="aacef01d-fcad-4eec-96be-1e738bb37c16" height="420" width="800" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Widgets>
+    <Widget xsi:type="widgets.brease.NavigationButton" id="NavigationButton1" top="10" left="20" width="104" height="44" zIndex="1" pageId="MainPage" text="&lt; Back" borderStyle="solid" borderWidth="3px" cornerRadius="100px" borderColor="rgba(255, 136, 0, 1)" textColor="rgba(255, 136, 0, 1)" mouseDownBackColor="rgba(255, 136, 0, 1)" mouseDownTextColor="rgba(255, 255, 255, 1)" fontSize="20px" padding="0px" margin="0px" />
+    <Widget xsi:type="widgets.brease.AlarmList" id="AlarmList1" top="60" left="20" width="760" height="340" zIndex="0" paging="false" searchBox="false" showPagingButtons="false" borderStyle="solid" backColor="rgba(240, 240, 240, 1)" headerBackColor="rgba(255, 136, 0, 1)" headerFontSize="18px" fontSize="18px" cornerRadius="10px">
+      <Widgets>
+        <Widget xsi:type="widgets.brease.AlarmListItem" id="AlarmListItem1" width="758" zIndex="0" text="Active alarms" />
+      </Widgets>
+    </Widget>
+  </Widgets>
+</Content>

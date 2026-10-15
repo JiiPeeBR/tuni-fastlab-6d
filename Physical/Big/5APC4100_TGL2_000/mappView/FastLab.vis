@@ -1,17 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<vdef:Visualization id="vis_0" autoUpdate="true" xmlns:vdef="http://www.br-automation.com/iat2015/visualizationDefinition/v2">
+<vdef:Visualization id="FastLab" autoUpdate="true" xmlns:vdef="http://www.br-automation.com/iat2015/visualizationDefinition/v2">
   <StartPage pageRefId="MainPage" />
   <Pages>
     <Page refId="MainPage" />
+    <Page refId="AlarmPage" />
+    <Page refId="FlywayPage" />
   </Pages>
   <Navigations />
-  <BindingsSets />
-  <EventBindingsSets />
+  <BindingsSets>
+    <BindingsSet refId="MainPage" />
+    <BindingsSet refId="AlarmPage" />
+    <BindingsSet refId="Footer" />
+    <BindingsSet refId="FlywayPage" />
+  </BindingsSets>
+  <EventBindingsSets>
+    <EventBindingsSet refId="AlarmPage" />
+  </EventBindingsSets>
   <EventScriptsSets />
   <Dialogs />
   <Contents>
     <Content refId="MainPage" />
-    <Content refId="Header" />
+    <Content refId="Footer" />
+    <Content refId="AlarmPage" />
+    <Content refId="FlywayPage" />
   </Contents>
   <SnippetsSets />
   <VariablesSets />

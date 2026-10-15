@@ -18,19 +18,19 @@ TYPE
 		allGroupsDeleted : BOOL;
 	END_STRUCT;
 	FastDemoActionsStateType : 	STRUCT 
-		error_reset : BOOL;
-		group_get_enable : BOOL;
-		activate_queue_control : BOOL;
+		ErrorReset : BOOL;
+		GroupGetEnable : BOOL;
+		ActivateQueueControl : BOOL;
 	END_STRUCT;
 	FastDemoActionsSubstateType : 	STRUCT 
-		traffic_activate_recipe : BOOL; (*Task actions are not automatically reset*)
-		traffic_deactivate_recipe : BOOL; (*Task actions are not automatically reset*)
-		traffic_halt : BOOL;
-		traffic_recover : BOOL;
-		traffic_resume : BOOL;
-		traffic_stop : BOOL;
-		macro_delete : BOOL;
-		group_delete : BOOL;
+		TrafficActivateRecipe : BOOL; (*Task actions are not automatically reset*)
+		TrafficDeactivateRecipe : BOOL; (*Task actions are not automatically reset*)
+		TrafficHalt : BOOL;
+		TrafficRecover : BOOL;
+		TrafficResume : BOOL;
+		TrafficStop : BOOL;
+		MacroDelete : BOOL;
+		GroupDelete : BOOL;
 	END_STRUCT;
 	FastDemoHmiType : 	STRUCT 
 		isRunning : BOOL;
@@ -44,7 +44,7 @@ TYPE
 	FastDemoStationType : 	STRUCT 
 		State : DINT;
 		SequenceStep : DINT;
-		Shuttles : ARRAY[0..STATION_SHUTTLE_LAST_INDEX]OF MpTrafficShuttleInfoType;
+		Shuttles : ARRAY[0..LAST_INDEX_STATION_SHUTTLES]OF MpTrafficShuttleInfoType;
 		ShuttleCount : DINT;
 		Var : FastDemoStationVarType;
 		Control : MpTrafficStationControl;

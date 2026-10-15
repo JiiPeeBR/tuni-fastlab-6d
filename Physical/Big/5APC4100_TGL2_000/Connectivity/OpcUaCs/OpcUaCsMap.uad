@@ -7,5 +7,18 @@
     <EURangesAliases />
     <EngineeringUnitAliases />
   </Aliases>
-  <Module Name="&lt;Default&gt;" />
+  <Module Name="&lt;Default&gt;">
+    <GlobalVariables Name="Global Variables">
+      <Variable Name="gTasks" RecursiveEnable="2" />
+      <Variable Name="gMain" RecursiveEnable="2" />
+      <Variable Name="gPower" RecursiveEnable="2" />
+      <Variable Name="gShuttles">
+        <Variable Name="Count" />
+      </Variable>
+    </GlobalVariables>
+    <Task Name="Main">
+      <Variable Name="Buttons" RecursiveEnable="2" />
+      <Variable Name="Hmi" RecursiveEnable="2" />
+    </Task>
+  </Module>
 </OpcUaSource>

@@ -4,5 +4,7 @@
   <Objects>
     <Object Type="Package" Description="AreaContents">AreaContents</Object>
     <Object Type="Package">MainPage</Object>
+    <Object Type="Package">AlarmPage</Object>
+    <Object Type="Package">FlywayPage</Object>
   </Objects>
 </Package>

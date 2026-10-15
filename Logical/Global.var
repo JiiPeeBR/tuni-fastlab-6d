@@ -1,6 +1,7 @@
 VAR CONSTANT
 	gMAX_SHUTTLE_COUNT : UINT := 35; (*Maximum numer of shuttles on the system*)
 	gMAX_INDEX_SHUTTLE : UINT := gMAX_SHUTTLE_COUNT-1; (*Maximum index for a shuttles on the system*)
+	gMAX_INDEX_PROGRAMS : UINT := 4; (*Maximum index for a shuttles on the system*)
 END_VAR
 (**)
 (*6D Defaults*)
@@ -23,9 +24,7 @@ END_VAR
 VAR
 	gTasks : TaskDiagType;
 END_VAR
-(**)
-(*IO*)
+(*Program list*)
 VAR
-	gDI : DigitalInputs;
-	gDO : DigitalOutputs;
+	gPrograms : ARRAY[0..gMAX_INDEX_PROGRAMS] OF ProgramType; (*Add new program definitions to Main INIT section*)
 END_VAR

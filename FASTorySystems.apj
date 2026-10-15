@@ -10,6 +10,7 @@
     <mapp6D McAcp6DSys="3.8.0" Version="3.8.0" />
     <mappMotion McDriveLog="6.8.1" Version="6.8.1" />
     <mappSafety Version="6.0.0" />
+    <mappServices Version="6.8.0" />
     <mappView Version="6.8.1" />
     <OpcUaCs Version="6.8.0" />
   </TechnologyPackages>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BindingsSet id="Footer" xmlns="http://www.br-automation.com/iat2015/binding/engineering/v2" xmlns:bt="http://www.br-automation.com/iat2015/bindingListTypes/engineering/v2" xmlns:be="http://www.br-automation.com/iat2015/bindingListEmbedded/engineering/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Bindings>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::Main:Buttons.Button1.Active" attribute="value" />
+<Target xsi:type="brease" contentRefId="Footer" widgetRefId="TextOutput1" attribute="visible" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::Main:Buttons.Button2.Active" attribute="value" />
+<Target xsi:type="brease" contentRefId="Footer" widgetRefId="TextOutput2" attribute="visible" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::Main:Buttons.Button3.Active" attribute="value" />
+<Target xsi:type="brease" contentRefId="Footer" widgetRefId="TextOutput3" attribute="visible" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::Main:Buttons.Button3.Label" attribute="value" />
+<Target xsi:type="brease" contentRefId="Footer" widgetRefId="TextOutput3" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::Main:Buttons.Button2.Label" attribute="value" />
+<Target xsi:type="brease" contentRefId="Footer" widgetRefId="TextOutput2" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::Main:Buttons.Button1.Label" attribute="value" />
+<Target xsi:type="brease" contentRefId="Footer" widgetRefId="TextOutput1" attribute="value" />
+</Binding>
+</Bindings>
+</BindingsSet>

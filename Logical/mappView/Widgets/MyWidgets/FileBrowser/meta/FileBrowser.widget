@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WidgetLibrary xmlns="http://www.br-automation.com/iat2014/widget">
+	<Widget name="widgets.MyWidgets.FileBrowser">
+		<ASEngineeringInfo>
+			<IsProjectable>true</IsProjectable>
+			<LicenseInfo>unlicensed</LicenseInfo>
+		</ASEngineeringInfo>
+		<Dependencies>
+			<Files>
+				<File>widgets.js</File>
+				<File>brease.js</File>
+			</Files>
+			<Folders></Folders>
+			<Widgets>
+				<Widget>widgets.MyWidgets.FileBrowser</Widget>
+				<Widget>widgets.brease.FileManager</Widget>
+			</Widgets>
+		</Dependencies>
+		<Categories>
+			<Category name="Category">Media</Category>
+		</Categories>
+		<Descriptions>
+			<Description name="short">File browser with download/upload</Description>
+			<Description name="de">Dateibrowser mit Download- und Upload-Funktion</Description>
+			<Description name="en">Lists backend files and allows download/upload of files</Description>
+		</Descriptions>
+		<Inheritance>
+			<Class level="0">widgets.MyWidgets.FileBrowser</Class>
+			<Class level="1">brease.core.BaseWidget</Class>
+		</Inheritance>
+		<Parents>
+			<Parent>*</Parent>
+		</Parents>
+		<Children></Children>
+		<Methods>
+			<Method name="Download" read="false">
+				<Description>Downloads the currently selected file from the backend to the client device.</Description>
+			</Method>
+			<Method name="Refresh" read="false">
+				<Description>Reloads the list of the currently displayed backend folder.</Description>
+			</Method>
+			<Method name="Upload" read="false">
+				<Description>Opens a file selection dialog and uploads the chosen file into the
+currently displayed backend folder.				</Description>
+			</Method>
+			<Method name="Focus" read="false">
+				<Description>Sets focus on the widget element, if it can be focused and keyboardOperation=true</Description>
+			</Method>
+			<Method name="SetEnable" read="false">
+				<Description>Sets the state of property &quot;enable&quot;</Description>
+				<Arguments>
+					<Argument name="value" type="Boolean" index="0" required="true"/>
+				</Arguments>
+			</Method>
+			<Method name="SetMaxFileSize" read="false">
+				<Description>Sets the maximum transfer size in bytes.</Description>
+				<Arguments>
+					<Argument name="maxFileSize" type="Integer" index="0" required="true"/>
+				</Arguments>
+			</Method>
+			<Method name="SetOverwriteCancelText" read="false">
+				<Description>Sets the label of the cancel button in the overwrite dialog.</Description>
+				<Arguments>
+					<Argument name="text" type="String" index="0" required="true" localizable="true"/>
+				</Arguments>
+			</Method>
+			<Method name="SetOverwriteConfirmText" read="false">
+				<Description>Sets the label of the confirm (overwrite) button in the overwrite dialog.</Description>
+				<Arguments>
+					<Argument name="text" type="String" index="0" required="true" localizable="true"/>
+				</Arguments>
+			</Method>
+			<Method name="SetOverwritePrompt" read="false">
+				<Description>Sets the question shown in the overwrite confirmation dialog.</Description>
+				<Arguments>
+					<Argument name="text" type="String" index="0" required="true" localizable="true"/>
+				</Arguments>
+			</Method>
+			<Method name="SetPath" read="false">
+				<Description>Sets the backend directory to browse and refreshes the list.</Description>
+				<Arguments>
+					<Argument name="path" type="String" index="0" required="true"/>
+				</Arguments>
+			</Method>
+			<Method name="SetStyle" read="false">
+				<Arguments>
+					<Argument name="value" type="StyleReference" index="0" required="true"/>
+				</Arguments>
+			</Method>
+			<Method name="SetVisible" read="false">
+				<Description>Sets the state of property &quot;visible&quot;</Description>
+				<Arguments>
+					<Argument name="value" type="Boolean" index="0" required="true"/>
+				</Arguments>
+			</Method>
+			<Method name="ShowTooltip" read="false"/>
+		</Methods>
+		<Events>
+			<Event name="Click">
+				<Description>Fired when element is clicked on.</Description>
+				<Arguments>
+					<Argument name="origin" type="String" index="0" required="true">
+						<Description>id of widget that triggered this event</Description>
+					</Argument>
+					<Argument name="horizontalPos" type="String" index="1" required="true">
+						<Description>horizontal position of click in pixel i.e &apos;10px&apos;</Description>
+					</Argument>
+					<Argument name="verticalPos" type="String" index="2" required="true">
+						<Description>vertical position of click in pixel i.e &apos;10px&apos;</Description>
+					</Argument>
+				</Arguments>
+			</Event>
+			<Event name="DisabledClick">
+				<Description>Fired when disabled element is clicked on.</Description>
+				<Arguments>
+					<Argument name="origin" type="String" index="0" required="true">
+						<Description>id of widget that triggered this event</Description>
+					</Argument>
+					<Argument name="hasPermission" type="Boolean" index="1" required="true">
+						<Description>defines if the state is caused due to missing roles of the current user</Description>
+					</Argument>
+					<Argument name="horizontalPos" type="String" index="2" required="true">
+						<Description>horizontal position of click in pixel i.e &apos;10px&apos;</Description>
+					</Argument>
+					<Argument name="verticalPos" type="String" index="3" required="true">
+						<Description>vertical position of click in pixel i.e &apos;10px&apos;</Description>
+					</Argument>
+				</Arguments>
+			</Event>
+			<Event name="EnableChanged">
+				<Description>Fired when operability of the widget changes.</Description>
+				<Arguments>
+					<Argument name="value" type="Boolean" index="0" required="true">
+						<Description>operability</Description>
+					</Argument>
+				</Arguments>
+			</Event>
+			<Event name="FileDownloaded">
+				<Description>Fired when a file was downloaded to the client device.</Description>
+				<Arguments>
+					<Argument name="filePath" type="String" index="0" required="true">
+						<Description>Path of the file on the backend.</Description>
+					</Argument>
+				</Arguments>
+			</Event>
+			<Event name="FileUploaded">
+				<Description>Fired when a file was uploaded to the backend.</Description>
+				<Arguments>
+					<Argument name="filePath" type="String" index="0" required="true">
+						<Description>Path of the file that has been saved.</Description>
+					</Argument>
+				</Arguments>
+			</Event>
+			<Event name="FocusIn">
+				<Description>Fired when the widgets gets focus</Description>
+			</Event>
+			<Event name="FocusOut">
+				<Description>Fired when the widgets lost focus</Description>
+			</Event>
+			<Event name="OnError">
+				<Description>Fired when an error occurs during an operation.</Description>
+				<Arguments>
+					<Argument name="response" type="Number" index="0" required="true">
+						<Description>Error number transmitted by the mapp component or the widget.</Description>
+					</Argument>
+				</Arguments>
+			</Event>
+			<Event name="PathChanged">
+				<Description>Fired when the displayed backend folder changes.</Description>
+				<Arguments>
+					<Argument name="path" type="String" index="0" required="true">
+						<Description>New backend path.</Description>
+					</Argument>
+				</Arguments>
+			</Event>
+			<Event name="SelectionChanged">
+				<Description>Fired when the selected item in the list changes.</Description>
+				<Arguments>
+					<Argument name="fileName" type="String" index="0" required="true">
+						<Description>Name of the selected item.</Description>
+					</Argument>
+					<Argument name="filePath" type="String" index="1" required="true">
+						<Description>Backend path of the selected item.</Description>
+					</Argument>
+				</Arguments>
+			</Event>
+			<Event name="VisibleChanged">
+				<Description>Fired when the visibility of the widget changes.</Description>
+				<Arguments>
+					<Argument name="value" type="Boolean" index="0" required="true">
+						<Description>visibility</Description>
+					</Argument>
+				</Arguments>
+			</Event>
+		</Events>
+		<Properties>
+			<Property name="allowFolderNavigation" type="Boolean" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Behavior" defaultValue="true">
+				<Description>Allow navigating into folders (double click) and back up via the &quot;..&quot; entry.</Description>
+			</Property>
+			<Property name="confirmOverwrite" type="Boolean" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Behavior" defaultValue="true">
+				<Description>If true, uploading a file whose name already exists in the current backend
+folder shows a confirmation dialog before overwriting. If false, the file
+is overwritten silently.				</Description>
+			</Property>
+			<Property name="dialogFontSize" type="Integer" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Appearance" defaultValue="16">
+				<Description>Font size (in pixels) of the overwrite confirmation dialog. The dialog is
+shown centered on the whole screen, so this is independent of the widget size.				</Description>
+			</Property>
+			<Property name="dialogWidth" type="Integer" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Appearance" defaultValue="320">
+				<Description>Width (in pixels) of the overwrite confirmation dialog box (capped at 90% of
+the screen width).				</Description>
+			</Property>
+			<Property name="enable" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Behavior" defaultValue="true">
+				<Description>Initial option to enable widget.</Description>
+			</Property>
+			<Property name="fontSize" type="Integer" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Appearance" defaultValue="12">
+				<Description>Font size (in pixels) of the file list and toolbar. Increase it to make the
+list items easier to read on large or touch screens.				</Description>
+			</Property>
+			<Property name="imagePreview" type="Boolean" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Behavior" defaultValue="true">
+				<Description>If true, double clicking an image file (jpg, jpeg, png, gif, bmp, webp)
+opens a full screen preview. If a file with the same name but a &quot;.svg&quot;
+extension exists in the same folder, its content is drawn as an overlay on
+top of the image (aligned to the image pixel coordinates).				</Description>
+			</Property>
+			<Property name="maxFileSize" type="Integer" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" defaultValue="10000000">
+				<Description>Maximum size (in bytes) of a file that can be transferred to/from the backend.</Description>
+			</Property>
+			<Property name="overwriteCancelText" type="String" initOnly="true" localizable="true" editableBinding="false" readOnly="false" required="false" projectable="true" category="Behavior" defaultValue="Cancel">
+				<Description>Label of the cancel button in the overwrite dialog. Accepts static text or
+a text system item.				</Description>
+			</Property>
+			<Property name="overwriteConfirmText" type="String" initOnly="true" localizable="true" editableBinding="false" readOnly="false" required="false" projectable="true" category="Behavior" defaultValue="Overwrite">
+				<Description>Label of the confirm (overwrite) button in the overwrite dialog. Accepts
+static text or a text system item.				</Description>
+			</Property>
+			<Property name="overwritePrompt" type="String" initOnly="true" localizable="true" editableBinding="false" readOnly="false" required="false" projectable="true" category="Behavior" defaultValue="A file with this name already exists. Overwrite it?">
+				<Description>Question shown in the overwrite confirmation dialog. Accepts either static
+text typed in the editor or a text system item (text key); a text key is
+re-resolved automatically when the HMI language changes.				</Description>
+			</Property>
+			<Property name="path" type="String" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Data" defaultValue="">
+				<Description>Initial backend directory that is listed. An empty string lists the root
+of the mapp File component configured on the target.				</Description>
+			</Property>
+			<Property name="permissionOperate" type="RoleCollection" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Accessibility">
+				<Description>restricts operability to users, which have given roles</Description>
+			</Property>
+			<Property name="permissionView" type="RoleCollection" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Accessibility">
+				<Description>restricts visibility to users, which have given roles</Description>
+			</Property>
+			<Property name="rowHeight" type="Integer" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Appearance" defaultValue="0">
+				<Description>Minimum height (in pixels) of a file list row. 0 keeps the automatic height
+derived from the font size; a larger value gives bigger touch targets.				</Description>
+			</Property>
+			<Property name="showDate" type="Boolean" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Appearance" defaultValue="true">
+				<Description>Show the modification date column in the list.</Description>
+			</Property>
+			<Property name="showSize" type="Boolean" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Appearance" defaultValue="true">
+				<Description>Show the file size column in the list.</Description>
+			</Property>
+			<Property name="style" type="StyleReference" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Appearance" defaultValue="default">
+				<Description>reference to a style for this widget type</Description>
+			</Property>
+			<Property name="tabIndex" type="Integer" initOnly="true" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Behavior" defaultValue="-1">
+				<Description>sets if a widget should have autofocus enabled (0), the order of the focus (&gt;0),
+or if autofocus should be disabled (-1)				</Description>
+			</Property>
+			<Property name="tooltip" type="String" initOnly="true" localizable="true" editableBinding="false" readOnly="false" required="false" projectable="true" category="Appearance" defaultValue="">
+				<Description>reference to a tooltip for a widget</Description>
+			</Property>
+			<Property name="visible" type="Boolean" initOnly="false" localizable="false" editableBinding="false" readOnly="false" required="false" projectable="true" category="Behavior" defaultValue="true">
+				<Description>change visibility</Description>
+			</Property>
+		</Properties>
+		<StyleProperties>
+			<StyleProperty name="width" type="AutoSize" not_styleable="true" owner="widgets.MyWidgets.FileBrowser" category="Layout" groupRefId="Size" groupOrder="1" default="300">
+				<StyleElement attribute="@include mixins.elemAutoWidth($value)"/>
+				<Description>outer width of widget</Description>
+			</StyleProperty>
+			<StyleProperty name="height" type="AutoSize" not_styleable="true" owner="widgets.MyWidgets.FileBrowser" category="Layout" groupRefId="Size" groupOrder="2" default="200">
+				<StyleElement attribute="@include mixins.elemAutoHeight($value)"/>
+				<Description>outer height of widget</Description>
+			</StyleProperty>
+			<StyleProperty name="top" type="Integer" not_styleable="true" owner="brease.core.BaseWidget" category="Layout" groupRefId="Position" groupOrder="1">
+				<StyleElement attribute="@include mixins.elemTop($value)"/>
+				<Description>absolute position measured from top boundary of parent container</Description>
+			</StyleProperty>
+			<StyleProperty name="left" type="Integer" not_styleable="true" owner="brease.core.BaseWidget" category="Layout" groupRefId="Position" groupOrder="2">
+				<StyleElement attribute="@include mixins.elemLeft($value)"/>
+				<Description>absolute position measured from left boundary of parent container</Description>
+			</StyleProperty>
+			<StyleProperty name="zIndex" type="UInteger" not_styleable="true" owner="brease.core.BaseWidget" category="Layout" required="true">
+				<StyleElement attribute="z-index"/>
+				<Description>The zIndex property specifies the z-order of a widget and its childs.&lt;br/&gt;
+        When widgets overlap, z-order determines which one covers the other. A widget with a larger zIndex generally covers a widget with a lower one.&lt;br/&gt;
+        The zIndex must be unique within a content.&lt;br/&gt;				</Description>
+			</StyleProperty>
+			<StyleProperty name="opacity" type="Opacity" default="1" owner="widgets.MyWidgets.FileBrowser">
+				<StyleElement attribute="opacity"/>
+			</StyleProperty>
+		</StyleProperties>
+		<PropertyGroups>
+			<PropertyGroup name="Size" type="String" category="Layout">
+				<Description>outer height and width of widget</Description>
+			</PropertyGroup>
+			<PropertyGroup name="Position" type="String" category="Layout">
+				<Description>top and left of widget</Description>
+			</PropertyGroup>
+		</PropertyGroups>
+	</Widget>
+</WidgetLibrary>

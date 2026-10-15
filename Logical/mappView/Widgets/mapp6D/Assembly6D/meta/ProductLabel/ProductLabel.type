@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StructuredProperty type="widgets.mapp6D.Assembly6D.ProductLabel" xmlns="http://www.br-automation.com/iat2014/widget">
+  <StyleProperties>
+    <StyleProperty name="width" type="Size" not_styleable="true" hide="true" default="0"/>
+    <StyleProperty name="height" type="Size" not_styleable="true" hide="true" default="0"/>
+    <StyleProperty name="top" type="Integer" not_styleable="true" hide="true" default="0"/>
+    <StyleProperty name="left" type="Integer" not_styleable="true" hide="true" default="0"/>
+  </StyleProperties>
+</StructuredProperty>

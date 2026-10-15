@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StyleInformation name="widgets.MyWidgets.FileBrowser" xmlns="http://www.br-automation.com/iat2014/widgetStyles"
+									xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <StyleProperties>
+
+    <StyleProperty name="width" type="AutoSize" not_styleable="true" default="300" category="Layout">
+      <StyleElement attribute="@include mixins.elemAutoWidth($value)" />
+      <Description>outer width of widget</Description>
+    </StyleProperty>
+    <StyleProperty name="height" type="AutoSize" not_styleable="true" default="200" category="Layout">
+      <StyleElement attribute="@include mixins.elemAutoHeight($value)" />
+      <Description>outer height of widget</Description>
+    </StyleProperty>
+    <StyleProperty name="opacity" type="Opacity" default="1">
+      <StyleElement attribute="opacity" />
+    </StyleProperty>
+
+  </StyleProperties>
+
+</StyleInformation>

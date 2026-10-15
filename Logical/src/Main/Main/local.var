@@ -2,12 +2,17 @@ VAR
 	task : REFERENCE TO MainType;
 	local : MainLocalType;
 	fb : MainFbType;
-	hmi : MainHmiType;
+	Buttons : MainButtonsType;
+	Hmi : MainHmiType;
 	actions_state : MainActionsStateType;
 	actions_substate : MainActionsSubstateType;
 	commands : MainCommandsType;
+	str : STRING[80];
+	str2 : STRING[80];
 	i : DINT;
-	x : DINT;
+	j : DINT;
+	X : REAL;
+	Y : REAL;
 END_VAR
 (* ----- PackML ----- *)
 VAR

@@ -1,0 +1,255 @@
+@use "mixins.scss";
+@use "sass:list";
+@use "sass:string";
+@mixin prop_width {
+	@include mixins.elemAutoWidth(140);
+
+}
+@mixin prop_height {
+	@include mixins.elemAutoHeight(140);
+
+}
+@mixin prop_minWidth {
+	@include mixins.elemMinWidth(0);
+
+}
+@mixin prop_maxWidth {
+	@include mixins.elemMaxWidth(0);
+
+}
+@mixin prop_minHeight {
+	@include mixins.elemMinHeight(0);
+
+}
+@mixin prop_maxHeight {
+	@include mixins.elemMaxHeight(0);
+
+}
+@mixin prop_textColor {
+	text {
+		fill: #020202;
+	}
+
+}
+@mixin prop_segmentPowerOffColor {
+	.segment.power-off {
+		fill: #555555;
+	}
+
+}
+@mixin prop_segmentPowerOnColor {
+	.segment.power-on {
+		fill: #7b7b7b;
+	}
+
+}
+@mixin prop_segmentErrorColor {
+	.segment.error {
+		fill: #cb0000;
+	}
+
+}
+@mixin prop_segmentHomingColor {
+	.segment.homing {
+		fill: #c8c8c8;
+	}
+
+}
+@mixin prop_segmentStoppingColor {
+	.segment.stopping {
+		fill: #666666;
+	}
+
+}
+@mixin prop_shuttlePowerOffColor {
+	.shuttle.power-off {
+		fill: #85857e;
+	}
+
+}
+@mixin prop_shuttlePowerOnColor {
+	.shuttle.power-on {
+		fill: #ffffff;
+	}
+
+}
+@mixin prop_shuttleErrorColor {
+	.shuttle.error {
+		fill: #cb0000;
+	}
+
+}
+@mixin prop_shuttleStoppingColor {
+	.shuttle.stopping {
+		fill: #ff8800;
+	}
+
+}
+@mixin prop_shuttleIdlingColor {
+	.shuttle.idling {
+		fill: #ffffff;
+	}
+
+}
+@mixin prop_shuttleLandedColor {
+	.shuttle.landed {
+		fill: #b0b0b0;
+	}
+
+}
+@mixin prop_shuttleMotionColor {
+	.shuttle.motion {
+		fill: #e0e0e0;
+	}
+
+}
+@mixin prop_shuttleObstacleColor {
+	.shuttle.obstacle {
+		fill: #b0b0b0;
+	}
+
+}
+@mixin prop_shuttleStereotypeColor {
+	.stereotype-circle-pattern {
+		fill: #008000;
+	}
+
+	.stereotype-circle {
+		stroke: #008000;
+	}
+
+	.stereotype-rect-pattern {
+		stroke: #008000;
+	}
+
+	.stereotype-rect {
+		stroke: #008000;
+	}
+
+}
+@mixin prop_zoneActiveClosedColor {
+	.zone.active-closed {
+		stroke: #ff8800;
+	}
+
+}
+@mixin prop_zoneNotActiveColor {
+	.zone.not-active {
+		stroke: #ff8800;
+	}
+
+	.zone.not-active {
+		fill: #ff8800;
+	}
+
+}
+@mixin prop_zoneErrorColor {
+	.zone.error {
+		stroke: #cb0000;
+	}
+
+}
+@mixin prop_powerSectorActiveClosedColor {
+	.power-sector.active-closed {
+		stroke: #8e50d0;
+	}
+
+}
+@mixin prop_powerSectorNotActiveColor {
+	.power-sector.not-active {
+		stroke: #8e50d0;
+	}
+
+	.power-sector.not-active {
+		fill: #8e50d0;
+	}
+
+}
+@mixin prop_powerSectorErrorColor {
+	.power-sector.error {
+		stroke: #cb0000;
+	}
+
+}
+@mixin prop_stationActiveOpenColor {
+	.station.active-open {
+		fill: #12b8ff;
+	}
+
+}
+@mixin prop_waypointActiveOpenColor {
+	.waypoint.active-open {
+		fill: #b266ff;
+	}
+
+}
+@mixin prop_branchingWaypointActiveOpenColor {
+	.branching_waypoint.active-open {
+		fill: #ffffff;
+	}
+
+	.branching_waypoint.active-open {
+		stroke: #ffffff;
+	}
+
+}
+@mixin prop_trafficManagerLinkColor {
+	.arrow.gray {
+		fill: #d3d1d1;
+	}
+
+	.link.gray-one-way {
+		stroke: #d3d1d1;
+	}
+
+	.link.gray-two-way {
+		stroke: #d3d1d1;
+	}
+
+}
+@mixin prop_padding {
+	padding: 0px 10px;
+
+}
+@mixin prop_margin {
+	margin: 0px;
+
+}
+
+@mixin base {
+  @include prop_width;
+  @include prop_height;
+  @include prop_minWidth;
+  @include prop_maxWidth;
+  @include prop_minHeight;
+  @include prop_maxHeight;
+  @include prop_textColor;
+  @include prop_segmentPowerOffColor;
+  @include prop_segmentPowerOnColor;
+  @include prop_segmentErrorColor;
+  @include prop_segmentHomingColor;
+  @include prop_segmentStoppingColor;
+  @include prop_shuttlePowerOffColor;
+  @include prop_shuttlePowerOnColor;
+  @include prop_shuttleErrorColor;
+  @include prop_shuttleStoppingColor;
+  @include prop_shuttleIdlingColor;
+  @include prop_shuttleLandedColor;
+  @include prop_shuttleMotionColor;
+  @include prop_shuttleObstacleColor;
+  @include prop_shuttleStereotypeColor;
+  @include prop_zoneActiveClosedColor;
+  @include prop_zoneNotActiveColor;
+  @include prop_zoneErrorColor;
+  @include prop_powerSectorActiveClosedColor;
+  @include prop_powerSectorNotActiveColor;
+  @include prop_powerSectorErrorColor;
+  @include prop_stationActiveOpenColor;
+  @include prop_waypointActiveOpenColor;
+  @include prop_branchingWaypointActiveOpenColor;
+  @include prop_trafficManagerLinkColor;
+  @include prop_padding;
+  @include prop_margin;
+
+}
+

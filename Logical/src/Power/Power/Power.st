@@ -5,7 +5,7 @@ PROGRAM _INIT
 
     // Register module config interface for common setup/parametrization functionality
 	//fb.MpRecipeRegPar_settings(MpLink := ADR(gSystemSettings), Enable := TRUE , PVName := ADR('gPower.settings'), Category := ADR('Power'));
-	
+		
 	// PackML setup
     // =================================================================================================================
     Cm.Setup.Name := 'Power';
@@ -143,6 +143,13 @@ PROGRAM _CYCLIC
 	END_FOR;
 	
 	Task.Output.TrackPowerOn := Local.AllPowerSuppliesPoweredOn;
+	
+	// Power calculation
+	// =================================================================================================================
+	Task.Output.TotalPowerDraw := 0;
+	FOR i := 0 TO AUX_POWER_LAST_INDEX DO
+		Task.Output.TotalPowerDraw := Task.Output.TotalPowerDraw + (Task.AuxPowerUnit[i].Voltage_V * Task.AuxPowerUnit[i].Current_A);
+	END_FOR;
 	
 	// Task diagnostics
 	// =================================================================================================================

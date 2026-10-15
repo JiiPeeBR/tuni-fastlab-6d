@@ -4,6 +4,7 @@
   <TaskClass Name="Cyclic#1">
     <Task Name="Main" Source="src.Main.Main.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="FastDemo" Source="src.FastDemo.FastDemo.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="EndToEnd" Source="src.EndToEnd.EndToEnd.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#2">
     <Task Name="Power" Source="src.Power.Power.prg" Memory="UserROM" Language="IEC" Debugging="true" />
@@ -18,10 +19,12 @@
     <NcDataObject Name="McDriveLog" Source="" Memory="UserROM" Language="Binary" />
   </NcDataObjects>
   <Binaries>
-    <BinaryObject Name="ArSvcReg" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="udbdef" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="FWRules" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="TCData" Source="" Memory="SystemROM" Language="Binary" />
+    <BinaryObject Name="McAcpDrv" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="mvLoader" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="mvConfig" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="User" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="ashwac" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="iomap" Source="" Memory="UserROM" Language="Binary" />
@@ -31,21 +34,24 @@
     <BinaryObject Name="arconfig" Source="" Memory="SystemROM" Language="Binary" />
     <BinaryObject Name="BRRole" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="ashwd" Source="" Memory="SystemROM" Language="Binary" />
+    <BinaryObject Name="Config_2" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="Config_4" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="Config_3" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="Config_6" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="Config_5" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="Asm6D" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="Layout6D" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="Role" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="AlarmCore" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="AlarmList" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="Layout" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="Config_1" Source="" Memory="UserROM" Language="Binary" />
-    <BinaryObject Name="Config_2" Source="" Memory="UserROM" Language="Binary" />
-    <BinaryObject Name="McAcpDrv" Source="" Memory="UserROM" Language="Binary" />
-    <BinaryObject Name="mvLoader" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="Acp10map" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="acp10cfg" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="Settings" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="mCoWebSc" Source="" Memory="UserROM" Language="Binary" />
-    <BinaryObject Name="Config_4" Source="" Memory="UserROM" Language="Binary" />
-    <BinaryObject Name="Config_3" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="Config_8" Source="" Memory="UserROM" Language="Binary" />
-    <BinaryObject Name="Config_6" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="Config_7" Source="" Memory="UserROM" Language="Binary" />
-    <BinaryObject Name="Config_5" Source="" Memory="UserROM" Language="Binary" />
   </Binaries>
   <Libraries>
     <LibraryObject Name="operator" Source="Libraries.operator.lby" Memory="UserROM" Language="binary" Debugging="true" />
@@ -66,6 +72,17 @@
     <LibraryObject Name="BrdkPackML" Source="Libraries.BrdkPackML.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
     <LibraryObject Name="brdkSTR" Source="Libraries.brdkSTR.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
     <LibraryObject Name="PackMLCore" Source="Libraries.PackMLCore.lby" Memory="None" Language="ANSIC" Debugging="true" />
+    <LibraryObject Name="FastLib" Source="src.FastDemo.FastLib.lby" Memory="UserROM" Language="IEC" Debugging="true" />
+    <LibraryObject Name="SfDomain" Source="Libraries.SfDomain.lby" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="McBase" Source="Libraries.McBase.lby" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="McAcp6D" Source="Libraries.McAcp6D.lby" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="MpTraffic" Source="Libraries.MpTraffic.lby" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="McAcpAx" Source="Libraries.McAcpAx.lby" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="McAxis" Source="Libraries.McAxis.lby" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="MpAlarmX" Source="Libraries.MpAlarmX.lby" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="MpBase" Source="Libraries.MpBase.lby" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="MpServer" Source="Libraries.MpServer.lby" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="ArSvcReg" Source="" Memory="UserROM" Language="Binary" />
     <LibraryObject Name="UaCore" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="McAcp6DSys" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="UaCoal" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
@@ -73,13 +90,13 @@
     <LibraryObject Name="powerlnk" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="AsEPL" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="ArSsl" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
-    <LibraryObject Name="FastLib" Source="src.FastDemo.FastLib.lby" Memory="UserROM" Language="IEC" Debugging="true" />
-    <LibraryObject Name="SfDomain" Source="Libraries.SfDomain.lby" Memory="UserROM" Language="Binary" Debugging="true" />
-    <LibraryObject Name="McBase" Source="Libraries.McBase.lby" Memory="UserROM" Language="Binary" Debugging="true" />
-    <LibraryObject Name="MpBase" Source="Libraries.MpBase.lby" Memory="UserROM" Language="Binary" Debugging="true" />
-    <LibraryObject Name="McAcp6D" Source="Libraries.McAcp6D.lby" Memory="UserROM" Language="Binary" Debugging="true" />
-    <LibraryObject Name="MpTraffic" Source="Libraries.MpTraffic.lby" Memory="UserROM" Language="Binary" Debugging="true" />
-    <LibraryObject Name="McAcpAx" Source="Libraries.McAcpAx.lby" Memory="UserROM" Language="Binary" Debugging="true" />
-    <LibraryObject Name="McAxis" Source="Libraries.McAxis.lby" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="MpSfDomMgr" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="SfDomVis" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="SfDomDrv" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="ArUser" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="DataObj" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="AsUSB" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="AsIoTrc" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="AsIOAcc" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
   </Libraries>
 </SwConfiguration>

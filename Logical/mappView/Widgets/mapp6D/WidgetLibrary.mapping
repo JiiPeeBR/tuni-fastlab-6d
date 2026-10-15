@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mappings>
+  <Mapping parameter="widgets.mapp6D.Assembly6D.Action.SetEnable.value" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6D.Action.SetShowAdditionalShuttleInfo.showAdditionalShuttleInfo" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6D.Action.SetShowAdditionalTrafficManagerInfo.showAdditionalTrafficManagerInfo" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6D.Action.SetShowCoordinateSystem.showCoordinateSystem" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6D.Action.SetShowPowerSectors.showPowerSectors" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6D.Action.SetShowRxAxisShuttleInfo.showRxAxisShuttleInfo" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6D.Action.SetShowRyAxisShuttleInfo.showRyAxisShuttleInfo" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6D.Action.SetShowRzAxisShuttleInfo.showRzAxisShuttleInfo" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6D.Action.SetShowStateShuttleInfo.showStateShuttleInfo" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6D.Action.SetShowStereotypes.showStereotypes" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6D.Action.SetShowTrafficManager.showTrafficManager" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6D.Action.SetShowXAxisShuttleInfo.showXAxisShuttleInfo" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6D.Action.SetShowYAxisShuttleInfo.showYAxisShuttleInfo" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6D.Action.SetShowZAxisShuttleInfo.showZAxisShuttleInfo" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6D.Action.SetShowZones.showZones" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6D.Action.SetStyle.value" type="ANY_STRING" oType="StyleReference" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6D.Action.SetVisible.value" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6DGroup.Action.SetEnable.value" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6DGroup.Action.SetStyle.value" type="ANY_STRING" oType="StyleReference" index="0"/>
+  <Mapping parameter="widgets.mapp6D.Assembly6DGroup.Action.SetVisible.value" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.OpcUaNodeBindingEventManager.Action.SetEnable.value" type="BOOL" oType="Boolean" index="0"/>
+  <Mapping parameter="widgets.mapp6D.OpcUaNodeBindingEventManager.Action.SetStyle.value" type="ANY_STRING" oType="StyleReference" index="0"/>
+  <Mapping parameter="widgets.mapp6D.OpcUaNodeBindingEventManager.Action.SetVisible.value" type="BOOL" oType="Boolean" index="0"/>
+</Mappings>

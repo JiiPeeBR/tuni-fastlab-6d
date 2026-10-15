@@ -22,10 +22,12 @@
     <Object Type="Library" Language="ANSIC">PackMLCore</Object>
     <Object Type="Library" Language="Binary" Description="[mapp Safety] SafeDOMAIN management library">SfDomain</Object>
     <Object Type="Library" Language="binary" Description="[mapp Motion] Base library">McBase</Object>
-    <Object Type="Library" Language="Binary" Description="Core library for mapp components">MpBase</Object>
     <Object Type="Library" Language="binary" Description="[mapp 6D] ACOPOS 6D library">McAcp6D</Object>
     <Object Type="Library" Language="binary" Description="[mapp Traffic] Traffic management library">MpTraffic</Object>
     <Object Type="Library" Language="binary" Description="[mapp Motion] ACOPOS axis library">McAcpAx</Object>
     <Object Type="Library" Language="binary" Description="[mapp Motion] PLCopen axis library">McAxis</Object>
+    <Object Type="Library" Language="Binary" Description="Advanced alarm management">MpAlarmX</Object>
+    <Object Type="Library" Language="Binary" Description="Core library for mapp components">MpBase</Object>
+    <Object Type="Library" Language="Binary" Description="Communication library for mappView widgets">MpServer</Object>
   </Objects>
 </Package>

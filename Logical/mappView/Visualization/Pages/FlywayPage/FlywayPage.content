@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Content id="FlywayPage" guid="66a2a28c-267f-4c97-86b5-52ff24ce2015" height="420" width="800" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:types="http://www.br-automation.com/iat2015/widgetTypes/v2">
+  <Widgets>
+    <Widget xsi:type="widgets.brease.NavigationButton" id="NavigationButton1" top="10" left="20" width="104" height="44" zIndex="2" pageId="MainPage" text="&lt; Back" borderStyle="solid" borderWidth="3px" cornerRadius="100px" borderColor="rgba(255, 136, 0, 1)" textColor="rgba(255, 136, 0, 1)" mouseDownBackColor="rgba(255, 136, 0, 1)" mouseDownTextColor="rgba(255, 255, 255, 1)" fontSize="20px" padding="0px" margin="0px" />
+    <Widget xsi:type="widgets.mapp6D.Assembly6D" id="Assembly6D1" top="-230" left="170" width="460" height="780" zIndex="0" mpLink="mapp6D::gAssembly6D_Big" mpLinkTrafficManager="mapp6D::TrafficManager_x6d_1" showRxAxisShuttleInfo="false" showRyAxisShuttleInfo="false" showRzAxisShuttleInfo="false" showStateShuttleInfo="false" showXAxisShuttleInfo="false" showYAxisShuttleInfo="false" showZAxisShuttleInfo="false" padding="0px">
+      <Properties>
+        <productLabel>
+          <Element id="productLabel1" left="0" top="0" />
+        </productLabel>
+      </Properties>
+    </Widget>
+    <Widget xsi:type="widgets.MyWidgets.ScriptRunner" id="ScriptRunner1" top="20" left="620" width="150" height="80" zIndex="1" scripts="Media/myRunner.js" />
+    <Widget xsi:type="widgets.brease.Label" id="Label1" top="260" left="20" width="200" height="40" zIndex="3" text="Power consumption" backColor="rgba(255, 255, 255, 0)" textColor="rgba(0, 0, 0, 1)" fontSize="20px" />
+    <Widget xsi:type="widgets.brease.NumericOutput" id="NumericOutput1" top="260" left="220" width="220" height="40" zIndex="4" unit="{'metric':'WTT','imperial':'WTT','imperial-us':'WTT'}" unitAlign="right" borderWidth="2px" cornerRadius="10px" backColor="rgba(255, 255, 255, 1)" borderColor="rgba(100, 100, 100, 1)" textColor="rgba(0, 0, 0, 1)" textAlign="left" />
+    <Widget xsi:type="widgets.brease.Label" id="Label2" top="320" left="20" width="200" height="40" zIndex="5" text="Shuttle count" backColor="rgba(255, 255, 255, 0)" textColor="rgba(0, 0, 0, 1)" fontSize="20px" />
+    <Widget xsi:type="widgets.brease.NumericOutput" id="NumericOutput2" top="320" left="220" width="220" height="40" zIndex="6" format="{'metric':{'decimalPlaces':0,'minimumIntegerDigits':1},'imperial':{'decimalPlaces':1,'minimumIntegerDigits':1},'imperial-us':{'decimalPlaces':1,'minimumIntegerDigits':1}}" unitAlign="right" borderWidth="2px" cornerRadius="10px" backColor="rgba(255, 255, 255, 1)" borderColor="rgba(100, 100, 100, 1)" textColor="rgba(0, 0, 0, 1)" textAlign="left" />
+  </Widgets>
+</Content>

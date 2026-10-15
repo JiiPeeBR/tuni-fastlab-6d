@@ -1,0 +1,4 @@
+@use "OpcUaNodeBindingEventManager_base.scss" as widgets_mapp6D_OpcUaNodeBindingEventManager;
+.widgets_mapp6D_OpcUaNodeBindingEventManager_style_default {
+  @include widgets_mapp6D_OpcUaNodeBindingEventManager.base
+}
